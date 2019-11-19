@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/screens/SplashScreen.dart';
+import 'package:infixedu/utils/theme.dart';
 
 main() => runApp(MyApp());
 
@@ -9,9 +10,7 @@ class MyApp extends StatelessWidget{
     return MaterialApp(
       title: "infixEdu",
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primarySwatch: Colors.deepPurple
-      ),
+      theme: basicTheme(),
       home: Scaffold(
         body: Splash(),
       ),

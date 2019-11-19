@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import './Login.dart';
-import './Home.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -16,7 +15,7 @@ class _SplashState extends State<Splash>{
 
     Future.delayed(
       Duration(seconds: 3),(){
-      Route route = MaterialPageRoute(builder: (context) => Home());
+      Route route = MaterialPageRoute(builder: (context) => LoginScreen());
       Navigator.pushReplacement(context, route);
      }
     );
