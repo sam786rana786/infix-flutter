@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './Home.dart';
+import 'package:infixedu/utils/server/Login.dart';
+import 'package:infixedu/utils/apis/Apis.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -64,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 labelText: "Email",
                                 labelStyle: textStyle,
                                 errorStyle: TextStyle(
-                                    color: Colors.yellowAccent, fontSize: 15.0),
+                                    color: Colors.pinkAccent, fontSize: 15.0),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0),
                                 )),
@@ -86,39 +87,41 @@ class _LoginScreenState extends State<LoginScreen> {
                                 labelText: "Password",
                                 labelStyle: textStyle,
                                 errorStyle: TextStyle(
-                                    color: Colors.yellowAccent, fontSize: 15.0),
+                                    color: Colors.pinkAccent, fontSize: 15.0),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0),
                                 )),
                           ),
                         ),
-                        Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width,
-                          height: 40.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            color: Colors.purple,
-                          ),
-                          child: GestureDetector(
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'popins',
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w500),
+                        GestureDetector(
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width,
+                            height: 50.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: Colors.purple,
                             ),
-                            onTap: () {
-                              setState(() {
-                                if (_formKey.currentState.validate()) {
-
-                                  Route route = MaterialPageRoute(builder: (context) => Home());
-                                  Navigator.pushReplacement(context, route);
-                                }
-                              });
-                            },
+                            child: Text(
+                                "Login",
+                                style: Theme.of(context).textTheme.display1,
+                              ),
                           ),
+                          onTap: () {
+                            setState(() {
+                              if (_formKey.currentState.validate()) {
+
+                                String email = emailController.text;
+                                String password = passwordController.text;
+
+                                Login(InfixApi.login(email, password)).getData(context).then((result)=>{
+                                  if(result){
+                                    debugPrint('success')
+                                  }
+                                });
+                              }
+                            });
+                          },
                         ),
                       ],
                     ),
