@@ -112,6 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (_formKey.currentState.validate()) {
 
                                 String email = emailController.text;
+                                String email1 = emailController.text;
                                 String password = passwordController.text;
 
                                 Login(InfixApi.login(email, password)).getData(context).then((result)=>{
