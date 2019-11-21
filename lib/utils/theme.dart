@@ -5,20 +5,21 @@ ThemeData basicTheme() {
     return base.copyWith(
         headline: base.headline.copyWith(
           fontFamily: 'popins',
-          fontSize: 22.0,
-          color: Colors.black,
+          fontSize: 18.0,
+          fontWeight: FontWeight.w500,
+          color: Color(0xFF415094),
         ),
         title: base.title.copyWith(
           fontFamily: 'popins',
-          fontSize: 15.0,
-          color: Colors.indigo
+          fontSize: 13.0,
+          fontWeight: FontWeight.w300,
+          color: Color(0xFF415094),
         ),
         display1: base.headline.copyWith(
-          fontFamily: 'popins',
-          fontSize: 16.0,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
+            fontFamily: 'popins',
+            fontSize: 15.0,
+            fontWeight: FontWeight.w300,
+            color: Color(0xFF727FC8)),
         display2: base.headline.copyWith(
           fontFamily: 'popins',
           fontSize: 22.0,
@@ -29,6 +30,7 @@ ThemeData basicTheme() {
         ),
         body1: base.body1.copyWith(color: Color(0xFF807A6B)));
   }
+
   final ThemeData base = ThemeData.light();
   return base.copyWith(
       textTheme: _basicTextTheme(base.textTheme),

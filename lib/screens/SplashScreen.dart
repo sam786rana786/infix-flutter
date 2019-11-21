@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import './Login.dart';
+import './Home.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -11,12 +14,22 @@ class _SplashState extends State<Splash>{
 
   @override
   void initState() {
+
     super.initState();
+
+    Route route;
 
     Future.delayed(
       Duration(seconds: 3),(){
-      Route route = MaterialPageRoute(builder: (context) => LoginScreen());
+      getBooleanValue('isLogged').then((value){
+      if(value){
+        route = MaterialPageRoute(builder: (context) => Home());
+      }else{
+        route = MaterialPageRoute(builder: (context) => LoginScreen());
+      }
       Navigator.pushReplacement(context, route);
+      });
+
      }
     );
   }
@@ -109,9 +122,8 @@ class _SplashState extends State<Splash>{
     );
   }
 
-//  getImageFromAsset(){
-//    AssetImage asset_image = AssetImage("images/splashIcon.jpg");
-//    Image image = Image(image: asset_image,width: 400,);
-//    return Container(child: image,padding: EdgeInsets.all(20.0),);
-//  }
+  Future<bool> getBooleanValue(String key) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(key) ?? false;
+  }
 }

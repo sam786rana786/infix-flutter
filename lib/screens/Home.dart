@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:infixedu/utils/CardItem.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:flutter/services.dart';
+import 'package:infixedu/screens/Profile.dart';
+import 'package:infixedu/utils/Utils.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,11 +13,34 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool isTapped;
   int currentSelectedIndex;
+  String _id;
+  String _rule;
+  String _email;
+  String _password;
 
   @override
   void initState() {
     super.initState();
     isTapped = false;
+
+    Utils.getStringValue('email').then((value){
+      _email = value;
+    });
+
+    Utils.getStringValue('password').then((value){
+      _password = value;
+    });
+
+    Utils.getStringValue('id').then((value){
+      _id = value;
+      Utils.showToast('$_id');
+    });
+
+    Utils.getStringValue('password').then((value){
+      _rule = value;
+    });
+
+
   }
 
   @override
@@ -61,11 +86,6 @@ class _HomeState extends State<Home> {
           ),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
-//            leading: IconButton(
-//                icon: Icon(Icons.arrow_back),
-//                onPressed: () {
-//                  navigateToPreviousPage(context);
-//                }),
         ),
         body: GridView.builder(
           itemCount: AppFunction.students.length,
@@ -78,6 +98,8 @@ class _HomeState extends State<Home> {
               onSelect: () {
                 setState(() {
                   currentSelectedIndex = index;
+                  Route route = MaterialPageRoute(builder: (context) => Profile());
+                  Navigator.push(context, route);
                 });
               },
               headline: AppFunction.students[index],

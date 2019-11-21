@@ -71,7 +71,7 @@ class CustomWidget extends StatefulWidget {
   final bool isSelected;
   final VoidCallback onSelect;
   final String headline;
-  final IconData icon;
+  final String icon;
 
   const CustomWidget({
     Key key,
@@ -94,32 +94,60 @@ class _CustomWidgetState extends State<CustomWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onSelect,
-      child: Container(
-      height: 100.0,
-      decoration: new BoxDecoration(boxShadow: [
-        new BoxShadow(
-          color: widget.isSelected ? Color(0xffe1bee7) : Color(0xfff3e5f5),
-          blurRadius: 20.0,
-        ),
-      ]),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        color: widget.isSelected ? Colors.purpleAccent : Colors.white,
-        elevation: 0,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 25.0),
-          child: Column(
-            children: <Widget>[
-              Icon(widget.icon,color: widget.isSelected ? Colors.white : Colors.grey,),
-              SizedBox(height: 5.0,),
-              Text(widget.headline,style: TextStyle(color: widget.isSelected ? Colors.white : Colors.grey,fontSize: 12.0,),maxLines: 1,textAlign: TextAlign.center,)
-            ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: 100.0,
+          decoration: new BoxDecoration(boxShadow: [
+            new BoxShadow(
+              color: widget.isSelected ? Color(0xffe1bee7) : Color(0xfff3e5f5),
+              blurRadius: 20.0,
+            ),
+
+          ],),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            elevation: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: widget.isSelected ? LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.purpleAccent, Colors.deepPurpleAccent])  : LinearGradient(
+                    colors: [Colors.white, Colors.white]),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: Column(
+                  children: <Widget>[
+                    Image.asset(
+                      widget.icon.toString(),
+                      color: widget.isSelected ? Colors.white : Colors.purpleAccent,
+                      width: 30.0,
+                      height: 30.0,
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    Text(
+                      widget.headline,
+                      style: TextStyle(
+                        color: widget.isSelected ? Colors.white : Colors.grey,
+                        fontSize: 10.0,
+                      ),
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),
-    ),
     );
   }
 }

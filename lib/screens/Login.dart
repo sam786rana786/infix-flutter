@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/server/Login.dart';
-import 'package:infixedu/utils/apis/Apis.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -104,7 +103,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             child: Text(
                                 "Login",
-                                style: Theme.of(context).textTheme.display1,
+                                style: Theme.of(context).textTheme.headline.copyWith(
+                                  color: Colors.white
+                                ),
                               ),
                           ),
                           onTap: () {
@@ -112,10 +113,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (_formKey.currentState.validate()) {
 
                                 String email = emailController.text;
-                                String email1 = emailController.text;
                                 String password = passwordController.text;
 
-                                Login(InfixApi.login(email, password)).getData(context).then((result)=>{
+                                Login(email, password).getData(context).then((result)=>{
                                   if(result){
                                     debugPrint('success')
                                   }
