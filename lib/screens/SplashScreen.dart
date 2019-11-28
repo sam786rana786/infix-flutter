@@ -4,36 +4,34 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import './Login.dart';
 import './Home.dart';
+import 'package:infixedu/utils/FunctinsData.dart';
+import 'package:infixedu/utils/Utils.dart';
 
 class Splash extends StatefulWidget {
   @override
   _SplashState createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash>{
-
+class _SplashState extends State<Splash> {
   @override
   void initState() {
-
     super.initState();
-
     Route route;
 
-    Future.delayed(
-      Duration(seconds: 3),(){
-      getBooleanValue('isLogged').then((value){
-      if(value){
-        route = MaterialPageRoute(builder: (context) => Home());
-      }else{
-        route = MaterialPageRoute(builder: (context) => LoginScreen());
-      }
-      Navigator.pushReplacement(context, route);
+    Future.delayed(Duration(seconds: 3), () {
+      getBooleanValue('isLogged').then((value) {
+        if (value) {
+//        route = MaterialPageRoute(builder: (context) => Home());
+          Utils.getStringValue('rule').then((rule) {
+            AppFunction.getFunctions(context , rule);
+          });
+        }else {
+          route = MaterialPageRoute(builder: (context) => LoginScreen());
+          Navigator.pushReplacement(context, route);
+        }
       });
-
-     }
-    );
+    });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +102,8 @@ class _SplashState extends State<Splash>{
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 80.0,left: 40,right: 40),
+                      padding: const EdgeInsets.only(
+                          bottom: 80.0, left: 40, right: 40),
                       child: Container(
                         alignment: Alignment.bottomCenter,
                         child: LinearProgressIndicator(

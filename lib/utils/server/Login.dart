@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:infixedu/utils/FunctinsData.dart';
+import 'package:infixedu/utils/Utils.dart';
 
 class Login {
   final String email;
@@ -13,23 +15,29 @@ class Login {
 
   Future<bool> getData(BuildContext context) async {
     bool isSuccessed;
-    String id;
-    String rule;
+    int id;
+    int rule;
+    String image;
+
+
     Response response = await get(InfixApi.login(email, password));
     if (response.statusCode == 200) {
       Map<String, dynamic> user = jsonDecode(response.body) as Map;
       isSuccessed = user['success'];
       id = user['data']['user']['id'];
       rule = user['data']['user']['role_id'];
+      image = user['data']['userDetails']['staff_photo'];
+
       if (isSuccessed) {
         saveBooleanValue('isLogged', isSuccessed);
         saveStringValue('email', email);
         saveStringValue('password', password);
-        saveStringValue('id', id);
-        saveStringValue('rule', rule);
-        Route route = MaterialPageRoute(builder: (context) => Home());
-        Navigator.pushReplacement(context, route);
+        saveStringValue('id','$id');
+        saveStringValue('rule', '$rule');
+        saveStringValue('image', '$image');
+        AppFunction.getFunctions(context,rule.toString());
       }
+
     }
     return isSuccessed;
   }

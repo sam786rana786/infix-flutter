@@ -25,6 +25,11 @@ class Utils{
     return prefs.getString(key);
   }
 
+  static Future<bool> clearAllValue() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.clear();
+  }
+
   static void showToast(String message){
     Fluttertoast.showToast(
         msg: message,
