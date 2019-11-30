@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:infixedu/utils/CardItem.dart';
-import 'package:infixedu/utils/FunctinsData.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'package:infixedu/screens/Profile.dart';
 import 'package:infixedu/utils/Utils.dart';
@@ -24,7 +26,7 @@ class _HomeState extends State<Home> {
   String _id;
   String _email;
   String _password;
-  String _image;
+  String _rule;
   var _titles;
   var _images;
 
@@ -46,12 +48,8 @@ class _HomeState extends State<Home> {
     Utils.getStringValue('id').then((value) {
       _id = value;
     });
-
-    Utils.getStringValue('image').then((value) {
-      setState(() {
-        _image = InfixApi.root + value;
-        Utils.showToast(_image);
-      });
+    Utils.getStringValue('rule').then((value) {
+      _rule = value;
     });
   }
 
@@ -80,7 +78,12 @@ class _HomeState extends State<Home> {
                     width: 80.0,
                   ),
                 ),
-                getProfileImage(_image, context),
+                FutureBuilder(
+                  future:  Utils.getStringValue('email'),
+                  builder: (BuildContext context,AsyncSnapshot<String> snapshot){
+                    return getProfileImage(context,_email,_password,_rule);
+                  },
+                ),
               ],
             ),
           ),
@@ -157,22 +160,62 @@ showAlertDialog(BuildContext context) {
   );
 }
 
-Widget getProfileImage(String image, BuildContext context) {
+Widget getProfileImage(BuildContext context,String email,String password,String rule) {
 
-  return GestureDetector(
-    onTap: () {
-      showAlertDialog(context);
+  return FutureBuilder(
+    future: getImageUrl(email, password, rule),
+    builder: (BuildContext context,AsyncSnapshot<String> snapshot){
+
+      if(snapshot.hasData){
+        Utils.saveStringValue('image', snapshot.data);
+        return GestureDetector(
+          onTap: () {
+            showAlertDialog(context);
+          },
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: CircleAvatar(
+              radius: 25.0,
+              backgroundImage: NetworkImage(snapshot.data),
+              backgroundColor: Colors.transparent,
+            ),
+          ),
+        );
+      }else{
+        return GestureDetector(
+          onTap: () {
+            showAlertDialog(context);
+          },
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: CircleAvatar(
+              radius: 25.0,
+              backgroundImage: NetworkImage('https://i.imgur.com/BoN9kdC.png'),
+              backgroundColor: Colors.transparent,
+            ),
+          ),
+        );
+      }
     },
-    child: Align(
-      alignment: Alignment.bottomRight,
-      child: CircleAvatar(
-        radius: 25.0,
-        backgroundImage: NetworkImage('$image'),
-        backgroundColor: Colors.transparent,
-      ),
-    ),
   );
 }
+
+
+Future<String> getImageUrl(String email,String password,String rule) async{
+
+  var image = 'https://i.imgur.com/BoN9kdC.png';
+
+  var response = await http.get(InfixApi.login(email, password));
+
+  if(response.statusCode == 200){
+    Map<String, dynamic> user = jsonDecode(response.body) as Map;
+
+    if(rule == '2')image = user['data']['userDetails']['student_photo'];
+    else image = user['data']['userDetails']['staff_photo'];
+  }
+return InfixApi.root + '$image';
+}
+
 
 void navigateToPreviousPage(BuildContext context) {
   Navigator.pop(context);

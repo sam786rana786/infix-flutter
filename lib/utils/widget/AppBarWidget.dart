@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:infixedu/utils/Utils.dart';
+import 'package:flutter/material.dart' as prefix0;
+import 'package:infixedu/screens/Login.dart';
+
 
 class AppBarWidget {
 
@@ -8,24 +12,43 @@ class AppBarWidget {
     return AppBar(
       primary: false,
       centerTitle: false,
-      title: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Stack(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 25.0),
-              child: Text(title),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: CircleAvatar(
-                radius: 23.0,
-                backgroundImage: NetworkImage(
-                    'https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg-1024x683.jpg'),
-                backgroundColor: Colors.transparent,
+      title: Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Stack(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 25.0),
+                child: Text(title),
               ),
-            ),
-          ],
+        FutureBuilder(
+          future:  Utils.getStringValue('image'),
+          builder: (BuildContext context,AsyncSnapshot<String> snapshot){
+
+            if(snapshot.hasData){
+              Utils.saveStringValue('image', snapshot.data);
+              return Align(
+                  alignment: Alignment.bottomRight,
+                  child: CircleAvatar(
+                    radius: 25.0,
+                    backgroundImage: NetworkImage(snapshot.data),
+                    backgroundColor: Colors.transparent,
+                  ),
+                );
+            }else{
+              return Align(
+                  alignment: Alignment.bottomRight,
+                  child: CircleAvatar(
+                    radius: 25.0,
+                    backgroundImage: NetworkImage('https://i.imgur.com/BoN9kdC.png'),
+                    backgroundColor: Colors.transparent,
+                  ),
+                );
+            }
+          },
+        ),
+            ],
+          ),
         ),
       ),
       leading: Padding(
@@ -45,7 +68,6 @@ class AppBarWidget {
     );
 
   }
-
 
   static void navigateToPreviousPage(BuildContext context) {
     Navigator.pop(context);

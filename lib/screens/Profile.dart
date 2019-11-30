@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:flutter/services.dart';
 import 'package:infixedu/utils/server/ProfileService.dart';
+import 'package:infixedu/utils/modal/InfixMap.dart';
+import 'package:infixedu/utils/widget/ProfileListRow.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -9,36 +12,32 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
   bool isPersonal = false;
-  bool isParents = false ;
+  bool isParents = false;
+
   bool isTransport = false;
   bool isOthers = false;
 
+  ProfileService profileService =
+      ProfileService('regan1@infixedu.com', '123456');
+
   @override
   Widget build(BuildContext context) {
-
     final double statusBarHeight = MediaQuery.of(context).padding.top;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: Colors.indigo, //or set color with: Color(0xFF0000FF)
     ));
 
-    ProfileService profileService = ProfileService('regan1@infixedu.com', '123456');
-    profileService.fetchPersonalServices();
-
-
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
         appBar: AppBarWidget.header(context, 'Profile'),
+        backgroundColor: Colors.white,
         body: Column(
           children: <Widget>[
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height / 5,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
@@ -59,9 +58,16 @@ class _ProfileState extends State<Profile> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text('Ralph o''elly',style: Theme.of(context).textTheme.headline),
-                        Text('Class : One | Section : A',style: Theme.of(context).textTheme.display1,),
-                        Text('Roll : 82547 | Adm : 16235',style: Theme.of(context).textTheme.display1,),
+                        Text('Ralph o' 'elly',
+                            style: Theme.of(context).textTheme.headline),
+                        Text(
+                          'Class : One | Section : A',
+                          style: Theme.of(context).textTheme.display1,
+                        ),
+                        Text(
+                          'Roll : 82547 | Adm : 16235',
+                          style: Theme.of(context).textTheme.display1,
+                        ),
                       ],
                     )
                   ],
@@ -77,7 +83,7 @@ class _ProfileState extends State<Profile> {
                   children: <Widget>[
                     Expanded(
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           setState(() {
                             isPersonal = true;
                             isParents = false;
@@ -87,11 +93,16 @@ class _ProfileState extends State<Profile> {
                         },
                         child: Column(
                           children: <Widget>[
-                            Text('Personal',style: Theme.of(context).textTheme.title,),
+                            Text(
+                              'Personal',
+                              style: Theme.of(context).textTheme.title,
+                            ),
                             Container(
                               height: 2.0,
                               decoration: BoxDecoration(
-                                color: isPersonal ? Colors.deepPurpleAccent : Colors.white,
+                                color: isPersonal
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.white,
                               ),
                             )
                           ],
@@ -100,7 +111,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     Expanded(
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           setState(() {
                             isParents = true;
                             isPersonal = false;
@@ -110,11 +121,16 @@ class _ProfileState extends State<Profile> {
                         },
                         child: Column(
                           children: <Widget>[
-                            Text('Parents',style: Theme.of(context).textTheme.title,),
+                            Text(
+                              'Parents',
+                              style: Theme.of(context).textTheme.title,
+                            ),
                             Container(
                               height: 2.0,
                               decoration: BoxDecoration(
-                                color: isParents ? Colors.deepPurpleAccent : Colors.white,
+                                color: isParents
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.white,
                               ),
                             )
                           ],
@@ -123,7 +139,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     Expanded(
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           setState(() {
                             isTransport = true;
                             isParents = false;
@@ -133,11 +149,16 @@ class _ProfileState extends State<Profile> {
                         },
                         child: Column(
                           children: <Widget>[
-                            Text('Transport',style: Theme.of(context).textTheme.title,),
+                            Text(
+                              'Transport',
+                              style: Theme.of(context).textTheme.title,
+                            ),
                             Container(
                               height: 2.0,
                               decoration: BoxDecoration(
-                                color: isTransport ? Colors.deepPurpleAccent : Colors.white,
+                                color: isTransport
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.white,
                               ),
                             )
                           ],
@@ -146,7 +167,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     Expanded(
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           setState(() {
                             isTransport = false;
                             isParents = false;
@@ -156,11 +177,16 @@ class _ProfileState extends State<Profile> {
                         },
                         child: Column(
                           children: <Widget>[
-                            Text('Others',style: Theme.of(context).textTheme.title,),
+                            Text(
+                              'Others',
+                              style: Theme.of(context).textTheme.title,
+                            ),
                             Container(
                               height: 2.0,
                               decoration: BoxDecoration(
-                                color: isOthers ? Colors.deepPurpleAccent : Colors.white,
+                                color: isOthers
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.white,
                               ),
                             )
                           ],
@@ -182,196 +208,26 @@ class _ProfileState extends State<Profile> {
             ),
             Expanded(
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text('Date Of Birth',style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontFamily: 'popins',
-                                    fontWeight: FontWeight.w300,
-                                    color: Color(0xFF727FC8)
-                                ),),
-                                Container(
-                                  height: 1.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 10.0,),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text('1990-12-10',style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontFamily: 'popins',
-                                    fontWeight: FontWeight.w300,
-                                    color: Color(0xFF727FC8)
-                                ),),
-                                Container(
-                                  height: 1.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text('Religin',style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontFamily: 'popins',
-                                    fontWeight: FontWeight.w300,
-                                    color: Color(0xFF727FC8)
-                                ),),
-                                Container(
-                                  height: 1.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 10.0,),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text('Islam',style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontFamily: 'popins',
-                                    fontWeight: FontWeight.w300,
-                                    color: Color(0xFF727FC8)
-                                ),textAlign: TextAlign.start),
-                                Container(
-                                  height: 1.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text('Phone Number',style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontFamily: 'popins',
-                                    fontWeight: FontWeight.w300,
-                                    color: Color(0xFF727FC8)
-                                ),),
-                                Container(
-                                  height: 1.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 10.0,),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text('01903273865',style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontFamily: 'popins',
-                                    fontWeight: FontWeight.w300,
-                                    color: Color(0xFF727FC8)
-                                ),),
-                                Container(
-                                  height: 1.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text('Email Address',style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontFamily: 'popins',
-                                    fontWeight: FontWeight.w300,
-                                    color: Color(0xFF727FC8)
-                                ),),
-                                Container(
-                                  height: 1.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 10.0,),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text('mh72156@gmail.com',style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontFamily: 'popins',
-                                    fontWeight: FontWeight.w300,
-                                    color: Color(0xFF727FC8)
-                                ),),
-                                Container(
-                                  height: 1.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                height: MediaQuery.of(context).size.height,
+                child: FutureBuilder(
+                  future: profileService.fetchPersonalServices(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<InfixMap>> snapshot) {
+                    if (snapshot.data != null) {
+                      return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Profile_row_list(snapshot.data[index].key,
+                              snapshot.data[index].value);
+                        },
+                      );
+                    } else {
+                      return Text(
+                        'Loading...',
+                        style: Theme.of(context).textTheme.headline,
+                      );
+                    }
+                  },
                 ),
               ),
             ),
@@ -384,6 +240,4 @@ class _ProfileState extends State<Profile> {
   void navigateToPreviousPage(BuildContext context) {
     Navigator.pop(context);
   }
-
 }
-

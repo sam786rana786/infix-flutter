@@ -59,6 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (value.isEmpty) {
                                 return 'please enter a valid email';
                               }
+                              return value;
                             },
                             decoration: InputDecoration(
                                 hintText: "email",
@@ -74,6 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: TextFormField(
+                            obscureText: true,
                             keyboardType: TextInputType.visiblePassword,
                             style: textStyle,
                             controller: passwordController,
@@ -81,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (value.isEmpty) {
                                 return 'please enter a valid password';
                               }
+                              return value;
                             },
                             decoration: InputDecoration(
                                 hintText: "password",
