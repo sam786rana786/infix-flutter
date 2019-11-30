@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: TextFormField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.visiblePassword,
                             style: textStyle,
                             controller: passwordController,
                             validator: (String value) {

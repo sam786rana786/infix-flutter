@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:flutter/services.dart';
+import 'package:infixedu/utils/server/ProfileService.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -21,6 +22,9 @@ class _ProfileState extends State<Profile> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: Colors.indigo, //or set color with: Color(0xFF0000FF)
     ));
+
+    ProfileService profileService = ProfileService('regan1@infixedu.com', '123456');
+    profileService.fetchPersonalServices();
 
 
     return Padding(
