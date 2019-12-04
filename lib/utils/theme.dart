@@ -12,12 +12,12 @@ ThemeData basicTheme() {
         title: base.title.copyWith(
           fontFamily: 'popins',
           fontSize: 13.0,
-          fontWeight: FontWeight.w300,
+          fontWeight: FontWeight.w500,
           color: Color(0xFF415094),
         ),
         display1: base.headline.copyWith(
             fontFamily: 'popins',
-            fontSize: 15.0,
+            fontSize: 12.0,
             fontWeight: FontWeight.w300,
             color: Color(0xFF727FC8)),
         display2: base.headline.copyWith(

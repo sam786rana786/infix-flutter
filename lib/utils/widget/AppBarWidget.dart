@@ -19,7 +19,7 @@ class AppBarWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 25.0),
-                child: Text(title),
+                child: Text(title,style: TextStyle(fontSize: 20.0),),
               ),
         FutureBuilder(
           future:  Utils.getStringValue('image'),

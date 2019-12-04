@@ -5,6 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:infixedu/utils/server/ProfileService.dart';
 import 'package:infixedu/utils/modal/InfixMap.dart';
 import 'package:infixedu/utils/widget/ProfileListRow.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:infixedu/utils/apis/Apis.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -14,15 +18,20 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   bool isPersonal = false;
   bool isParents = false;
-
   bool isTransport = false;
   bool isOthers = false;
-
-  ProfileService profileService =
-      ProfileService('regan1@infixedu.com', '123456');
+  String section = 'personal';
+  String _email;
+  String _password;
+  var _images;
+  ProfileService profileService;
 
   @override
   Widget build(BuildContext context) {
+    Utils.getStringValue('email').then((value) {
+      _email = value;
+    });
+
     final double statusBarHeight = MediaQuery.of(context).padding.top;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: Colors.indigo, //or set color with: Color(0xFF0000FF)
@@ -44,32 +53,38 @@ class _ProfileState extends State<Profile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                        width: 60.0,
-                        height: 60.0,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: NetworkImage(
-                                    "https://i.imgur.com/BoN9kdC.png")))),
+                      width: 60.0,
+                      height: 60.0,
+                      child: FutureBuilder(
+                        future: Utils.getStringValue('image'),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<String> snapshot) {
+                          if (snapshot.hasData) {
+                            return Align(
+                              child: CircleAvatar(
+                                radius: 25.0,
+                                backgroundImage: NetworkImage(snapshot.data),
+                                backgroundColor: Colors.transparent,
+                              ),
+                            );
+                          } else {
+                            return Align(
+                              alignment: Alignment.bottomRight,
+                              child: CircleAvatar(
+                                radius: 25.0,
+                                backgroundImage: NetworkImage(
+                                    'https://i.imgur.com/BoN9kdC.png'),
+                                backgroundColor: Colors.transparent,
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
                     SizedBox(
                       width: 15.0,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text('Ralph o' 'elly',
-                            style: Theme.of(context).textTheme.headline),
-                        Text(
-                          'Class : One | Section : A',
-                          style: Theme.of(context).textTheme.display1,
-                        ),
-                        Text(
-                          'Roll : 82547 | Adm : 16235',
-                          style: Theme.of(context).textTheme.display1,
-                        ),
-                      ],
-                    )
+                    getProfileHeader(),
                   ],
                 ),
               ),
@@ -89,13 +104,15 @@ class _ProfileState extends State<Profile> {
                             isParents = false;
                             isTransport = false;
                             isOthers = false;
+
+                            section = 'personal';
                           });
                         },
                         child: Column(
                           children: <Widget>[
                             Text(
                               'Personal',
-                              style: Theme.of(context).textTheme.title,
+                              style: Theme.of(context).textTheme.display1.copyWith(color: Color(0xFF415094),),
                             ),
                             Container(
                               height: 2.0,
@@ -117,13 +134,15 @@ class _ProfileState extends State<Profile> {
                             isPersonal = false;
                             isTransport = false;
                             isOthers = false;
+
+                            section = 'parents';
                           });
                         },
                         child: Column(
                           children: <Widget>[
                             Text(
                               'Parents',
-                              style: Theme.of(context).textTheme.title,
+                              style: Theme.of(context).textTheme.display1.copyWith(color: Color(0xFF415094),),
                             ),
                             Container(
                               height: 2.0,
@@ -145,13 +164,15 @@ class _ProfileState extends State<Profile> {
                             isParents = false;
                             isPersonal = false;
                             isOthers = false;
+
+                            section = 'transport';
                           });
                         },
                         child: Column(
                           children: <Widget>[
                             Text(
                               'Transport',
-                              style: Theme.of(context).textTheme.title,
+                              style: Theme.of(context).textTheme.display1.copyWith(color: Color(0xFF415094),),
                             ),
                             Container(
                               height: 2.0,
@@ -173,13 +194,15 @@ class _ProfileState extends State<Profile> {
                             isParents = false;
                             isPersonal = false;
                             isOthers = true;
+
+                            section = 'others';
                           });
                         },
                         child: Column(
                           children: <Widget>[
                             Text(
                               'Others',
-                              style: Theme.of(context).textTheme.title,
+                              style: Theme.of(context).textTheme.display1.copyWith(color: Color(0xFF415094),),
                             ),
                             Container(
                               height: 2.0,
@@ -207,29 +230,7 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             Expanded(
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                child: FutureBuilder(
-                  future: profileService.fetchPersonalServices(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<InfixMap>> snapshot) {
-                    if (snapshot.data != null) {
-                      return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Profile_row_list(snapshot.data[index].key,
-                              snapshot.data[index].value);
-                        },
-                      );
-                    } else {
-                      return Text(
-                        'Loading...',
-                        style: Theme.of(context).textTheme.headline,
-                      );
-                    }
-                  },
-                ),
-              ),
+              child: getProfileList(),
             ),
           ],
         ),
@@ -237,7 +238,103 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  Widget getProfileList() {
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      child: FutureBuilder(
+        future: Utils.getStringValue('password'),
+        builder: (context, snapshot) {
+          _password = snapshot.data;
+
+          profileService = ProfileService(_email, _password);
+
+          return Container(
+            child: FutureBuilder(
+              future: profileService.fetchPersonalServices(section),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<InfixMap>> snapshot) {
+                if (snapshot.data != null) {
+                  return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Profile_row_list(
+                          snapshot.data[index].key, snapshot.data[index].value);
+                    },
+                  );
+                } else {
+                  return Text(
+                    'Loading...',
+                    style: Theme.of(context).textTheme.headline,
+                  );
+                }
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget getProfileHeader() {
+    return FutureBuilder(
+        future: Utils.getStringValue('password'),
+        builder: (context, snapshot) {
+          _password = snapshot.data;
+          profileService = ProfileService(_email, _password);
+
+          return FutureBuilder(
+            future: profileService.fetchPersonalServices('profile'),
+            builder: (context, snapshot1) {
+              if (snapshot1.data != null) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(snapshot1.data[0].value,
+                        style: Theme.of(context).textTheme.headline),
+                    Text(
+                      'Class : ' +
+                          snapshot1.data[2].value +
+                          ' | Section : ' +
+                          snapshot1.data[1].value,
+                      style: Theme.of(context).textTheme.title.copyWith(color: Color(0xFF727FC8)),
+                    ),
+                    Text(
+                      'Roll : ' +
+                          snapshot1.data[3].value +
+                          ' | Adm : ' +
+                          snapshot1.data[4].value,
+                      style: Theme.of(context).textTheme.title.copyWith(color: Color(0xFF727FC8)),
+                    ),
+                  ],
+                );
+              } else {
+                return Text(
+                  'Loading...',
+                  style: Theme.of(context).textTheme.headline,
+                );
+              }
+            },
+          );
+        });
+  }
+
   void navigateToPreviousPage(BuildContext context) {
     Navigator.pop(context);
+  }
+
+  Future<String> getImageUrl(String email, String password, String rule) async {
+    var image = 'https://i.imgur.com/BoN9kdC.png';
+
+    var response = await http.get(InfixApi.login(email, password));
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> user = jsonDecode(response.body) as Map;
+
+      if (rule == '2')
+        image = user['data']['userDetails']['student_photo'];
+      else
+        image = user['data']['userDetails']['staff_photo'];
+    }
+    return InfixApi.root + '$image';
   }
 }

@@ -24,16 +24,16 @@ class Profile_row_list extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     _key,
-                    style: TextStyle(
-                        fontSize: 12.0,
-                        fontFamily: 'popins',
-                        fontWeight: FontWeight.w300,
-                        color: Color(0xFF727FC8)),
+                    style: Theme.of(context).textTheme.display1,
+                    maxLines: 1,
+                  ),
+                  SizedBox(
+                    height: 5.0,
                   ),
                   Container(
-                    height: 1.0,
+                    height: 0.5,
                     decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: Color(0xFF415094),
                     ),
                   )
                 ],
@@ -49,16 +49,16 @@ class Profile_row_list extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     _value,
-                    style: TextStyle(
-                        fontSize: 12.0,
-                        fontFamily: 'popins',
-                        fontWeight: FontWeight.w300,
-                        color: Color(0xFF727FC8)),
+                    style: Theme.of(context).textTheme.display1,
+                    maxLines: 1,
+                  ),
+                  SizedBox(
+                    height: 5.0,
                   ),
                   Container(
-                    height: 1.0,
+                    height: 0.5,
                     decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: Color(0xFF415094),
                     ),
                   )
                 ],

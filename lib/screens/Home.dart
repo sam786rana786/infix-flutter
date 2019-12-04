@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:infixedu/utils/CardItem.dart';
+import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -105,9 +106,7 @@ class _HomeState extends State<Home> {
               onSelect: () {
                 setState(() {
                   currentSelectedIndex = index;
-                  Route route =
-                      MaterialPageRoute(builder: (context) => Profile());
-                  Navigator.push(context, route);
+                  Navigator.push(context, ScaleRoute(page: Profile()));
                 });
               },
               headline: _titles[index],

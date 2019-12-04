@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/screens/Home.dart';
-import 'package:infixedu/utils/Utils.dart';
 
 class AppFunction {
   static var students = [
@@ -20,20 +19,20 @@ class AppFunction {
     'Dormitory'
   ];
   static var studentIcons = [
+    'images/profile.png',
     'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png'
+    'images/routine.png',
+    'images/homework.png',
+    'images/timeline.png',
+    'images/attendance.png',
+    'images/examination.png',
+    'images/onlineexam.png',
+    'images/notice.png',
+    'images/subjects.png',
+    'images/teacher.png',
+    'images/library.png',
+    'images/transport.png',
+    'images/dormitory.png'
   ];
 
   static var admins = [
