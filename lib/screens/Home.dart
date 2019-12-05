@@ -1,15 +1,14 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:infixedu/utils/CardItem.dart';
-import 'package:infixedu/utils/widget/ScaleRoute.dart';
-import 'dart:async';
-import 'dart:convert';
+import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
-import 'package:infixedu/screens/Profile.dart';
 import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
-import './Login.dart';
+
+import 'Login.dart';
 
 class Home extends StatefulWidget {
   var _titles;
@@ -106,7 +105,7 @@ class _HomeState extends State<Home> {
               onSelect: () {
                 setState(() {
                   currentSelectedIndex = index;
-                  Navigator.push(context, ScaleRoute(page: Profile()));
+                  AppFunction.getDashboardPage(context, _titles[index]);
                 });
               },
               headline: _titles[index],

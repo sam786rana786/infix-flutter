@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/screens/Home.dart';
+import 'package:infixedu/utils/widget/ScaleRoute.dart';
+import 'package:infixedu/screens/Profile.dart';
+import 'package:infixedu/screens/Fees.dart';
 
 class AppFunction {
   static var students = [
@@ -82,4 +85,16 @@ class AppFunction {
         break;
     }
   }
+
+  static void getDashboardPage(BuildContext context, String title) {
+    switch (title) {
+      case 'Profile':
+        Navigator.push(context, ScaleRoute(page: Profile()));
+        break;
+      case 'Fees':
+        Navigator.push(context, ScaleRoute(page: Fees_screen()));
+        break;
+    }
+  }
+
 }
