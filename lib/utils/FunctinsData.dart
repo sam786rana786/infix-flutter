@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/screens/Home.dart';
+import 'package:infixedu/screens/Routine.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:infixedu/screens/Profile.dart';
 import 'package:infixedu/screens/Fees.dart';
@@ -93,6 +94,9 @@ class AppFunction {
         break;
       case 'Fees':
         Navigator.push(context, ScaleRoute(page: Fees_screen()));
+        break;
+      case 'Routine':
+        Navigator.push(context, ScaleRoute(page: Routine()));
         break;
     }
   }

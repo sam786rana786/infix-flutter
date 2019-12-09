@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/utils/modal/Fee.dart';
 
 
 class Fees_row extends StatelessWidget {
-//  Fee fee;
-//  Fees_row(this.fee);
+
+  Fee fee;
+  Fees_row(this.fee);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class Fees_row extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  'Educational materials',
+                  fee.title,
                   style: Theme.of(context).textTheme.headline,
                   maxLines: 1,
                 ),
@@ -51,7 +53,7 @@ class Fees_row extends StatelessWidget {
                       ),
                       SizedBox(height: 10.0,),
                       Text(
-                        '2019-08-24',
+                        fee.dueDate,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.display1,
                       ),
@@ -69,7 +71,7 @@ class Fees_row extends StatelessWidget {
                       ),
                       SizedBox(height: 10.0,),
                       Text(
-                        '\$350',
+                        '\$'+fee.amount,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.display1,
                       ),
@@ -87,7 +89,7 @@ class Fees_row extends StatelessWidget {
                       ),
                       SizedBox(height: 10.0,),
                       Text(
-                        '\$280',
+                        '\$'+fee.paid,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.display1,
                       ),
@@ -105,7 +107,7 @@ class Fees_row extends StatelessWidget {
                       ),
                       SizedBox(height: 10.0,),
                       Text(
-                        '\$250',
+                        '\$'+fee.balance,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.display1,
                       ),
@@ -122,21 +124,7 @@ class Fees_row extends StatelessWidget {
                         style: Theme.of(context).textTheme.display1.copyWith(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(height: 10.0,),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Colors.amberAccent
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 5.0,right: 5.0),
-                          child: Text(
-                            'paid',
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            style: Theme.of(context).textTheme.display1.copyWith(color: Colors.white,fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
+                      getStatus(context),
                     ],
                   ),
                 ),
@@ -181,7 +169,7 @@ class Fees_row extends StatelessWidget {
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              'Educational materials',
+                              fee.title,
                               style: Theme.of(context).textTheme.headline,
                               maxLines: 1,
                             ),
@@ -208,7 +196,7 @@ class Fees_row extends StatelessWidget {
                                     height: 10.0,
                                   ),
                                   Text(
-                                    '\$5000',
+                                    '\$'+fee.amount,
                                     maxLines: 1,
                                     style: Theme.of(context).textTheme.display1,
                                   ),
@@ -231,7 +219,7 @@ class Fees_row extends StatelessWidget {
                                     height: 10.0,
                                   ),
                                   Text(
-                                    '\$350',
+                                    '\$'+fee.discount,
                                     maxLines: 1,
                                     style: Theme.of(context).textTheme.display1,
                                   ),
@@ -254,7 +242,7 @@ class Fees_row extends StatelessWidget {
                                     height: 10.0,
                                   ),
                                   Text(
-                                    '\$280',
+                                    '\$'+fee.fine,
                                     maxLines: 1,
                                     style: Theme.of(context).textTheme.display1,
                                   ),
@@ -277,7 +265,7 @@ class Fees_row extends StatelessWidget {
                                     height: 10.0,
                                   ),
                                   Text(
-                                    '\$250',
+                                    '\$'+fee.paid,
                                     maxLines: 1,
                                     style: Theme.of(context).textTheme.display1,
                                   ),
@@ -300,7 +288,7 @@ class Fees_row extends StatelessWidget {
                                     height: 10.0,
                                   ),
                                   Text(
-                                    '\$85200',
+                                    '\$'+fee.balance,
                                     textAlign: TextAlign.center,
                                     maxLines: 1,
                                     style: Theme.of(context)
@@ -322,6 +310,64 @@ class Fees_row extends StatelessWidget {
         );
       },
     );
+
+  }
+
+  Widget getStatus(BuildContext context){
+
+    if(fee.balance == 0){
+      return  Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: Colors.greenAccent
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 5.0,right: 5.0),
+          child: Text(
+            'paid',
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            style: Theme.of(context).textTheme.display1.copyWith(color: Colors.white,fontWeight: FontWeight.w500),
+          ),
+        ),
+      );
+    }
+    if(int.parse(fee.balance) > 0){
+      return  Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: Colors.amberAccent
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 5.0,right: 5.0),
+          child: Text(
+            'partial',
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            style: Theme.of(context).textTheme.display1.copyWith(color: Colors.white,fontWeight: FontWeight.w500),
+          ),
+        ),
+      );
+    }
+
+    if(int.parse(fee.balance) == int.parse(fee.amount)){
+      return  Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: Colors.redAccent
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 5.0,right: 5.0),
+          child: Text(
+            'unpaid',
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            style: Theme.of(context).textTheme.display1.copyWith(color: Colors.white,fontWeight: FontWeight.w500),
+          ),
+        ),
+      );
+    }
+
 
   }
 

@@ -5,25 +5,17 @@ class Fee{
   String _amount;
   String _paid;
   String _balance;
-  String _status;
   String _discount;
   String _fine;
 
 
-  Fee(this._title, this._dueDate, this._amount, this._paid, this._balance,
-      this._status, this._discount, this._fine);
+  Fee(this._title, this._dueDate, this._amount, this._paid, this._balance, this._discount, this._fine);
 
 
   String get title => _title;
 
   set title(String value) {
     _title = value;
-  }
-
-  String get status => _status;
-
-  set status(String value) {
-    _status = value;
   }
 
   String get balance => _balance;

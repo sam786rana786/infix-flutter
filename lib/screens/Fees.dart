@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/utils/modal/Fee.dart';
+import 'package:infixedu/utils/server/FeesService.dart';
 import 'package:infixedu/utils/widget/Fees_row_layout.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:flutter/services.dart';
@@ -23,170 +26,222 @@ class _Fees_screenState extends State<Fees_screen> {
         appBar: AppBarWidget.header(context, 'Fees'),
         backgroundColor: Colors.white,
         body: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        'Grand Total',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline
-                            .copyWith(fontSize: 20.0),
-                        maxLines: 1,
-                      ),
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      'Grand Total',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline
+                          .copyWith(fontSize: 20.0),
+                      maxLines: 1,
                     ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0,left: 10.0,bottom: 20.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Amount',
-                            maxLines: 1,
-                            style: Theme.of(context)
-                                .textTheme
-                                .display1
-                                .copyWith(fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text(
-                            '\$5000',
-                            maxLines: 1,
-                            style: Theme.of(context).textTheme.display1,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Discount',
-                            maxLines: 1,
-                            style: Theme.of(context)
-                                .textTheme
-                                .display1
-                                .copyWith(fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text(
-                            '\$350',
-                            maxLines: 1,
-                            style: Theme.of(context).textTheme.display1,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Fine',
-                            maxLines: 1,
-                            style: Theme.of(context)
-                                .textTheme
-                                .display1
-                                .copyWith(fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text(
-                            '\$280',
-                            maxLines: 1,
-                            style: Theme.of(context).textTheme.display1,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Paid',
-                            maxLines: 1,
-                            style: Theme.of(context)
-                                .textTheme
-                                .display1
-                                .copyWith(fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text(
-                            '\$250',
-                            maxLines: 1,
-                            style: Theme.of(context).textTheme.display1,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Balance',
-                            maxLines: 1,
-                            style: Theme.of(context)
-                                .textTheme
-                                .display1
-                                .copyWith(fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text(
-                            '\$85200',
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            style: Theme.of(context)
-                                .textTheme
-                                .display1,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: 15.0,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0xfff3e5f5).withOpacity(0.5), Colors.white]),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context,index){
-                      return Fees_row();
-                    },
                   ),
+                ],
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(top: 10.0, left: 10.0, bottom: 20.0),
+              child: Container(
+                child:FutureBuilder(
+                  future: Utils.getStringValue('id'),
+                  builder: (context,id){
+                    if(id.hasData){
+                      return Container(
+                        child: FutureBuilder(
+                          future: FeeService(int.parse(id.data)).fetchTotalFee(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<String>> total_fees_snapshot){
+
+                            if(total_fees_snapshot.hasData){
+                              return Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Amount',
+                                          maxLines: 1,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .display1
+                                              .copyWith(fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
+                                        Text(
+                                          '\$'+ total_fees_snapshot.data[0],
+                                          maxLines: 1,
+                                          style: Theme.of(context).textTheme.display1,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Discount',
+                                          maxLines: 1,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .display1
+                                              .copyWith(fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
+                                        Text(
+                                          '\$'+total_fees_snapshot.data[1],
+                                          maxLines: 1,
+                                          style: Theme.of(context).textTheme.display1,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Fine',
+                                          maxLines: 1,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .display1
+                                              .copyWith(fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
+                                        Text(
+                                          '\$'+total_fees_snapshot.data[2],
+                                          maxLines: 1,
+                                          style: Theme.of(context).textTheme.display1,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Paid',
+                                          maxLines: 1,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .display1
+                                              .copyWith(fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
+                                        Text(
+                                          '\$'+total_fees_snapshot.data[3],
+                                          maxLines: 1,
+                                          style: Theme.of(context).textTheme.display1,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Balance',
+                                          maxLines: 1,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .display1
+                                              .copyWith(fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
+                                        Text(
+                                          '\$'+total_fees_snapshot.data[4],
+                                          textAlign: TextAlign.center,
+                                          maxLines: 1,
+                                          style: Theme.of(context).textTheme.display1,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }else {
+                              return CircularProgressIndicator();
+                            }
+                          },
+                        ),
+                      );
+                    }else {
+                      return Container(
+                        child: Text('...'),
+                      );
+                    }
+                  },
                 ),
-              )
-            ],
-          ),
+              ),
+            ),
+            Container(
+              height: 15.0,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0xfff3e5f5).withOpacity(0.5), Colors.white]),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: FutureBuilder(
+                  future: Utils.getStringValue('id'),
+                  builder: (context, snap_id) {
+                    if (snap_id.hasData) {
+                      return Container(
+                        child: FutureBuilder(
+                          future:
+                              FeeService(int.parse(snap_id.data)).fetchFee(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<Fee>> fees_snapshot) {
+                            if (fees_snapshot.hasData) {
+                              return ListView.builder(
+                                  itemCount: fees_snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    return Fees_row(fees_snapshot.data[index]);
+                                  });
+                            } else {
+                              return Text(
+                                'Loading...',
+                                style: Theme.of(context).textTheme.headline,
+                              );
+                            }
+                          },
+                        ),
+                      );
+                    } else {
+                      return Container(
+                        child: Text('Loading...'),
+                      );
+                    }
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
