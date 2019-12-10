@@ -1,61 +1,118 @@
 import 'package:flutter/material.dart';
+import 'package:infixedu/utils/FunctinsData.dart';
+import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:infixedu/utils/modal/Schedule.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class RoutineRow extends StatelessWidget {
+import 'package:infixedu/utils/modal/ScheduleList.dart';
+
+import 'RoutineRowWidget.dart';
+
+class RoutineRow extends StatefulWidget {
+
+  String _title;
+
+  RoutineRow(this._title);
+
+  @override
+  _ClassRoutineState createState() => _ClassRoutineState(_title);
+}
+
+class _ClassRoutineState extends State<RoutineRow> {
+
+  String title;
+  Future<ScheduleList> routine;
+
+  _ClassRoutineState(this.title);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routine = fetchRoutine(16, title);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0,left: 10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom:8.0),
-            child: Text('Saturday',style:Theme.of(context).textTheme.title.copyWith(fontSize: 15.0)),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom:5.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child:  Text('Time',style:Theme.of(context).textTheme.display1.copyWith(fontSize: 13.0)),
-                ),
-                Expanded(
-                  child:  Text('Subject',style:Theme.of(context).textTheme.display1.copyWith(fontSize: 13.0)),
-                ),
-                Expanded(
-                  child:  Text('Room',style:Theme.of(context).textTheme.display1.copyWith(fontSize: 13.0)),
-                ),
-              ],
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child:  Text('9.0 AM -10.0 AM',style:Theme.of(context).textTheme.display1),
-              ),
-              Expanded(
-                child:  Text('Bangla',style:Theme.of(context).textTheme.display1),
-              ),
-              Expanded(
-                child:  Text('room - 101',style:Theme.of(context).textTheme.display1),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child:  Text('10.0 AM - 10.0 AM',style:Theme.of(context).textTheme.display1),
-              ),
-              Expanded(
-                child:  Text('English',style:Theme.of(context).textTheme.display1),
-              ),
-              Expanded(
-                child:  Text('room - 103',style:Theme.of(context).textTheme.display1),
-              ),
-            ],
-          ),
-        ],
+      child: FutureBuilder<ScheduleList>(
+        future: routine,
+        builder: (context,snapshot){
+         if(snapshot.hasData){
+           if(snapshot.data.schedules.length > 0){
+             return Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: <Widget>[
+                 Padding(
+                   padding: const EdgeInsets.only(bottom:8.0),
+                   child: Text(title,style:Theme.of(context).textTheme.title.copyWith(fontSize: 15.0)),
+                 ),
+                 Padding(
+                   padding: const EdgeInsets.only(bottom:5.0),
+                   child: Row(
+                     children: <Widget>[
+                       Expanded(
+                         child:  Text('Time',style:Theme.of(context).textTheme.display1.copyWith(fontSize: 13.0)),
+                       ),
+                       Expanded(
+                         child:  Text('Subject',style:Theme.of(context).textTheme.display1.copyWith(fontSize: 13.0)),
+                       ),
+                       Expanded(
+                         child:  Text('Room',style:Theme.of(context).textTheme.display1.copyWith(fontSize: 13.0)),
+                       ),
+                     ],
+                   ),
+                 ),
+                 ListView.builder(
+                   itemCount: snapshot.data.schedules.length,
+                   shrinkWrap: true,
+                   itemBuilder: (context,index){
+                     return RoutineRowDesign(AppFunction.getAmPm(snapshot.data.schedules[0].startTime)+' - '+AppFunction.getAmPm(snapshot.data.schedules[0].endTime),
+                     snapshot.data.schedules[index].subject, snapshot.data.schedules[index].room
+                     );
+                   },
+                 ),
+                 Padding(
+                   padding: const EdgeInsets.only(top:8.0,right: 8.0),
+                   child: Container(
+                     height: 0.5,
+                     decoration: BoxDecoration(
+                       color: Color(0xFF415094),
+                     ),
+                   ),
+                 )
+               ],
+             );
+
+               //Text(AppFunction.getAmPm(snapshot.data.schedules[0].startTime)+' - '+AppFunction.getAmPm(snapshot.data.schedules[0].endTime));
+
+           }else{
+             return Text("");
+           }
+
+         }else{
+           return Text("");
+         }
+        },
       ),
     );
   }
+
+  Future<ScheduleList> fetchRoutine(int id,String title) async {
+    final response =
+    await http.get(InfixApi.getRoutineUrl(id));
+
+    if (response.statusCode == 200) {
+
+      var jsonData = json.decode(response.body);
+      // If server returns an OK response, parse the JSON.
+      return ScheduleList.fromJson(jsonData['data'][title]);
+    } else {
+      // If that response was not OK, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
 }
+

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
+import 'package:infixedu/screens/StudentHomework.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:infixedu/screens/Profile.dart';
 import 'package:infixedu/screens/Fees.dart';
@@ -98,7 +99,37 @@ class AppFunction {
       case 'Routine':
         Navigator.push(context, ScaleRoute(page: Routine()));
         break;
+      case 'Homework':
+        Navigator.push(context, ScaleRoute(page: StudentHomework()));
+        break;
     }
+  }
+
+  static var weeks = [
+    'Saturday',
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'thursday',
+    'Friday',
+  ];
+
+   static String getAmPm(String time){
+
+    var parts = time.split(":");
+    String part1 = parts[0];
+    String part2 = parts[1];
+
+    int hr = int.parse(part1);
+    int min = int.parse(part2);
+
+    if(hr <= 12){
+      return "$hr:$min AM ";
+    }else{
+      return "$hr:$min PM ";
+    }
+
   }
 
 }

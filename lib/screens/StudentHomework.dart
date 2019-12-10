@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:infixedu/utils/FunctinsData.dart';
-import 'package:infixedu/utils/apis/Apis.dart';
-import 'package:infixedu/utils/modal/Schedule.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
-import 'package:infixedu/utils/widget/Routine_row.dart';
+import 'package:infixedu/utils/widget/Homework_row.dart';
 
-class Routine extends StatelessWidget {
+class StudentHomework extends StatefulWidget {
+  @override
+  _StudentHomeworkState createState() => _StudentHomeworkState();
+}
 
-  List<String> weeks = AppFunction.weeks;
-
+class _StudentHomeworkState extends State<StudentHomework> {
   @override
   Widget build(BuildContext context) {
 
@@ -21,16 +20,10 @@ class Routine extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-          appBar: AppBarWidget.header(context, 'Routine'),
+          appBar: AppBarWidget.header(context, 'Homework'),
           backgroundColor: Colors.white,
-          body: ListView.builder(
-            itemCount: weeks.length,
-            itemBuilder: (context,index){
-              return RoutineRow(weeks[index]);
-            },
-          ),
+          body: Student_homework_row(),
         ),
     );
   }
-
 }

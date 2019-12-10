@@ -13,5 +13,8 @@ class InfixApi {
    static String getRoutineUrl(int id){
     return base_api+"student-class-routine/$id";
   }
+   static String getStudenthomeWorksUrl(int id){
+    return base_api+"student-homework/$id";
+  }
 
 }
