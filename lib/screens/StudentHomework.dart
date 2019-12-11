@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:infixedu/utils/modal/StudentHomework.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/Homework_row.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class StudentHomework extends StatefulWidget {
   @override
@@ -9,6 +14,22 @@ class StudentHomework extends StatefulWidget {
 }
 
 class _StudentHomeworkState extends State<StudentHomework> {
+
+  Future<HomeworkList> homeworks;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Utils.getStringValue('id').then((value) {
+      setState(() {
+        homeworks = fetchHomework(int.parse(value));
+      });
+
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -22,8 +43,38 @@ class _StudentHomeworkState extends State<StudentHomework> {
       child: Scaffold(
           appBar: AppBarWidget.header(context, 'Homework'),
           backgroundColor: Colors.white,
-          body: Student_homework_row(),
+          body: FutureBuilder<HomeworkList>(
+            future: homeworks,
+            builder: (context,snapshot){
+              if(snapshot.hasData && snapshot != null){
+                return ListView.builder(
+                  itemCount: snapshot.data.homeworks.length,
+                  itemBuilder: (context , index){
+                    return Student_homework_row(snapshot.data.homeworks[index]);
+                  },
+                );
+              }else{
+                return Text("loading...");
+              }
+            },
+          ),
         ),
     );
   }
+
+  Future<HomeworkList> fetchHomework(int id) async{
+
+    final response = await http.get(InfixApi.getStudenthomeWorksUrl(id));
+
+    if(response.statusCode == 200){
+
+      var jsonData = jsonDecode(response.body);
+
+      return HomeworkList.fromJson(jsonData['data']);
+
+    }else{
+      throw Exception('failed to load');
+    }
+  }
+
 }

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
-import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
-import 'package:infixedu/utils/modal/Schedule.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:infixedu/utils/modal/ScheduleList.dart';
 
+import '../Utils.dart';
 import 'RoutineRowWidget.dart';
 
 class RoutineRow extends StatefulWidget {
@@ -30,7 +29,13 @@ class _ClassRoutineState extends State<RoutineRow> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    routine = fetchRoutine(16, title);
+
+    Utils.getStringValue('id').then((value) {
+      setState(() {
+        routine = fetchRoutine(int.parse(value), title);
+      });
+
+    });
   }
 
   @override
@@ -114,5 +119,7 @@ class _ClassRoutineState extends State<RoutineRow> {
       throw Exception('Failed to load post');
     }
   }
+
+
 }
 
