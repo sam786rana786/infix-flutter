@@ -1,24 +1,26 @@
-import 'dart:async';
 import 'dart:io';
+import 'dart:math';
+
 import 'package:dio/dio.dart';
+import 'package:file_utils/file_utils.dart';
+import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:infixedu/utils/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/StudentHomework.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:simple_permissions/simple_permissions.dart';
 
 class Student_homework_row extends StatelessWidget {
-
   Homework homework;
-
-  var dio = Dio();
-
 
   Student_homework_row(this.homework);
 
+  Permission permission1 = Permission.WriteExternalStorage;
+  Random random = Random();
+
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -29,8 +31,7 @@ class Student_homework_row extends StatelessWidget {
                 Expanded(
                   child: Text(
                     homework.subjectName,
-                    style: Theme
-                        .of(context)
+                    style: Theme.of(context)
                         .textTheme
                         .title
                         .copyWith(fontSize: 15.0),
@@ -46,11 +47,8 @@ class Student_homework_row extends StatelessWidget {
                     child: Text(
                       'download',
                       textAlign: TextAlign.end,
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .title
-                          .copyWith(color: Colors.deepPurpleAccent,
+                      style: Theme.of(context).textTheme.title.copyWith(
+                          color: Colors.deepPurpleAccent,
                           decoration: TextDecoration.underline),
                     ),
                   ),
@@ -64,11 +62,8 @@ class Student_homework_row extends StatelessWidget {
                     child: Text(
                       'view',
                       textAlign: TextAlign.end,
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .title
-                          .copyWith(color: Colors.deepPurpleAccent,
+                      style: Theme.of(context).textTheme.title.copyWith(
+                          color: Colors.deepPurpleAccent,
                           decoration: TextDecoration.underline),
                     ),
                   ),
@@ -86,22 +81,20 @@ class Student_homework_row extends StatelessWidget {
                         Text(
                           'Created',
                           maxLines: 1,
-                          style: Theme
-                              .of(context)
+                          style: Theme.of(context)
                               .textTheme
                               .display1
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
-                        SizedBox(height: 10.0,),
+                        SizedBox(
+                          height: 10.0,
+                        ),
                         Text(
                           homework.homeworkDate == null
                               ? 'not assigned'
                               : homework.homeworkDate,
                           maxLines: 1,
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .display1,
+                          style: Theme.of(context).textTheme.display1,
                         ),
                       ],
                     ),
@@ -113,22 +106,20 @@ class Student_homework_row extends StatelessWidget {
                         Text(
                           'Submission',
                           maxLines: 1,
-                          style: Theme
-                              .of(context)
+                          style: Theme.of(context)
                               .textTheme
                               .display1
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
-                        SizedBox(height: 10.0,),
+                        SizedBox(
+                          height: 10.0,
+                        ),
                         Text(
                           homework.submissionDate == null
                               ? 'not assigned'
                               : homework.submissionDate,
                           maxLines: 1,
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .display1,
+                          style: Theme.of(context).textTheme.display1,
                         ),
                       ],
                     ),
@@ -140,22 +131,20 @@ class Student_homework_row extends StatelessWidget {
                         Text(
                           'Evaluation',
                           maxLines: 1,
-                          style: Theme
-                              .of(context)
+                          style: Theme.of(context)
                               .textTheme
                               .display1
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
-                        SizedBox(height: 10.0,),
+                        SizedBox(
+                          height: 10.0,
+                        ),
                         Text(
                           homework.evaluationDate == null
                               ? 'not assigned'
                               : homework.evaluationDate,
                           maxLines: 1,
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .display1,
+                          style: Theme.of(context).textTheme.display1,
                         ),
                       ],
                     ),
@@ -167,13 +156,14 @@ class Student_homework_row extends StatelessWidget {
                         Text(
                           'Status',
                           maxLines: 1,
-                          style: Theme
-                              .of(context)
+                          style: Theme.of(context)
                               .textTheme
                               .display1
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
-                        SizedBox(height: 10.0,),
+                        SizedBox(
+                          height: 10.0,
+                        ),
                         getStatus(context, homework.status),
                       ],
                     ),
@@ -208,14 +198,8 @@ class Student_homework_row extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(0),
               child: Container(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height / 2,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                height: MediaQuery.of(context).size.height / 2,
+                width: MediaQuery.of(context).size.width,
                 color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0, top: 20.0),
@@ -226,10 +210,7 @@ class Student_homework_row extends StatelessWidget {
                           Expanded(
                             child: Text(
                               homework.subjectName,
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .headline,
+                              style: Theme.of(context).textTheme.headline,
                               maxLines: 1,
                             ),
                           ),
@@ -246,8 +227,7 @@ class Student_homework_row extends StatelessWidget {
                                   Text(
                                     'Created',
                                     maxLines: 1,
-                                    style: Theme
-                                        .of(context)
+                                    style: Theme.of(context)
                                         .textTheme
                                         .display1
                                         .copyWith(fontWeight: FontWeight.w500),
@@ -258,10 +238,7 @@ class Student_homework_row extends StatelessWidget {
                                   Text(
                                     homework.homeworkDate,
                                     maxLines: 1,
-                                    style: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .display1,
+                                    style: Theme.of(context).textTheme.display1,
                                   ),
                                 ],
                               ),
@@ -273,8 +250,7 @@ class Student_homework_row extends StatelessWidget {
                                   Text(
                                     'Submission',
                                     maxLines: 1,
-                                    style: Theme
-                                        .of(context)
+                                    style: Theme.of(context)
                                         .textTheme
                                         .display1
                                         .copyWith(fontWeight: FontWeight.w500),
@@ -285,10 +261,7 @@ class Student_homework_row extends StatelessWidget {
                                   Text(
                                     homework.submissionDate,
                                     maxLines: 1,
-                                    style: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .display1,
+                                    style: Theme.of(context).textTheme.display1,
                                   ),
                                 ],
                               ),
@@ -300,8 +273,7 @@ class Student_homework_row extends StatelessWidget {
                                   Text(
                                     'Evaluation',
                                     maxLines: 1,
-                                    style: Theme
-                                        .of(context)
+                                    style: Theme.of(context)
                                         .textTheme
                                         .display1
                                         .copyWith(fontWeight: FontWeight.w500),
@@ -312,10 +284,7 @@ class Student_homework_row extends StatelessWidget {
                                   Text(
                                     homework.evaluationDate,
                                     maxLines: 1,
-                                    style: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .display1,
+                                    style: Theme.of(context).textTheme.display1,
                                   ),
                                 ],
                               ),
@@ -327,13 +296,14 @@ class Student_homework_row extends StatelessWidget {
                                   Text(
                                     'Status',
                                     maxLines: 1,
-                                    style: Theme
-                                        .of(context)
+                                    style: Theme.of(context)
                                         .textTheme
                                         .display1
                                         .copyWith(fontWeight: FontWeight.w500),
                                   ),
-                                  SizedBox(height: 10.0,),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
                                   getStatus(context, homework.status),
                                 ],
                               ),
@@ -351,10 +321,7 @@ class Student_homework_row extends StatelessWidget {
                             Text(
                               homework.description,
                               maxLines: 10,
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .display1,
+                              style: Theme.of(context).textTheme.display1,
                             ),
                           ],
                         ),
@@ -373,21 +340,15 @@ class Student_homework_row extends StatelessWidget {
   Widget getStatus(BuildContext context, String status) {
     if (status == 'I') {
       return Container(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
-        decoration: BoxDecoration(
-            color: Colors.redAccent
-        ),
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(color: Colors.redAccent),
         child: Padding(
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
           child: Text(
             'Incomplete',
             textAlign: TextAlign.center,
             maxLines: 1,
-            style: Theme
-                .of(context)
+            style: Theme.of(context)
                 .textTheme
                 .display1
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
@@ -397,21 +358,15 @@ class Student_homework_row extends StatelessWidget {
     }
     if (status == 'C') {
       return Container(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
-        decoration: BoxDecoration(
-            color: Colors.greenAccent
-        ),
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(color: Colors.greenAccent),
         child: Padding(
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
           child: Text(
             'Completed',
             textAlign: TextAlign.center,
             maxLines: 1,
-            style: Theme
-                .of(context)
+            style: Theme.of(context)
                 .textTheme
                 .display1
                 .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
@@ -422,7 +377,6 @@ class Student_homework_row extends StatelessWidget {
   }
 
   showDownloadAlertDialog(BuildContext context) {
-
     // set up the buttons
     Widget cancelButton = FlatButton(
       child: Text("no"),
@@ -433,9 +387,9 @@ class Student_homework_row extends StatelessWidget {
     Widget yesButton = FlatButton(
       child: Text("download"),
       onPressed: () {
-        homework.fileUrl != null ?
-        download(dio, homework.fileUrl, homework.subjectName) : Utils.showToast(
-            'no file found');
+        homework.fileUrl != null
+            ? downloadFile(homework.fileUrl)
+            : Utils.showToast('no file found');
       },
     );
 
@@ -443,10 +397,7 @@ class Student_homework_row extends StatelessWidget {
     AlertDialog alert = AlertDialog(
       title: Text(
         "Download",
-        style: Theme
-            .of(context)
-            .textTheme
-            .headline,
+        style: Theme.of(context).textTheme.headline,
       ),
       content: Text("Would you like to download the file?"),
       actions: [
@@ -464,47 +415,46 @@ class Student_homework_row extends StatelessWidget {
     );
   }
 
-//  Future<File> _downloadFile(String url, String filename) async {
-//    var request = await httpClient.getUrl(Uri.parse(InfixApi.root+url));
-//    var response = await request.close();
-//    var bytes = await consolidateHttpClientResponseBytes(response);
-//    String dir = (await getApplicationDocumentsDirectory()).path;
-//    File file = new File('$dir/$filename');
-//    await file.writeAsBytes(bytes);
-//    return file;
-//  }
+  Future<void> downloadFile(String url) async {
+    bool downloading = false;
+    var progress = "";
+    var path = "No Data";
+    var platformVersion = "Unknown";
+    Dio dio = Dio();
+    bool checkPermission1 =
+        await SimplePermissions.checkPermission(permission1);
+    // print(checkPermission1);
+    if (checkPermission1 == false) {
+      await SimplePermissions.requestPermission(permission1);
+      checkPermission1 = await SimplePermissions.checkPermission(permission1);
+    }
+    if (checkPermission1 == true) {
+      String dirloc = "";
+      if (Platform.isAndroid) {
+        dirloc = "/sdcard/download/";
+      } else {
+        dirloc = (await getApplicationDocumentsDirectory()).path;
+      }
 
-//  Future<File> _downloadFile(String url, String filename) async {
-//    var _client = new http.Client();
-//    var req = await _client.get(Uri.parse(url));
-//    var bytes = req.bodyBytes;
-//    String dir = (await getApplicationDocumentsDirectory()).path;
-//    File file = new File('$dir/$filename');
-//    await file.writeAsBytes(bytes);
-//    return file;
-//  }
+      var randid = random.nextInt(10000);
 
-  Future download(Dio dio, String url, String title) async {
+      try {
+        FileUtils.mkdir([dirloc]);
 
-    Directory tempDir = await getTemporaryDirectory();
-
-    String dir = tempDir.path;
-
-    Utils.showToast(dir);
-
-    CancelToken cancelToken = CancelToken();
-    try {
-      await dio.download(InfixApi.root+url, dir,
-          onReceiveProgress: showDownloadProgress, cancelToken: cancelToken);
-    } catch (e) {
-      print(e);
+        await dio
+            .download(InfixApi.root + url, dirloc + AppFunction.getExtention(url),
+                onReceiveProgress: (receivedBytes, totalBytes) {
+          downloading = true;
+          progress =
+              ((receivedBytes / totalBytes) * 100).toStringAsFixed(0) + "%";
+        });
+      } catch (e) {
+        print(e);
+      }
+      progress = "Download Completed.Go to the download folder to find the file";
+      Utils.showToast(progress);
+    } else {
+      progress = "Permission Denied!";
     }
   }
-
-  void showDownloadProgress(received, total) {
-    if (total != -1) {
-      print((received / total * 100).toStringAsFixed(0) + "%");
-    }
-  }
-
 }

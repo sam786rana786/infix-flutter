@@ -132,4 +132,12 @@ class AppFunction {
 
   }
 
+  static String getExtention(String url){
+
+     var parts = url.split("/");
+
+     return parts[parts.length - 1];
+
+  }
+
 }
