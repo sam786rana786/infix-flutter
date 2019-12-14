@@ -12,11 +12,19 @@ class Splash extends StatefulWidget {
   _SplashState createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> {
+class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
+
+  Animation animation;
+  AnimationController controller;
+
   @override
   void initState() {
     super.initState();
     Route route;
+
+    controller = AnimationController(duration: Duration(seconds: 3),vsync: this);
+    animation = Tween(begin: 30.0,end:90.0).animate(controller);
+    controller.forward();
 
     Future.delayed(Duration(seconds: 3), () {
       getBooleanValue('isLogged').then((value) {
@@ -31,6 +39,12 @@ class _SplashState extends State<Splash> {
         }
       });
     });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -77,14 +91,19 @@ class _SplashState extends State<Splash> {
                             ),
                           ),
                         ),
-                        Container(
-                          height: 60.0,
-                          width: 90.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: ExactAssetImage('images/splash_logo.png'),
-                            ),
-                          ),
+                        AnimatedBuilder(
+                          animation: animation,
+                          builder: (context,child){
+                            return Container(
+                              height: animation.value,
+                              width: animation.value,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: ExactAssetImage('images/splash_logo.png'),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 60.0),
