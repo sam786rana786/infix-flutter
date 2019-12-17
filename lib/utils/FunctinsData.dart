@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/screens/Dormitory.dart';
+import 'package:infixedu/screens/StudentTeacher.dart';
+import 'package:infixedu/screens/SubjectScreen.dart';
 import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
@@ -112,6 +114,12 @@ class AppFunction {
         break;
       case 'Transport':
         Navigator.push(context, ScaleRoute(page: TransportScreen()));
+        break;
+      case 'Subjects':
+        Navigator.push(context, ScaleRoute(page: SubjectScreen()));
+        break;
+      case 'Teacher':
+        Navigator.push(context, ScaleRoute(page: StudentTeacher()));
         break;
     }
   }
