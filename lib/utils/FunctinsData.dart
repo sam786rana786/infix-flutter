@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:infixedu/screens/BookListScreen.dart';
 import 'package:infixedu/screens/Dormitory.dart';
+import 'package:infixedu/screens/LibraryScreen.dart';
+import 'package:infixedu/screens/NoticeScreen.dart';
 import 'package:infixedu/screens/StudentTeacher.dart';
 import 'package:infixedu/screens/SubjectScreen.dart';
 import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
 import 'package:infixedu/screens/StudentHomework.dart';
-import 'package:infixedu/screens/TransportScreen.dart' as prefix0;
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:infixedu/screens/Profile.dart';
 import 'package:infixedu/screens/Fees.dart';
-
-import 'modal/Transport.dart';
 
 class AppFunction {
   static var students = [
@@ -68,6 +68,15 @@ class AppFunction {
     'images/fees_icon.png',
   ];
 
+  static var librarys = [
+    'Book List',
+    'Books Issued',
+  ];
+  static var libraryIcons = [
+    'images/fees_icon.png',
+    'images/fees_icon.png',
+  ];
+
   static void getFunctions(BuildContext context, String rule) {
     Route route;
 
@@ -120,6 +129,24 @@ class AppFunction {
         break;
       case 'Teacher':
         Navigator.push(context, ScaleRoute(page: StudentTeacher()));
+        break;
+      case 'Library':
+        Navigator.push(
+            context, ScaleRoute(page: LibraryHome(librarys, libraryIcons)));
+        break;
+      case 'Notice':
+        Navigator.push(context, ScaleRoute(page: NoticeScreen()));
+        break;
+    }
+  }
+
+  static void getLibraryDashboardPage(BuildContext context, String title) {
+    switch (title) {
+      case 'Book List':
+        Navigator.push(context, ScaleRoute(page: BookListScreen()));
+        break;
+      case 'Books Issued':
+        Navigator.push(context, ScaleRoute(page: Fees_screen()));
         break;
     }
   }

@@ -4,6 +4,8 @@ class InfixApi {
 
   static String STUDENT_DORMITORY_LIST = base_api + "student-dormitory";
 
+  static String BOOK_LIST = base_api+"book-list";
+
   static String login(String email, String password) {
     return base_api + 'login?email=' + email + '&password=' + password;
   }
@@ -30,4 +32,14 @@ class InfixApi {
   static String getStudentTeacherUrl(int id) {
     return base_api + "studentTeacher/$id";
   }
+
+  static String getStudentIssuedBooks(int id){
+    return base_api+"student-library/$id";
+  }
+
+  static String getNoticeUrl(int id){
+    return base_api+"student-noticeboard/$id";
+  }
+
+
 }

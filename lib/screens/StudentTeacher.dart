@@ -119,7 +119,7 @@ class _StudentTeacherState extends State<StudentTeacher> with SingleTickerProvid
   }
 
   Future<TeacherList> getAllTeacher(int id) async {
-    final response = await http.get(InfixApi.getStudentTeacherUrl(16));
+    final response = await http.get(InfixApi.getStudentTeacherUrl(id));
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);

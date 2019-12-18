@@ -282,7 +282,7 @@ class Student_homework_row extends StatelessWidget {
                                     height: 10.0,
                                   ),
                                   Text(
-                                    homework.evaluationDate,
+                                    homework.evaluationDate == null ? 'not assigned' : homework.evaluationDate,
                                     maxLines: 1,
                                     style: Theme.of(context).textTheme.display1,
                                   ),
@@ -319,7 +319,7 @@ class Student_homework_row extends StatelessWidget {
                               height: 10.0,
                             ),
                             Text(
-                              homework.description,
+                              homework.description == null ? '' : homework.description,
                               maxLines: 10,
                               style: Theme.of(context).textTheme.display1,
                             ),
