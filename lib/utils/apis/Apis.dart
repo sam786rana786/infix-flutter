@@ -33,7 +33,7 @@ class InfixApi {
     return base_api + "studentTeacher/$id";
   }
 
-  static String getStudentIssuedBooks(int id){
+  static String getStudentIssuedBook(int id){
     return base_api+"student-library/$id";
   }
 
@@ -41,5 +41,8 @@ class InfixApi {
     return base_api+"student-noticeboard/$id";
   }
 
+   static String getStudentTimeline(int id){
+    return base_api+"student-timeline/$id";
+  }
 
 }

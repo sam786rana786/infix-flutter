@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:infixedu/screens/BookIssuedScreen.dart';
 import 'package:infixedu/screens/BookListScreen.dart';
 import 'package:infixedu/screens/Dormitory.dart';
 import 'package:infixedu/screens/LibraryScreen.dart';
 import 'package:infixedu/screens/NoticeScreen.dart';
 import 'package:infixedu/screens/StudentTeacher.dart';
 import 'package:infixedu/screens/SubjectScreen.dart';
+import 'package:infixedu/screens/TimeLineScreen.dart';
 import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
@@ -137,6 +139,9 @@ class AppFunction {
       case 'Notice':
         Navigator.push(context, ScaleRoute(page: NoticeScreen()));
         break;
+      case 'Timeline':
+        Navigator.push(context, ScaleRoute(page: TimelineScreen()));
+        break;
     }
   }
 
@@ -146,7 +151,7 @@ class AppFunction {
         Navigator.push(context, ScaleRoute(page: BookListScreen()));
         break;
       case 'Books Issued':
-        Navigator.push(context, ScaleRoute(page: Fees_screen()));
+        Navigator.push(context, ScaleRoute(page: BookIssuedScreen()));
         break;
     }
   }
