@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:infixedu/screens/BookIssuedScreen.dart';
 import 'package:infixedu/screens/BookListScreen.dart';
 import 'package:infixedu/screens/Dormitory.dart';
+import 'package:infixedu/screens/ExaminationScreen.dart';
 import 'package:infixedu/screens/LibraryScreen.dart';
 import 'package:infixedu/screens/NoticeScreen.dart';
+import 'package:infixedu/screens/ScheduleScreen.dart';
 import 'package:infixedu/screens/StudentTeacher.dart';
 import 'package:infixedu/screens/SubjectScreen.dart';
 import 'package:infixedu/screens/TimeLineScreen.dart';
@@ -78,6 +80,14 @@ class AppFunction {
     'images/fees_icon.png',
     'images/fees_icon.png',
   ];
+  static var examinations = [
+    'Schedule',
+    'Result',
+  ];
+  static var examinationIcons = [
+    'images/fees_icon.png',
+    'images/fees_icon.png',
+  ];
 
   static void getFunctions(BuildContext context, String rule) {
     Route route;
@@ -142,6 +152,10 @@ class AppFunction {
       case 'Timeline':
         Navigator.push(context, ScaleRoute(page: TimelineScreen()));
         break;
+      case 'Examination':
+        Navigator.push(context,
+            ScaleRoute(page: ExaminationHome(examinations, examinationIcons)));
+        break;
     }
   }
 
@@ -149,6 +163,16 @@ class AppFunction {
     switch (title) {
       case 'Book List':
         Navigator.push(context, ScaleRoute(page: BookListScreen()));
+        break;
+      case 'Books Issued':
+        Navigator.push(context, ScaleRoute(page: BookIssuedScreen()));
+        break;
+    }
+  }
+  static void getExaminationDashboardPage(BuildContext context, String title) {
+    switch (title) {
+      case 'Schedule':
+        Navigator.push(context, ScaleRoute(page: ScheduleScreen()));
         break;
       case 'Books Issued':
         Navigator.push(context, ScaleRoute(page: BookIssuedScreen()));
@@ -183,7 +207,6 @@ class AppFunction {
 
   static String getExtention(String url) {
     var parts = url.split("/");
-
     return parts[parts.length - 1];
   }
 }

@@ -45,4 +45,12 @@ class InfixApi {
     return base_api+"student-timeline/$id";
   }
 
+   static String getStudentClassExamName(int id){
+    return base_api+"exam-list/$id";
+  }
+
+  static String getStudentClsExamShedule(int id,int code){
+    return base_api+"exam-schedule/$id/$code";
+  }
+
 }
