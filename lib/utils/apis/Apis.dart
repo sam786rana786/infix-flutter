@@ -53,4 +53,8 @@ class InfixApi {
     return base_api+"exam-schedule/$id/$code";
   }
 
+   static String getStudentAttendence(int id,int month,int year){
+    return base_api+"student-my-attendance/$id?month=$month&year=$year";
+  }
+
 }

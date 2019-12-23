@@ -16,6 +16,7 @@ import 'package:infixedu/screens/StudentHomework.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:infixedu/screens/Profile.dart';
 import 'package:infixedu/screens/Fees.dart';
+import 'package:infixedu/utils/widget/StudentAttendance.dart';
 
 class AppFunction {
   static var students = [
@@ -155,6 +156,10 @@ class AppFunction {
       case 'Examination':
         Navigator.push(context,
             ScaleRoute(page: ExaminationHome(examinations, examinationIcons)));
+        break;
+      case 'Attendance':
+        Navigator.push(context,
+            ScaleRoute(page: StudentAttendance()));
         break;
     }
   }

@@ -6,8 +6,8 @@ class ClassExamName{
 
   factory ClassExamName.fromJson(Map<String,dynamic> json){
     return ClassExamName(
+      examId: json['exam_id'],
       examName: json['exam_name'],
-      examId: json['exam_id']
     );
   }
 }

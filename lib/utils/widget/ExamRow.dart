@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:infixedu/utils/modal/ClassExamList.dart';
+
+import '../FunctinsData.dart';
 
 class Student_Exam_row extends StatelessWidget {
+
+  classExam exam;
+
+
+  Student_Exam_row(this.exam);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +35,7 @@ class Student_Exam_row extends StatelessWidget {
                           height: 10.0,
                         ),
                         Text(
-                          'Bangla',
+                          exam.subjectName == null ? 'N/A':exam.subjectName,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),
@@ -49,7 +58,7 @@ class Student_Exam_row extends StatelessWidget {
                           height: 10.0,
                         ),
                         Text(
-                          'Room-101',
+                            exam.roomNo == null ? 'N/A':exam.roomNo,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),
@@ -72,7 +81,7 @@ class Student_Exam_row extends StatelessWidget {
                           height: 10.0,
                         ),
                         Text(
-                          '2019-09-29',
+                        exam.date == null ? 'N/A':exam.date,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),
@@ -95,7 +104,7 @@ class Student_Exam_row extends StatelessWidget {
                           height: 10.0,
                         ),
                         Text(
-                          '9.00AM',
+                        exam.startTime == null ? 'N/A': AppFunction.getAmPm(exam.startTime),
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),
@@ -118,7 +127,7 @@ class Student_Exam_row extends StatelessWidget {
                           height: 10.0,
                         ),
                         Text(
-                          '12.00AM',
+                        exam.endTime == null ? 'N/A': AppFunction.getAmPm(exam.endTime),
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),

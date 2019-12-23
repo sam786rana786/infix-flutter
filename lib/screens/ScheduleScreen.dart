@@ -17,7 +17,6 @@ class ScheduleScreen extends StatefulWidget {
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
   var _selected;
-  var _data = ['mamunu','hossain','munna','mia'];
 
   Future<ClassExamList> exams;
   Future<classExamScheduleList> examlist;
@@ -31,8 +30,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       setState(() {
         id = int.parse(value);
         exams = getAllClassExam(int.parse(value));
+        examlist = getAllClassExamSchedule(id, code);
         exams.then((val) {
-          _selected = _data[0];
+          _selected = val.exams[0].examName;
+          code = val.exams[0].examId;
         });
       });
     });
@@ -80,18 +81,24 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       child: DropdownButton(
         elevation: 0,
         isExpanded: true,
-        items: _data.map((item) {
-          return DropdownMenuItem(
-            value: item,
-            child: Text(item),
+        items: exams.map((item) {
+          return DropdownMenuItem<String>(
+            value: item.examName,
+            child: Text(item.examName),
           );
         }).toList(),
         style: Theme.of(context).textTheme.display1.copyWith(fontSize: 15.0),
         onChanged: (value) {
           setState(() {
             _selected = value;
+
+            code = getExamCode(exams, value);
+
             debugPrint('User select $value');
-            //examlist = getAllClassExamSchedule(id, )
+
+            examlist = getAllClassExamSchedule(id, code);
+
+            getExamList();
           });
         },
         value: _selected,
@@ -100,13 +107,34 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   }
 
   Widget getExamList() {
-    return ListView.builder(
-      itemCount: 10,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return Student_Exam_row();
+    return FutureBuilder<classExamScheduleList>(
+      future: examlist,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data.exams.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Student_Exam_row(snapshot.data.exams[index]);
+            },
+          );
+        } else {
+          return Center(child: Text("loading..."));
+        }
       },
     );
+  }
+
+  int getExamCode(List<ClassExamName> exams, String title) {
+    int code;
+
+    for (ClassExamName exam in exams) {
+      if (exam.examName == title) {
+        code = exam.examId;
+        break;
+      }
+    }
+    return code;
   }
 
   Future<ClassExamList> getAllClassExam(int id) async {
