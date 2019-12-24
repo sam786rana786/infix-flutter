@@ -13,6 +13,7 @@ class StudentAttendance{
 }
 
 class StudentAttendanceList{
+
   List<StudentAttendance> attendances;
 
   StudentAttendanceList(this.attendances);

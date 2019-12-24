@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter/material.dart';
+import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/StudentAttendance.dart';
@@ -9,12 +10,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'AppBarWidget.dart';
 
-class StudentAttendance extends StatefulWidget {
+class StudentAttendanceScreen extends StatefulWidget {
   @override
-  _StudentAttendanceState createState() => _StudentAttendanceState();
+  _StudentAttendanceScreenState createState() => _StudentAttendanceScreenState();
 }
 
-class _StudentAttendanceState extends State<StudentAttendance> {
+class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 
   int id;
   Future<StudentAttendanceList> attendances;
@@ -26,6 +27,8 @@ class _StudentAttendanceState extends State<StudentAttendance> {
     Utils.getStringValue('id').then((value) {
       setState(() {
         id = int.parse(value);
+        DateTime date = DateTime.now();
+        attendances = getAllStudentAttendance(id, date.month, date.year);
       });
     });
   }
@@ -54,6 +57,9 @@ class _StudentAttendanceState extends State<StudentAttendance> {
                 onDayPressed: (DateTime date, List<Event> events) {
                   this.setState(() => _currentDate = date);
                 },
+                onCalendarChanged: (DateTime date){
+                  attendances = getAllStudentAttendance(id, date.month, date.year);
+                },
                 weekendTextStyle: Theme.of(context).textTheme.title,
                 thisMonthDayBorderColor: Colors.grey,
                 daysTextStyle: Theme.of(context).textTheme.display1,
@@ -80,12 +86,12 @@ class _StudentAttendanceState extends State<StudentAttendance> {
                   /// If you return null, [CalendarCarousel] will build container for current [day] with default function.
                   /// This way you can build custom containers for specific days only, leaving rest as default.
 
-                  if(isThisMonthDay){
-                    //Utils.showToast(day.year.toString()+day.month.toString());
-
-                    attendances = getAllStudentAttendance(id, day.month, day.year);
-
-                  }
+//                  if(isThisMonthDay){
+//                    Utils.showToast(day.year.toString()+day.month.toString());
+//
+//                    attendances = getAllStudentAttendance(id, day.month, day.year);
+//
+//                  }
 
                   // Example: every 15th of month, we have a flight, we can place an icon in the container like that:
                   if (isThisMonthDay) {
@@ -93,6 +99,13 @@ class _StudentAttendanceState extends State<StudentAttendance> {
                       future: attendances,
                       builder: (context,snapshot){
                         if(snapshot.hasData){
+
+                          //Utils.showToast(getAttendanceStatus(day.day, snapshot.data.attendances));
+
+                          print('${day.day} status ${getAttendanceStatus(day.day, snapshot.data.attendances)}');
+
+                          String status = getAttendanceStatus(day.day, snapshot.data.attendances);
+
                           return Center(
                             child: Container(
                               child: Row(
@@ -104,7 +117,7 @@ class _StudentAttendanceState extends State<StudentAttendance> {
                                     width: 5.0,
                                     height: 5.0,
                                     decoration: BoxDecoration(
-                                      color: Colors.red,
+                                      color: getStatusColor(status),
                                       borderRadius: BorderRadius.circular(5.0),
                                     ),
                                   )
@@ -178,12 +191,13 @@ class _StudentAttendanceState extends State<StudentAttendance> {
 
 
   Future<StudentAttendanceList> getAllStudentAttendance(int id,int month,int year) async {
+
+    debugPrint('call');
+
     final response = await http.get(InfixApi.getStudentAttendence(id,month,year));
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
-
-      Utils.showToast(jsonData['data']['attendances'].toString());
 
       return StudentAttendanceList.fromJson(jsonData['data']['attendances']);
     } else {
@@ -191,4 +205,54 @@ class _StudentAttendanceState extends State<StudentAttendance> {
     }
   }
 
+  String getAttendanceStatus(int date,List<StudentAttendance> attendances){
+    if(date < 10){
+      return getStatus(0,9,attendances,date);
+    }else if(date >= 10 && date < 20){
+      return getStatus(10,19,attendances,date);
+    }else{
+      return getStatus(0,attendances.length - 1,attendances,date);
+    }
+  }
+
+  String getStatus(int i,int j, List<StudentAttendance> attendances,int date) {
+    String status;
+    for(int a = i ; a <= j ; a++){
+      if(a < 10){
+        if(AppFunction.getDay(attendances[a].date).substring(1) == date.toString()){
+          status = attendances[a].type;
+          break;
+        }
+      }else{
+        if(AppFunction.getDay(attendances[a].date) == date.toString()){
+          status = attendances[a].type;
+          break;
+      }
+     }
+    }
+    return status;
+  }
+
+  getStatusColor(String status) {
+    switch(status){
+      case 'P':
+        return Colors.green;
+        break;
+      case 'A':
+        return Colors.red;
+        break;
+      case 'L':
+        return Colors.yellow;
+        break;
+      case 'H':
+        return Colors.purpleAccent;
+        break;
+      case 'F':
+        return Colors.deepPurple;
+        break;
+      default:
+        return Colors.black12;
+        break;
+    }
+  }
 }

@@ -159,7 +159,7 @@ class AppFunction {
         break;
       case 'Attendance':
         Navigator.push(context,
-            ScaleRoute(page: StudentAttendance()));
+            ScaleRoute(page: StudentAttendanceScreen()));
         break;
     }
   }
@@ -214,4 +214,10 @@ class AppFunction {
     var parts = url.split("/");
     return parts[parts.length - 1];
   }
+
+  static String getDay(String date) {
+    var parts = date.split("-");
+    return parts[parts.length - 1];
+  }
+
 }

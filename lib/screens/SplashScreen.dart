@@ -126,7 +126,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
                       child: Container(
                         alignment: Alignment.bottomCenter,
                         child: LinearProgressIndicator(
-                          backgroundColor: Colors.purple,
+                          backgroundColor: Colors.transparent,
                         ),
                       ),
                     ),
