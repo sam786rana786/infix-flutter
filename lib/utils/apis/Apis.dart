@@ -57,4 +57,11 @@ class InfixApi {
     return base_api+"student-my-attendance/$id?month=$month&year=$year";
   }
 
+  static String getStudentOnlineResult(int id,int exam_id){
+    return base_api+"online-exam-result/$id/$exam_id";
+  }
+  static String getStudentClassExamResult(int id,int exam_id){
+    return base_api+"exam-result/$id/$exam_id";
+  }
+
 }

@@ -20,7 +20,6 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   int id;
   Future<StudentAttendanceList> attendances;
 
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -58,7 +57,9 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                   this.setState(() => _currentDate = date);
                 },
                 onCalendarChanged: (DateTime date){
-                  attendances = getAllStudentAttendance(id, date.month, date.year);
+                  setState(() {
+                    attendances = getAllStudentAttendance(id, date.month, date.year);
+                  });
                 },
                 weekendTextStyle: Theme.of(context).textTheme.title,
                 thisMonthDayBorderColor: Colors.grey,
@@ -98,11 +99,11 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                     return FutureBuilder<StudentAttendanceList>(
                       future: attendances,
                       builder: (context,snapshot){
-                        if(snapshot.hasData){
+                        if(snapshot.hasData && snapshot.data != null){
 
                           //Utils.showToast(getAttendanceStatus(day.day, snapshot.data.attendances));
 
-                          print('${day.day} status ${getAttendanceStatus(day.day, snapshot.data.attendances)}');
+                          //print('${day.day} status ${getAttendanceStatus(day.day, snapshot.data.attendances)}');
 
                           String status = getAttendanceStatus(day.day, snapshot.data.attendances);
 
@@ -135,7 +136,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                                 ],
                               ),
                             ),
-                          );;
+                          );
                         }
                       },
                     );
@@ -155,11 +156,11 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
               height: MediaQuery.of(context).size.height/3,
               child: ListView(
                children: <Widget>[
-                 BottomDesign('Present','10 Days',Colors.green),
-                 BottomDesign('Absent','10 Days',Colors.red),
-                 BottomDesign('Late','10 Days',Colors.yellow),
-                 BottomDesign('Halfday','10 Days',Colors.purpleAccent),
-                 BottomDesign('Holiday','10 Days',Colors.deepPurpleAccent),
+                 bottomDesign('Present','P',Colors.green),
+                 bottomDesign('Absent','A',Colors.red),
+                 bottomDesign('Late','L',Colors.yellow),
+                 bottomDesign('Halfday','H',Colors.purpleAccent),
+                 bottomDesign('Holiday','F',Colors.deepPurpleAccent),
                ],
               ),
             )
@@ -169,23 +170,33 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     );
   }
 
-  Widget BottomDesign(String title,String titleVal,Color color){
-    return Center(
-      child: Row(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 5.0),
-            height: 30.0,
-            width: 60.0,
-            decoration: BoxDecoration(
-              color: color,
-            ),
-          ),
-          SizedBox(width: 10.0,),
-          Expanded(child: Text(title,style: Theme.of(context).textTheme.headline.copyWith(color: Colors.black45,fontWeight: FontWeight.w500),)),
-          Text(titleVal,style: Theme.of(context).textTheme.headline),
-        ],
-      ),
+  Widget bottomDesign(String title,String titleVal,Color color){
+
+    return FutureBuilder<StudentAttendanceList>(
+        future: attendances,
+        builder: (context,snapshot){
+          if(snapshot.hasData){
+              return  Center(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 5.0),
+                      height: 30.0,
+                      width: 60.0,
+                      decoration: BoxDecoration(
+                        color: color,
+                      ),
+                    ),
+                    SizedBox(width: 10.0,),
+                    Expanded(child: Text(title,style: Theme.of(context).textTheme.headline.copyWith(color: Colors.black45,fontWeight: FontWeight.w500),)),
+                    Text(getStatusCount(titleVal,snapshot.data.attendances),style: Theme.of(context).textTheme.headline),
+                  ],
+                ),
+              );
+          }else{
+            return Text('Loading...');
+          }
+        }
     );
   }
 
@@ -255,4 +266,16 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
         break;
     }
   }
+
+  String getStatusCount(String titleVal, List<StudentAttendance> attendances) {
+    int count = 0;
+    for(int i = 0 ; i < attendances.length; i++){
+      if(attendances[i].type == titleVal){
+        count = count + 1;
+      }
+    }
+    //debugPrint('count $count');
+    return '$count days';
+  }
+
 }

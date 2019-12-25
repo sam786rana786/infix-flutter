@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/screens/BookIssuedScreen.dart';
 import 'package:infixedu/screens/BookListScreen.dart';
+import 'package:infixedu/screens/ClassExamResult.dart';
 import 'package:infixedu/screens/Dormitory.dart';
 import 'package:infixedu/screens/ExaminationScreen.dart';
 import 'package:infixedu/screens/LibraryScreen.dart';
 import 'package:infixedu/screens/NoticeScreen.dart';
+import 'package:infixedu/screens/OnlineExamScreen.dart';
 import 'package:infixedu/screens/ScheduleScreen.dart';
 import 'package:infixedu/screens/StudentTeacher.dart';
 import 'package:infixedu/screens/SubjectScreen.dart';
@@ -90,6 +92,14 @@ class AppFunction {
     'images/fees_icon.png',
   ];
 
+  static var onlineExaminations = [
+    'Active Exam',
+    'Exam Result',
+  ];
+  static var onlineExaminationIcons = [
+    'images/fees_icon.png',
+    'images/fees_icon.png',
+  ];
   static void getFunctions(BuildContext context, String rule) {
     Route route;
 
@@ -157,6 +167,10 @@ class AppFunction {
         Navigator.push(context,
             ScaleRoute(page: ExaminationHome(examinations, examinationIcons)));
         break;
+      case 'Online Exam':
+        Navigator.push(context,
+            ScaleRoute(page: OnlineExaminationHome(onlineExaminations, onlineExaminationIcons)));
+        break;
       case 'Attendance':
         Navigator.push(context,
             ScaleRoute(page: StudentAttendanceScreen()));
@@ -175,6 +189,17 @@ class AppFunction {
     }
   }
   static void getExaminationDashboardPage(BuildContext context, String title) {
+    switch (title) {
+      case 'Schedule':
+        Navigator.push(context, ScaleRoute(page: ScheduleScreen()));
+        break;
+      case 'Result':
+        Navigator.push(context, ScaleRoute(page: ClassExamResultScreen()));
+        break;
+    }
+  }
+
+  static void getOnlineExaminationDashboardPage(BuildContext context, String title) {
     switch (title) {
       case 'Schedule':
         Navigator.push(context, ScaleRoute(page: ScheduleScreen()));

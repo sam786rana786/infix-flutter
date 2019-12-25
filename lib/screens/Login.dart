@@ -113,19 +113,36 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                           ),
                           onTap: () {
-                            setState(() {
-                              if (_formKey.currentState.validate()) {
 
-                                String email = emailController.text;
-                                String password = passwordController.text;
+                            String email = emailController.text;
+                            String password = passwordController.text;
 
-                                Login(email, password).getData(context).then((result)=>{
-                                  if(result){
-                                    debugPrint('success')
-                                  }
-                                });
-                              }
-                            });
+                            if(email.length > 5 && password.length > 5){
+                              Login(email, password).getData(context).then((result)=>{
+                                if(result){
+                                  debugPrint('success')
+                                }
+                              });
+                            }else{
+                              Utils.showToast('invalid email and password');
+                            }
+//                            setState(() {
+//                              if (_formKey.currentState.validate()) {
+//
+//                                Utils.showToast('${emailController.text}  ${passwordController.text}');
+//
+//                                String email = emailController.text;
+//                                String password = passwordController.text;
+//
+//                                debugPrint('$email  $password');
+//
+//                                Login(email, password).getData(context).then((result)=>{
+//                                  if(result){
+//                                    debugPrint('success')
+//                                  }
+//                                });
+//                              }
+//                            });
                           },
                         ),
                       ],
