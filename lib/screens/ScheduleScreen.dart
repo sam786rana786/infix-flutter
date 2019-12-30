@@ -34,6 +34,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         exams.then((val) {
           _selected = val.exams[0].examName;
           code = val.exams[0].examId;
+          examlist = getAllClassExamSchedule(id, code);
         });
       });
     });

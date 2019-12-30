@@ -52,10 +52,22 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
       child: Scaffold(
         appBar: AppBarWidget.header(context,'Result'),
         backgroundColor: Colors.white,
-        body: ListView.builder(
-          itemCount: 10,
-          itemBuilder: (context,index){
-            return ClassExamResultRow();
+        body: FutureBuilder<ClassExamList>(
+          future: exams,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                children: <Widget>[
+                  getDropdown(snapshot.data.exams),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  Expanded(child: getExamResultList())
+                ],
+              );
+            } else {
+              return Center(child: Text("loading..."));
+            }
           },
         ),
       ),
@@ -100,7 +112,7 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
     await http.get(InfixApi.getStudentClassExamResult(id, code));
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
-      return ClassExamResultList.fromJson(jsonData['data']);
+      return ClassExamResultList.fromJson(jsonData['data']['exam_result']);
     } else {
       throw Exception('Failed to load');
     }
@@ -134,11 +146,12 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
       future: results,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+
           return ListView.builder(
             itemCount: snapshot.data.results.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return ClassExamResultRow();
+              return ClassExamResultRow(snapshot.data.results[index]);
             },
           );
         } else {

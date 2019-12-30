@@ -15,6 +15,7 @@ import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
 import 'package:infixedu/screens/StudentHomework.dart';
+import 'package:infixedu/screens/teacher/StudentSearch.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:infixedu/screens/Profile.dart';
 import 'package:infixedu/screens/Fees.dart';
@@ -52,6 +53,30 @@ class AppFunction {
     'images/library.png',
     'images/transport.png',
     'images/dormitory.png'
+  ];
+
+  static var teachers = [
+    'Students',
+    'Academics',
+    'Attendance',
+    'Leave',
+    'Contents',
+    'Notice',
+    'Library',
+    'Homework',
+    'About',
+  ];
+
+  static var teachersIcons = [
+    'images/students.png',
+    'images/academics.png',
+    'images/attendance.png',
+    'images/leave.png',
+    'images/contents.png',
+    'images/notice.png',
+    'images/library.png',
+    'images/homework.png',
+    'images/about.png',
   ];
 
   static var admins = [
@@ -121,7 +146,7 @@ class AppFunction {
         break;
       case '4':
         route = MaterialPageRoute(
-            builder: (context) => Home(students, studentIcons));
+            builder: (context) => Home(teachers, teachersIcons));
         Navigator.pushReplacement(context, route);
         break;
     }
@@ -178,7 +203,15 @@ class AppFunction {
     }
   }
 
-  static void getLibraryDashboardPage(BuildContext context, String title) {
+  static void getTeacherDashboardPage(BuildContext context, String title) {
+    switch (title) {
+      case 'Students':
+        Navigator.push(context, ScaleRoute(page: StudentSearch()));
+        break;
+    }
+  }
+
+    static void getLibraryDashboardPage(BuildContext context, String title) {
     switch (title) {
       case 'Book List':
         Navigator.push(context, ScaleRoute(page: BookListScreen()));

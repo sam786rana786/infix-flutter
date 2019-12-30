@@ -1,8 +1,8 @@
 class ClassExamResult{
   String examName;
   String subject;
-  String marks;
-  String obtains;
+  int marks;
+  int obtains;
   String grade;
 
 
@@ -13,7 +13,7 @@ class ClassExamResult{
     return ClassExamResult(
       examName: json['exam_name'],
       subject: json['subject_name'],
-      marks: json['exam_mark'],
+      marks: json['total_marks'],
       obtains: json['obtained_marks'],
       grade: json['grade']
     );

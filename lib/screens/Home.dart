@@ -109,7 +109,11 @@ class _HomeState extends State<Home> {
               onSelect: () {
                 setState(() {
                   currentSelectedIndex = index;
-                  AppFunction.getDashboardPage(context, _titles[index]);
+                  if(_rule == '2'){
+                    AppFunction.getDashboardPage(context, _titles[index]);
+                  }else if(_rule == '4'){
+                    AppFunction.getTeacherDashboardPage(context, _titles[index]);
+                  }
                 });
               },
               headline: _titles[index],
@@ -261,10 +265,9 @@ showAlertDialog(BuildContext context) {
   Widget yesButton = FlatButton(
     child: Text("yes"),
     onPressed: () {
-      Route route = MaterialPageRoute(builder: (context) => LoginScreen());
       Utils.clearAllValue();
-      prefix0.Navigator.pop(context);
-      Navigator.pushReplacement(context, route);
+      Route route = MaterialPageRoute(builder: (context) => LoginScreen());
+      Navigator.pushAndRemoveUntil(context, route,ModalRoute.withName('/'));
     },
   );
 

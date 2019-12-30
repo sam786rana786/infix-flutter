@@ -1,13 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:infixedu/utils/modal/ClassExam.dart';
 
 class ClassExamResultRow extends StatefulWidget {
 
+  ClassExamResult result;
+
+
+  ClassExamResultRow(this.result);
+
   @override
-  _DormitoryScreenState createState() => _DormitoryScreenState();
+  _DormitoryScreenState createState() => _DormitoryScreenState(result);
 }
 
 class _DormitoryScreenState extends State<ClassExamResultRow> {
+
+  ClassExamResult result;
+
+  _DormitoryScreenState(this.result);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +28,7 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Mid One',
+              result.examName,
               textAlign: TextAlign.start,
               style: Theme.of(context).textTheme.title.copyWith(fontSize: 15.0),
             ),
@@ -42,7 +52,7 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                           height: 10.0,
                         ),
                         Text(
-                          'Bangla',
+                          result.subject,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),
@@ -65,7 +75,7 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                           height: 10.0,
                         ),
                         Text(
-                          '100',
+                          result.marks.toString(),
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),
@@ -88,7 +98,7 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                           height: 10.0,
                         ),
                         Text(
-                          '80',
+                          result.obtains.toString(),
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),
@@ -111,7 +121,7 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                           height: 10.0,
                         ),
                         Text(
-                          'A+',
+                          result.grade,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),

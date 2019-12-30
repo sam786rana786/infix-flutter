@@ -64,4 +64,23 @@ class InfixApi {
     return base_api+"exam-result/$id/$exam_id";
   }
 
+  static String getStudentByClass(int mClass){
+    return base_api+"search-student?class=$mClass";
+  }
+  static String getStudentByName(String name){
+    return base_api+"search-student?name=$name";
+  }
+  static String getStudentByRoll(String roll){
+    return base_api+"search-student?roll_no=$roll";
+  }
+  static String getStudentByClassAndSection(int mClass,int mSection){
+    return base_api+"search-student?section=$mSection&class=$mClass";
+  }
+  static String getSectionById(int id,int classId){
+    return base_api+"teacher-section-list?id=$id&class=$classId";
+  }
+  static String getClassById(int id){
+    return base_api+"teacher-class-list?id=$id";
+  }
+
 }
