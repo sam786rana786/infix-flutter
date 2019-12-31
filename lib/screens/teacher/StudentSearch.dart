@@ -4,13 +4,13 @@ import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Classes.dart';
 import 'package:infixedu/utils/modal/Section.dart';
+import 'package:infixedu/utils/modal/Student.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
-
-import 'StudentList.dart';
+import 'StudentListScreen.dart';
+import 'StudentSearchNameAndRoll.dart';
 
 class StudentSearch extends StatefulWidget {
   @override
@@ -25,11 +25,9 @@ class _StudentSearchState extends State<StudentSearch> {
   String _selectedSection;
   TextEditingController nameController = TextEditingController();
   TextEditingController rollController = TextEditingController();
-
-//  final classes = ['one', 'two', 'three'];
-//  final sections = ['A', 'B', 'C'];
   Future<ClassList> classes;
   Future<SectionList> sections;
+  String url;
 
   @override
   void didChangeDependencies() {
@@ -42,7 +40,7 @@ class _StudentSearchState extends State<StudentSearch> {
           _selectedClass = value.classes[0].name;
           classId = value.classes[0].id;
           sections = getAllSection(int.parse(_id), classId);
-          sections.then((sectionValue){
+          sections.then((sectionValue) {
             _selectedSection = sectionValue.Sections[0].name;
             sectionId = sectionValue.Sections[0].id;
           });
@@ -53,10 +51,7 @@ class _StudentSearchState extends State<StudentSearch> {
 
   @override
   Widget build(BuildContext context) {
-    final double statusBarHeight = MediaQuery
-        .of(context)
-        .padding
-        .top;
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: Colors.indigo, //or set color with: Color(0xFF0000FF)
@@ -94,20 +89,13 @@ class _StudentSearchState extends State<StudentSearch> {
                         padding: const EdgeInsets.all(10.0),
                         child: TextFormField(
                           keyboardType: TextInputType.text,
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .display1,
+                          style: Theme.of(context).textTheme.display1,
                           controller: nameController,
                           decoration: InputDecoration(
                               hintText: "Search by name",
                               labelText: "Name",
-                              labelStyle: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .display1,
-                              errorStyle:
-                              TextStyle(
+                              labelStyle: Theme.of(context).textTheme.display1,
+                              errorStyle: TextStyle(
                                   color: Colors.pinkAccent, fontSize: 15.0),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0),
@@ -118,20 +106,13 @@ class _StudentSearchState extends State<StudentSearch> {
                         padding: const EdgeInsets.all(10.0),
                         child: TextFormField(
                           keyboardType: TextInputType.text,
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .display1,
+                          style: Theme.of(context).textTheme.display1,
                           controller: rollController,
                           decoration: InputDecoration(
                               hintText: "Search by roll",
                               labelText: "Roll",
-                              labelStyle: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .display1,
-                              errorStyle:
-                              TextStyle(
+                              labelStyle: Theme.of(context).textTheme.display1,
+                              errorStyle: TextStyle(
                                   color: Colors.pinkAccent, fontSize: 15.0),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0),
@@ -141,16 +122,11 @@ class _StudentSearchState extends State<StudentSearch> {
                       GestureDetector(
                         child: Padding(
                           padding: EdgeInsets.only(
-                              top: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .height / 2 - 100),
+                              top:
+                                  MediaQuery.of(context).size.height / 2 - 100),
                           child: Container(
                             alignment: Alignment.center,
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width,
+                            width: MediaQuery.of(context).size.width,
                             height: 50.0,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20.0),
@@ -158,12 +134,11 @@ class _StudentSearchState extends State<StudentSearch> {
                             ),
                             child: Text(
                               "Search",
-                              style: Theme
-                                  .of(context)
+                              style: Theme.of(context)
                                   .textTheme
                                   .display1
                                   .copyWith(
-                                  color: Colors.white, fontSize: 16.0),
+                                      color: Colors.white, fontSize: 16.0),
                             ),
                           ),
                         ),
@@ -171,15 +146,62 @@ class _StudentSearchState extends State<StudentSearch> {
                           String name = nameController.text;
                           String roll = rollController.text;
 
-                          Navigator.push(context, ScaleRoute(page: StudentList()));
-
-                          if (!name.isEmpty) {
-                            Utils.showToast('$name');
-                          } else if (!roll.isEmpty) {
-                            Utils.showToast('$roll');
+                          if (name.isNotEmpty) {
+                            url = InfixApi.getStudentByName(name);
+                            Navigator.push(
+                                context,
+                                ScaleRoute(
+                                    page: StudentSearchNameRoll(
+                                  name: name,
+                                  url: url,
+                                )));
+                          } else if (roll.isNotEmpty) {
+                            url = InfixApi.getStudentByRoll(roll);
+                            Navigator.push(
+                                context,
+                                ScaleRoute(
+                                    page: StudentSearchNameRoll(
+                                  roll: roll,
+                                  url: url,
+                                )));
                           } else {
-                            Utils.showToast('invalid email and password');
+                            url = InfixApi.getStudentByClassAndSection(
+                                classId, sectionId);
+                            Navigator.push(
+                                context,
+                                ScaleRoute(
+                                    page: StudentListScreen(
+                                  classCode: classId,
+                                  sectionCode: sectionId,
+                                  url: url,
+                                )));
                           }
+//
+//                          if (!name.isEmpty) {
+//                            Utils.showToast('$name');
+//                            Navigator.push(
+//                                context,
+//                                ScaleRoute(
+//                                    page: StudentListScreen(
+//                                  name: name,
+//                                )));
+//                          } else if (!roll.isEmpty) {
+//                            Utils.showToast('$roll');
+//                            Navigator.push(
+//                                context,
+//                                ScaleRoute(
+//                                    page: StudentListScreen(
+//                                  roll: roll,
+//                                )));
+//                          } else {
+//                            Navigator.push(
+//                                context,
+//                                ScaleRoute(
+//                                    page: StudentListScreen(
+//                                  classCode: classId,
+//                                  sectionCode: sectionId,
+//                                )));
+//                          }
                         },
                       )
                     ],
@@ -196,12 +218,8 @@ class _StudentSearchState extends State<StudentSearch> {
   }
 
   Widget getClassDropdown(List<Classes> classes) {
-
     return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: DropdownButton(
         elevation: 0,
@@ -215,11 +233,7 @@ class _StudentSearchState extends State<StudentSearch> {
             ),
           );
         }).toList(),
-        style: Theme
-            .of(context)
-            .textTheme
-            .display1
-            .copyWith(fontSize: 15.0),
+        style: Theme.of(context).textTheme.display1.copyWith(fontSize: 15.0),
         onChanged: (value) {
           setState(() {
             _selectedClass = value;
@@ -235,12 +249,8 @@ class _StudentSearchState extends State<StudentSearch> {
   }
 
   Widget getSectionDropdown(List<Section> sectionlist) {
-
     return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: DropdownButton(
         elevation: 0,
@@ -254,11 +264,7 @@ class _StudentSearchState extends State<StudentSearch> {
             ),
           );
         }).toList(),
-        style: Theme
-            .of(context)
-            .textTheme
-            .display1
-            .copyWith(fontSize: 15.0),
+        style: Theme.of(context).textTheme.display1.copyWith(fontSize: 15.0),
         onChanged: (value) {
           setState(() {
             _selectedSection = value;

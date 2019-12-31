@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:infixedu/utils/modal/Student.dart';
 
 class StudentRow extends StatefulWidget {
+
+  Student student;
+
+
+  StudentRow(this.student);
+
   @override
-  _StudentRowState createState() => _StudentRowState();
+  _StudentRowState createState() => _StudentRowState(student);
 }
 
 class _StudentRowState extends State<StudentRow> {
+
+  Student student;
+
+
+  _StudentRowState(this.student);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -13,11 +27,11 @@ class _StudentRowState extends State<StudentRow> {
         ListTile(
           leading: CircleAvatar(
             radius: 25.0,
-            backgroundImage: NetworkImage('https://i.imgur.com/BoN9kdC.png'),
+            backgroundImage: NetworkImage(InfixApi.root+student.photo),
             backgroundColor: Colors.transparent,
           ),
-          title: Text("Mamun Hossain",style: Theme.of(context).textTheme.title,),
-          subtitle: Text('Class : One | Section : A',style: Theme.of(context).textTheme.display1),
+          title: Text(student.name,style: Theme.of(context).textTheme.title,),
+          subtitle: Text('Class : ${student.className} | Section : ${student.sectionName}',style: Theme.of(context).textTheme.display1),
         ),
         Container(
           height: 0.5,
