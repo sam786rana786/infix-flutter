@@ -14,6 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     TextStyle textStyle = Theme.of(context).textTheme.title;
 
     return Scaffold(
@@ -116,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             String email = emailController.text;
                             String password = passwordController.text;
+
 
                             if(email.length > 5 && password.length > 5){
                               Login(email, password).getData(context).then((result)=>{

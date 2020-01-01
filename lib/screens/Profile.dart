@@ -11,8 +11,13 @@ import 'package:http/http.dart' as http;
 import 'package:infixedu/utils/apis/Apis.dart';
 
 class Profile extends StatefulWidget {
+  String id;
+  String image;
+
+  Profile({this.id,this.image});
+
   @override
-  _ProfileState createState() => _ProfileState();
+  _ProfileState createState() => _ProfileState(id: id,image: image);
 }
 
 class _ProfileState extends State<Profile> {
@@ -23,8 +28,12 @@ class _ProfileState extends State<Profile> {
   String section = 'personal';
   String _email;
   String _password;
-  var _images;
+  String id;
+  String image;
   ProfileService profileService;
+
+
+  _ProfileState({this.id,this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +72,7 @@ class _ProfileState extends State<Profile> {
                             return Align(
                               child: CircleAvatar(
                                 radius: 25.0,
-                                backgroundImage: NetworkImage(snapshot.data),
+                                backgroundImage: NetworkImage(image == null ? snapshot.data : image),
                                 backgroundColor: Colors.transparent,
                               ),
                             );
@@ -246,7 +255,7 @@ class _ProfileState extends State<Profile> {
         builder: (context, snapshot) {
           _password = snapshot.data;
 
-          profileService = ProfileService(_email, _password);
+          profileService = id == null ? ProfileService(email: _email,password: _password) : ProfileService(id: id);
 
           return Container(
             child: FutureBuilder(
@@ -280,7 +289,7 @@ class _ProfileState extends State<Profile> {
         future: Utils.getStringValue('password'),
         builder: (context, snapshot) {
           _password = snapshot.data;
-          profileService = ProfileService(_email, _password);
+          profileService = id == null ? ProfileService(email: _email,password: _password) : ProfileService(id: id);
 
           return FutureBuilder(
             future: profileService.fetchPersonalServices('profile'),

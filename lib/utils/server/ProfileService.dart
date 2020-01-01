@@ -6,9 +6,10 @@ import 'package:infixedu/utils/modal/InfixMap.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 
 class ProfileService {
-  String _email;
-  String _password;
-  ProfileService(this._email,this._password);
+  String email;
+  String password;
+  String id;
+  ProfileService({this.email,this.password,this.id});
 
   List<InfixMap> infixMap = List();
 
@@ -16,7 +17,7 @@ class ProfileService {
 
     infixMap.clear();
 
-    final response = await http.get(InfixApi.login(_email, _password));
+    final response = await http.get(id == null ? InfixApi.login(email, password) : InfixApi.getChildren(id));
 
     var jsonData = json.decode(response.body);
 

@@ -82,5 +82,17 @@ class InfixApi {
   static String getClassById(int id){
     return base_api+"teacher-class-list?id=$id";
   }
+   static String getChildren(String id){
+    return base_api+"childInfo/$id";
+  }
+  static String getTeacherSubject(int id){
+    return base_api+"subject/$id";
+  }
+  static String getTeacherMyRoutine(int id){
+    return base_api+"my-routine/$id";
+  }
+  static String getRoutineByClassAndSection(int id,int mClass,int mSection){
+    return base_api+"section-routine/$id/$mClass/$mSection";
+  }
 
 }

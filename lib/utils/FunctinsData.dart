@@ -15,7 +15,9 @@ import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
 import 'package:infixedu/screens/StudentHomework.dart';
+import 'package:infixedu/screens/teacher/MyRoutineScreen.dart';
 import 'package:infixedu/screens/teacher/StudentSearch.dart';
+import 'package:infixedu/utils/server/AcademicsScreen.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:infixedu/screens/Profile.dart';
 import 'package:infixedu/screens/Fees.dart';
@@ -125,6 +127,18 @@ class AppFunction {
     'images/fees_icon.png',
     'images/fees_icon.png',
   ];
+
+  static var academics = [
+    'My routine',
+    'Class routine',
+    'Subjects',
+  ];
+  static var academicsIcons = [
+    'images/myroutine.png',
+    'images/classroutine.png',
+    'images/subjects.png',
+  ];
+
   static void getFunctions(BuildContext context, String rule) {
     Route route;
 
@@ -208,10 +222,21 @@ class AppFunction {
       case 'Students':
         Navigator.push(context, ScaleRoute(page: StudentSearch()));
         break;
+      case 'Academics':
+        Navigator.push(context,  ScaleRoute(page: AcademicHomeScreen(academics, academicsIcons)));
+        break;
     }
   }
 
-    static void getLibraryDashboardPage(BuildContext context, String title) {
+  static void getAcademicDashboardPage(BuildContext context, String title) {
+    switch (title) {
+      case 'Subjects':
+        Navigator.push(context,  ScaleRoute(page: MySubjectScreen()));
+        break;
+    }
+  }
+
+  static void getLibraryDashboardPage(BuildContext context, String title) {
     switch (title) {
       case 'Book List':
         Navigator.push(context, ScaleRoute(page: BookListScreen()));
