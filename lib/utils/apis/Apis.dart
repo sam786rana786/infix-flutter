@@ -94,5 +94,8 @@ class InfixApi {
   static String getRoutineByClassAndSection(int id,int mClass,int mSection){
     return base_api+"section-routine/$id/$mClass/$mSection";
   }
+  static String attendance_data_send(String id,String atten,String date,String mClass,String mSection){
+    return base_api+"student-attendance-store?id="+id+"&attendance="+atten+"&date="+date+"&class="+mClass+"&section="+mSection;
+  }
 
 }

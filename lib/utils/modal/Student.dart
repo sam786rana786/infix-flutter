@@ -1,6 +1,7 @@
 class Student{
 
   int id;
+  int uid;
   String photo;
   String name;
   int roll;
@@ -8,7 +9,7 @@ class Student{
   String sectionName;
 
   Student({this.id, this.photo, this.name, this.roll, this.className,
-      this.sectionName});
+      this.sectionName,this.uid});
 
 
   factory Student.fromJson(Map<String,dynamic> json){
@@ -19,6 +20,7 @@ class Student{
       roll: json['roll_no'],
       className: json['class_name'],
       sectionName: json['section_name'],
+      uid: json['id'],
     );
   }
 }

@@ -11,20 +11,26 @@ import 'RoutineRowWidget.dart';
 
 class RoutineRow extends StatefulWidget {
 
-  String _title;
+  String title;
+  int classCode;
+  int sectionCode;
 
-  RoutineRow(this._title);
+
+  RoutineRow({this.title, this.classCode, this.sectionCode});
 
   @override
-  _ClassRoutineState createState() => _ClassRoutineState(_title);
+  _ClassRoutineState createState() => _ClassRoutineState(title,classCode,sectionCode);
 }
 
 class _ClassRoutineState extends State<RoutineRow> {
 
   String title;
+  int classCode;
+  int sectionCode;
   Future<ScheduleList> routine;
 
-  _ClassRoutineState(this.title);
+
+  _ClassRoutineState(this.title, this.classCode, this.sectionCode);
 
   @override
   void didChangeDependencies() {
@@ -32,7 +38,11 @@ class _ClassRoutineState extends State<RoutineRow> {
 
     Utils.getStringValue('id').then((value) {
       setState(() {
-        routine = fetchRoutine(int.parse(value), title);
+        if(classCode == null && sectionCode == null){
+          routine = fetchRoutine(int.parse(value), title);
+        }else{
+          routine = fetchRoutineByClsSec(int.parse(value), title);
+        }
       });
 
     });
@@ -98,7 +108,7 @@ class _ClassRoutineState extends State<RoutineRow> {
            }
 
          }else{
-           return Text("");
+           return Center(child: Text("....."));
          }
         },
       ),
@@ -120,6 +130,18 @@ class _ClassRoutineState extends State<RoutineRow> {
     }
   }
 
+  Future<ScheduleList> fetchRoutineByClsSec(int id,String title) async {
+    final response =
+    await http.get(InfixApi.getRoutineByClassAndSection(id,classCode,sectionCode));
 
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      // If server returns an OK response, parse the JSON.
+      return ScheduleList.fromJson(jsonData['data'][title]);
+    } else {
+      // If that response was not OK, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
 }
 

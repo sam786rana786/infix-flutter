@@ -341,11 +341,11 @@ Future<String> getImageUrl(String email, String password, String rule) async {
     Map<String, dynamic> user = jsonDecode(response.body) as Map;
 
     if (rule == '2')
-      image = user['data']['userDetails']['student_photo'];
+      image = InfixApi.root + user['data']['userDetails']['student_photo'];
     else
-      image = user['data']['userDetails']['staff_photo'];
+      image = InfixApi.root + user['data']['userDetails']['staff_photo'];
   }
-  return InfixApi.root + '$image';
+  return '$image';
 }
 
 void navigateToPreviousPage(BuildContext context) {

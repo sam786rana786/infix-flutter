@@ -15,9 +15,13 @@ import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
 import 'package:infixedu/screens/StudentHomework.dart';
-import 'package:infixedu/screens/teacher/MyRoutineScreen.dart';
+import 'package:infixedu/screens/teacher/AttendanceScreen.dart';
+import 'package:infixedu/screens/teacher/ClassAttendanceHome.dart';
+import 'package:infixedu/screens/teacher/MySubjectScreen.dart';
+import 'package:infixedu/screens/teacher/SearchClassRoutine.dart';
 import 'package:infixedu/screens/teacher/StudentSearch.dart';
-import 'package:infixedu/utils/server/AcademicsScreen.dart';
+import 'package:infixedu/screens/teacher/TeacherRoutineScreen.dart';
+import 'package:infixedu/screens/teacher/AcademicsScreen.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:infixedu/screens/Profile.dart';
 import 'package:infixedu/screens/Fees.dart';
@@ -129,14 +133,25 @@ class AppFunction {
   ];
 
   static var academics = [
-    'My routine',
-    'Class routine',
+    'My Routine',
+    'Class Routine',
     'Subjects',
   ];
   static var academicsIcons = [
     'images/myroutine.png',
     'images/classroutine.png',
     'images/subjects.png',
+  ];
+
+  static var attendance = [
+    'Class Atten',
+    'Search Atten',
+    'My Atten',
+  ];
+  static var attendanceIcons = [
+    'images/classattendance.png',
+    'images/searchattendance.png',
+    'images/myattendance.png',
   ];
 
   static void getFunctions(BuildContext context, String rule) {
@@ -225,6 +240,23 @@ class AppFunction {
       case 'Academics':
         Navigator.push(context,  ScaleRoute(page: AcademicHomeScreen(academics, academicsIcons)));
         break;
+      case 'Attendance':
+        Navigator.push(context,  ScaleRoute(page: AttendanceHomeScreen(attendance, attendanceIcons)));
+        break;
+    }
+  }
+
+  static void getAttendanceDashboardPage(BuildContext context, String title) {
+    switch (title) {
+      case 'Class Atten':
+        Navigator.push(context,  ScaleRoute(page: StudentAttendanceHome()));
+        break;
+      case 'Class routine':
+        Navigator.push(context,  ScaleRoute(page: SearchRoutineScreen()));
+        break;
+      case 'My routine':
+        Navigator.push(context,  ScaleRoute(page: TeacherMyRoutineScreen()));
+        break;
     }
   }
 
@@ -232,6 +264,12 @@ class AppFunction {
     switch (title) {
       case 'Subjects':
         Navigator.push(context,  ScaleRoute(page: MySubjectScreen()));
+        break;
+      case 'Class Routine':
+        Navigator.push(context,  ScaleRoute(page: SearchRoutineScreen()));
+        break;
+      case 'My Routine':
+        Navigator.push(context,  ScaleRoute(page: TeacherMyRoutineScreen()));
         break;
     }
   }

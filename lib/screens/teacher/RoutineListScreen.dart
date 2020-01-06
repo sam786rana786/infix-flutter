@@ -6,9 +6,14 @@ import 'package:infixedu/utils/modal/Schedule.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/Routine_row.dart';
 
-class Routine extends StatelessWidget {
+class StudentRoutine extends StatelessWidget {
 
   List<String> weeks = AppFunction.weeks;
+  int classCode;
+  int sectionCode;
+
+
+  StudentRoutine(this.classCode, this.sectionCode);
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +26,15 @@ class Routine extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-          appBar: AppBarWidget.header(context, 'Routine'),
-          backgroundColor: Colors.white,
-          body: ListView.builder(
-            itemCount: weeks.length,
-            itemBuilder: (context,index){
-              return RoutineRow(title:weeks[index]);
-            },
-          ),
+        appBar: AppBarWidget.header(context, 'Routine'),
+        backgroundColor: Colors.white,
+        body: ListView.builder(
+          itemCount: weeks.length,
+          itemBuilder: (context,index){
+            return RoutineRow(title:weeks[index],classCode: classCode,sectionCode: sectionCode,);
+          },
         ),
+      ),
     );
   }
 

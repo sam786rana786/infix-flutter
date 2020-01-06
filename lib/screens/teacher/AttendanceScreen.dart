@@ -10,17 +10,17 @@ import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 
 
-class AcademicHomeScreen extends StatefulWidget {
+class AttendanceHomeScreen extends StatefulWidget {
   var _titles;
   var _images;
 
-  AcademicHomeScreen(this._titles,this._images);
+  AttendanceHomeScreen(this._titles,this._images);
 
   @override
   _HomeState createState() => _HomeState(_titles,_images);
 }
 
-class _HomeState extends State<AcademicHomeScreen> {
+class _HomeState extends State<AttendanceHomeScreen> {
   bool isTapped;
   int currentSelectedIndex;
   String _id;
@@ -51,7 +51,7 @@ class _HomeState extends State<AcademicHomeScreen> {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-        appBar: AppBarWidget.header(context,'Library'),
+        appBar: AppBarWidget.header(context,'Academic'),
         backgroundColor: Colors.white,
         body: GridView.builder(
           itemCount: _titles.length,
@@ -64,7 +64,7 @@ class _HomeState extends State<AcademicHomeScreen> {
               onSelect: () {
                 setState(() {
                   currentSelectedIndex = index;
-                  AppFunction.getAcademicDashboardPage(context, _titles[index]);
+                  AppFunction.getAttendanceDashboardPage(context, _titles[index]);
                 });
               },
               headline: _titles[index],
