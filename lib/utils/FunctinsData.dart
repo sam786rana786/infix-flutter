@@ -15,17 +15,19 @@ import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
 import 'package:infixedu/screens/StudentHomework.dart';
+import 'package:infixedu/screens/teacher/AboutScreen.dart';
 import 'package:infixedu/screens/teacher/AttendanceScreen.dart';
 import 'package:infixedu/screens/teacher/ClassAttendanceHome.dart';
 import 'package:infixedu/screens/teacher/MySubjectScreen.dart';
 import 'package:infixedu/screens/teacher/SearchClassRoutine.dart';
 import 'package:infixedu/screens/teacher/StudentSearch.dart';
+import 'package:infixedu/screens/teacher/TeacherMyAttendance.dart';
 import 'package:infixedu/screens/teacher/TeacherRoutineScreen.dart';
 import 'package:infixedu/screens/teacher/AcademicsScreen.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:infixedu/screens/Profile.dart';
 import 'package:infixedu/screens/Fees.dart';
-import 'package:infixedu/utils/widget/StudentAttendance.dart';
+import 'package:infixedu/screens/StudentAttendance.dart';
 
 class AppFunction {
   static var students = [
@@ -243,6 +245,9 @@ class AppFunction {
       case 'Attendance':
         Navigator.push(context,  ScaleRoute(page: AttendanceHomeScreen(attendance, attendanceIcons)));
         break;
+        case 'About':
+        Navigator.push(context,  ScaleRoute(page: AboutScreen()));
+        break;
     }
   }
 
@@ -251,11 +256,11 @@ class AppFunction {
       case 'Class Atten':
         Navigator.push(context,  ScaleRoute(page: StudentAttendanceHome()));
         break;
-      case 'Class routine':
-        Navigator.push(context,  ScaleRoute(page: SearchRoutineScreen()));
+      case 'Search Atten':
+        Navigator.push(context,  ScaleRoute(page: StudentSearch(status: 'attendance',)));
         break;
-      case 'My routine':
-        Navigator.push(context,  ScaleRoute(page: TeacherMyRoutineScreen()));
+      case 'My Atten':
+        Navigator.push(context,  ScaleRoute(page: TeacherAttendanceScreen()));
         break;
     }
   }

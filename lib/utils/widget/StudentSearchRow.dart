@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/screens/Profile.dart';
+import 'package:infixedu/screens/StudentAttendance.dart';
 import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Student.dart';
@@ -9,26 +10,33 @@ import 'ScaleRoute.dart';
 class StudentRow extends StatefulWidget {
 
   Student student;
+  String status;
 
 
-  StudentRow(this.student);
+  StudentRow(this.student,{this.status});
 
   @override
-  _StudentRowState createState() => _StudentRowState(student);
+  _StudentRowState createState() => _StudentRowState(student,status: status);
 }
 
 class _StudentRowState extends State<StudentRow> {
 
   Student student;
+  String status;
 
 
-  _StudentRowState(this.student);
+  _StudentRowState(this.student,{this.status});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Navigator.push(context, ScaleRoute(page: Profile(id: student.id.toString(),image: InfixApi.root+student.photo,)));
+        if(status == 'attendance'){
+          Navigator.push(context,
+              ScaleRoute(page: StudentAttendanceScreen(id: student.id,)));
+        }else{
+          Navigator.push(context, ScaleRoute(page: Profile(id: student.id.toString(),image: InfixApi.root+student.photo,)));
+        }
       },
       splashColor: Colors.purple.shade200,
       child: Column(

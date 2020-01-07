@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:infixedu/utils/modal/GlobalClass.dart';
 import 'package:infixedu/utils/modal/Student.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,6 +20,7 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
   bool isSelected = true;
   String mClass,mSection,date;
   String atten = 'P';
+  var function = GlobalDatae();
 
   _StudentAttendanceRowState(this.student,this.mClass,this.mSection,this.date);
 
@@ -29,6 +31,7 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
         setState(() {
           isSelected = !isSelected;
           atten = isSelected ? 'P' : 'A';
+          isSelected ? function.sub():function.add();
           setAttendance();
         });
       },

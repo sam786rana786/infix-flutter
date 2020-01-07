@@ -48,7 +48,7 @@ class Profile_row_list extends StatelessWidget {
                 CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    _value,
+                    _value == null ? 'NA':_value,
                     style: Theme.of(context).textTheme.display1,
                     maxLines: 1,
                   ),

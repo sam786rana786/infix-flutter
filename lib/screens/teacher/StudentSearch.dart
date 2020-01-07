@@ -13,8 +13,12 @@ import 'StudentListScreen.dart';
 import 'StudentSearchNameAndRoll.dart';
 
 class StudentSearch extends StatefulWidget {
+  String status;
+
+  StudentSearch({this.status});
+
   @override
-  _StudentSearchState createState() => _StudentSearchState();
+  _StudentSearchState createState() => _StudentSearchState(status: status);
 }
 
 class _StudentSearchState extends State<StudentSearch> {
@@ -28,6 +32,9 @@ class _StudentSearchState extends State<StudentSearch> {
   Future<ClassList> classes;
   Future<SectionList> sections;
   String url;
+  String status;
+
+  _StudentSearchState({this.status});
 
   @override
   void didChangeDependencies() {
@@ -174,6 +181,7 @@ class _StudentSearchState extends State<StudentSearch> {
                                   classCode: classId,
                                   sectionCode: sectionId,
                                   url: url,
+                                  status: status,
                                 )));
                           }
 //

@@ -53,7 +53,11 @@ class InfixApi {
     return base_api+"exam-schedule/$id/$code";
   }
 
-   static String getStudentAttendence(int id,int month,int year){
+   static String getTeacherAttendence(int id,int month,int year){
+    return base_api+"my-attendance/$id?month=$month&year=$year";
+  }
+
+  static String getStudentAttendence(int id,int month,int year){
     return base_api+"student-my-attendance/$id?month=$month&year=$year";
   }
 
@@ -97,5 +101,6 @@ class InfixApi {
   static String attendance_data_send(String id,String atten,String date,String mClass,String mSection){
     return base_api+"student-attendance-store?id="+id+"&attendance="+atten+"&date="+date+"&class="+mClass+"&section="+mSection;
   }
+  static String ABOUT = base_api+"parent-about";
 
 }

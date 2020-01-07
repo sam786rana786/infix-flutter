@@ -14,9 +14,10 @@ class StudentListScreen extends StatefulWidget {
   String name;
   String roll;
   String url;
+  String status;
 
   StudentListScreen(
-      {this.classCode, this.sectionCode, this.name, this.roll, this.url});
+      {this.classCode, this.sectionCode, this.name, this.roll, this.url,this.status});
 
   @override
   _StudentListScreenState createState() => _StudentListScreenState(
@@ -24,7 +25,9 @@ class StudentListScreen extends StatefulWidget {
       sectionCode: sectionCode,
       name: name,
       roll: roll,
-      url: url);
+      url: url,
+      status: status
+  );
 }
 
 class _StudentListScreenState extends State<StudentListScreen> {
@@ -34,9 +37,10 @@ class _StudentListScreenState extends State<StudentListScreen> {
   String roll;
   String url;
   Future<StudentList> students;
+  String status;
 
   _StudentListScreenState(
-      {this.classCode, this.sectionCode, this.name, this.roll, this.url});
+      {this.classCode, this.sectionCode, this.name, this.roll, this.url,this.status});
 
   @override
   void didChangeDependencies() {
@@ -67,7 +71,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
               return ListView.builder(
                 itemCount: snapshot.data.students.length,
                 itemBuilder: (context, index) {
-                  return StudentRow(snapshot.data.students[index]);
+                  return StudentRow(snapshot.data.students[index],status: status,);
                 },
               );
             } else {

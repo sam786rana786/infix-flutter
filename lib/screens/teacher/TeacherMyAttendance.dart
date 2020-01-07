@@ -7,18 +7,18 @@ import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/StudentAttendance.dart';
 import 'package:http/http.dart' as http;
+import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'dart:convert';
-import 'AppBarWidget.dart';
 
-class StudentAttendanceScreen extends StatefulWidget {
+class TeacherAttendanceScreen extends StatefulWidget {
+
   @override
-  _StudentAttendanceScreenState createState() => _StudentAttendanceScreenState();
+  _TeacherAttendanceScreenState createState() => _TeacherAttendanceScreenState();
 }
 
-class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
-
-  int id;
+class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
   Future<StudentAttendanceList> attendances;
+  int id;
 
   @override
   void didChangeDependencies() {
@@ -27,7 +27,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
       setState(() {
         id = int.parse(value);
         DateTime date = DateTime.now();
-        attendances = getAllStudentAttendance(id, date.month, date.year);
+        attendances = getTeacherAttendance(id, date.month, date.year);
       });
     });
   }
@@ -46,7 +46,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBarWidget.header(context, 'Attendance'),
+        appBar: AppBarWidget.header(context, 'My Attendance'),
         backgroundColor: Colors.white,
         body: Column(
           children: <Widget>[
@@ -58,7 +58,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                 },
                 onCalendarChanged: (DateTime date){
                   setState(() {
-                    attendances = getAllStudentAttendance(id, date.month, date.year);
+                    attendances = getTeacherAttendance(id, date.month, date.year);
                   });
                 },
                 weekendTextStyle: Theme.of(context).textTheme.title,
@@ -70,8 +70,8 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 //      headerText: Container( /// Example for rendering custom header
 //        child: Text('Custom Header'),
 //      ),
-              showOnlyCurrentMonthDate: false,
-              headerTextStyle: Theme.of(context).textTheme.title.copyWith(fontSize: 15.0),
+                showOnlyCurrentMonthDate: false,
+                headerTextStyle: Theme.of(context).textTheme.title.copyWith(fontSize: 15.0),
                 weekdayTextStyle: Theme.of(context).textTheme.display1.copyWith(fontSize: 15.0,fontWeight: FontWeight.w500),
                 customDayBuilder: (   /// you can provide your own build function to make custom day containers
                     bool isSelectable,
@@ -95,54 +95,50 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 //                  }
 
                   // Example: every 15th of month, we have a flight, we can place an icon in the container like that:
-                  if (isThisMonthDay) {
-                    return FutureBuilder<StudentAttendanceList>(
-                      future: attendances,
-                      builder: (context,snapshot){
-                        if(snapshot.hasData && snapshot.data != null){
+                  return FutureBuilder<StudentAttendanceList>(
+                    future: attendances,
+                    builder: (context,snapshot){
+                      if(snapshot.hasData){
 
-                          //Utils.showToast(getAttendanceStatus(day.day, snapshot.data.attendances));
+                        //Utils.showToast(getAttendanceStatus(day.day, snapshot.data.attendances));
 
-                          //print('${day.day} status ${getAttendanceStatus(day.day, snapshot.data.attendances)}');
+                        //print('${day.day} status ${getAttendanceStatus(day.day, snapshot.data.attendances)}');
 
-                          String status = getAttendanceStatus(day.day, snapshot.data.attendances);
+                        String status = getAttendanceStatus(day.day, snapshot.data.attendances);
 
-                          return Center(
-                            child: Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(day.day.toString(),style: Theme.of(context).textTheme.display1.copyWith(color: isToday == true ? Colors.white : Color(0xFF727FC8))),
-                                  SizedBox(width: 2.0,),
-                                  Container(
-                                    width: 5.0,
-                                    height: 5.0,
-                                    decoration: BoxDecoration(
-                                      color: getStatusColor(status),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                  )
-                                ],
-                              ),
+                        return Center(
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(day.day.toString(),style: Theme.of(context).textTheme.display1.copyWith(color: isToday == true ? Colors.white : Color(0xFF727FC8))),
+                                SizedBox(width: 2.0,),
+                                Container(
+                                  width: 5.0,
+                                  height: 5.0,
+                                  decoration: BoxDecoration(
+                                    color: getStatusColor(status),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                )
+                              ],
                             ),
-                          );
-                        }else{
-                          return Center(
-                            child: Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(day.day.toString(),style: Theme.of(context).textTheme.display1.copyWith(color: isToday == true ? Colors.white : Color(0xFF727FC8))),
-                                ],
-                              ),
+                          ),
+                        );
+                      }else{
+                        return Center(
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(day.day.toString(),style: Theme.of(context).textTheme.display1.copyWith(color: isToday == true ? Colors.white : Color(0xFF727FC8))),
+                              ],
                             ),
-                          );
-                        }
-                      },
-                    );
-                  } else {
-                    return null;
-                  }
+                          ),
+                        );
+                      }
+                    },
+                  );
                 },
                 weekFormat: false,
                 markedDatesMap: _markedDateMap,
@@ -155,13 +151,13 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
               margin: EdgeInsets.symmetric(horizontal: 16.0),
               height: MediaQuery.of(context).size.height/3,
               child: ListView(
-               children: <Widget>[
-                 bottomDesign('Present','P',Colors.green),
-                 bottomDesign('Absent','A',Colors.red),
-                 bottomDesign('Late','L',Colors.yellow),
-                 bottomDesign('Halfday','H',Colors.purpleAccent),
-                 bottomDesign('Holiday','F',Colors.deepPurpleAccent),
-               ],
+                children: <Widget>[
+                  bottomDesign('Present','P',Colors.green),
+                  bottomDesign('Absent','A',Colors.red),
+                  bottomDesign('Late','L',Colors.yellow),
+                  bottomDesign('Halfday','H',Colors.purpleAccent),
+                  bottomDesign('Holiday','F',Colors.deepPurpleAccent),
+                ],
               ),
             )
           ],
@@ -176,23 +172,23 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
         future: attendances,
         builder: (context,snapshot){
           if(snapshot.hasData){
-              return  Center(
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 5.0),
-                      height: 30.0,
-                      width: 60.0,
-                      decoration: BoxDecoration(
-                        color: color,
-                      ),
+            return  Center(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 5.0),
+                    height: 30.0,
+                    width: 60.0,
+                    decoration: BoxDecoration(
+                      color: color,
                     ),
-                    SizedBox(width: 10.0,),
-                    Expanded(child: Text(title,style: Theme.of(context).textTheme.headline.copyWith(color: Colors.black45,fontWeight: FontWeight.w500),)),
-                    Text(getStatusCount(titleVal,snapshot.data.attendances),style: Theme.of(context).textTheme.headline),
-                  ],
-                ),
-              );
+                  ),
+                  SizedBox(width: 10.0,),
+                  Expanded(child: Text(title,style: Theme.of(context).textTheme.headline.copyWith(color: Colors.black45,fontWeight: FontWeight.w500),)),
+                  Text(getStatusCount(titleVal,snapshot.data.attendances),style: Theme.of(context).textTheme.headline),
+                ],
+              ),
+            );
           }else{
             return Text('Loading...');
           }
@@ -201,11 +197,11 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   }
 
 
-  Future<StudentAttendanceList> getAllStudentAttendance(int id,int month,int year) async {
+  Future<StudentAttendanceList> getTeacherAttendance(int id,int month,int year) async {
 
     debugPrint('call');
 
-    final response = await http.get(InfixApi.getStudentAttendence(id,month,year));
+    final response = await http.get(InfixApi.getTeacherAttendence(id,month,year));
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
@@ -217,13 +213,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   }
 
   String getAttendanceStatus(int date,List<StudentAttendance> attendances){
-    if(date < 10){
-      return getStatus(0,9,attendances,date);
-    }else if(date >= 10 && date < 20){
-      return getStatus(10,19,attendances,date);
-    }else{
-      return getStatus(0,attendances.length - 1,attendances,date);
-    }
+    return getStatus(0,attendances.length - 1,attendances,date);
   }
 
   String getStatus(int i,int j, List<StudentAttendance> attendances,int date) {
@@ -238,8 +228,8 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
         if(AppFunction.getDay(attendances[a].date) == date.toString()){
           status = attendances[a].type;
           break;
+        }
       }
-     }
     }
     return status;
   }

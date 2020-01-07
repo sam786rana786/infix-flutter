@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/utils/modal/GlobalClass.dart';
 import 'package:infixedu/utils/modal/Student.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/StudentAttendanceRow.dart';
@@ -32,6 +33,7 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
   String date;
   List<String> absent = List<String>();
   int totalStudent = 0;
+  var function = GlobalDatae();
 
   _StudentListAttendanceState(
       {this.classCode, this.sectionCode,this.url,this.date});
@@ -40,6 +42,7 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     setState(() {
+      function.setZero();
       students = getAllStudent();
     });
   }
@@ -174,7 +177,7 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
                         child: Text(
-                          'Total Absent : 0',
+                          'Total Absent : ${function.getAbsent()}',
                           textAlign: TextAlign.center,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.title.copyWith(fontWeight: FontWeight.w500),
