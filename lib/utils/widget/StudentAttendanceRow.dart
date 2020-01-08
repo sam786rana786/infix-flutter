@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/GlobalClass.dart';
@@ -21,8 +22,22 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
   String mClass,mSection,date;
   String atten = 'P';
   var function = GlobalDatae();
+  Future<bool> isChecked;
 
   _StudentAttendanceRowState(this.student,this.mClass,this.mSection,this.date);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    isChecked = checkAttendance();
+    isChecked.then((value){
+      if(value){
+        setDefaultAttendance();
+      }
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +95,22 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
     } else {
       throw Exception('Failed to load');
     }
-
+  }
+  void setDefaultAttendance() async {
+    final response = await http.get(InfixApi.attendance_defalut_send(date, mClass, mSection));
+    if (response.statusCode == 200) {
+      debugPrint('Attendance default successful');
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+  Future<bool> checkAttendance() async {
+    final response = await http.get(InfixApi.attendance_check(date, mClass, mSection));
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      return jsonData['success'];
+    } else {
+      throw Exception('Failed to load');
+    }
   }
 }

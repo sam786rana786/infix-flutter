@@ -16,11 +16,14 @@ import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
 import 'package:infixedu/screens/StudentHomework.dart';
 import 'package:infixedu/screens/teacher/AboutScreen.dart';
+import 'package:infixedu/screens/teacher/AddHomeworkScreen.dart';
 import 'package:infixedu/screens/teacher/AttendanceScreen.dart';
 import 'package:infixedu/screens/teacher/ClassAttendanceHome.dart';
+import 'package:infixedu/screens/teacher/HomeworkScreen.dart';
 import 'package:infixedu/screens/teacher/MySubjectScreen.dart';
 import 'package:infixedu/screens/teacher/SearchClassRoutine.dart';
 import 'package:infixedu/screens/teacher/StudentSearch.dart';
+import 'package:infixedu/screens/teacher/TeacherHomeworkListScreen.dart';
 import 'package:infixedu/screens/teacher/TeacherMyAttendance.dart';
 import 'package:infixedu/screens/teacher/TeacherRoutineScreen.dart';
 import 'package:infixedu/screens/teacher/AcademicsScreen.dart';
@@ -134,6 +137,15 @@ class AppFunction {
     'images/fees_icon.png',
   ];
 
+  static var homework = [
+    'Add HW',
+    'HW List',
+  ];
+  static var homeworkIcons = [
+    'images/addhw.png',
+    'images/hwlist.png',
+  ];
+
   static var academics = [
     'My Routine',
     'Class Routine',
@@ -224,12 +236,14 @@ class AppFunction {
             ScaleRoute(page: ExaminationHome(examinations, examinationIcons)));
         break;
       case 'Online Exam':
-        Navigator.push(context,
-            ScaleRoute(page: OnlineExaminationHome(onlineExaminations, onlineExaminationIcons)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: OnlineExaminationHome(
+                    onlineExaminations, onlineExaminationIcons)));
         break;
       case 'Attendance':
-        Navigator.push(context,
-            ScaleRoute(page: StudentAttendanceScreen()));
+        Navigator.push(context, ScaleRoute(page: StudentAttendanceScreen()));
         break;
     }
   }
@@ -240,13 +254,27 @@ class AppFunction {
         Navigator.push(context, ScaleRoute(page: StudentSearch()));
         break;
       case 'Academics':
-        Navigator.push(context,  ScaleRoute(page: AcademicHomeScreen(academics, academicsIcons)));
+        Navigator.push(context,
+            ScaleRoute(page: AcademicHomeScreen(academics, academicsIcons)));
         break;
       case 'Attendance':
-        Navigator.push(context,  ScaleRoute(page: AttendanceHomeScreen(attendance, attendanceIcons)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: AttendanceHomeScreen(attendance, attendanceIcons)));
         break;
-        case 'About':
-        Navigator.push(context,  ScaleRoute(page: AboutScreen()));
+      case 'Homework':
+        Navigator.push(context,
+            ScaleRoute(page: HomeworkHomeScreen(homework, homeworkIcons)));
+        break;
+      case 'Library':
+        Navigator.push(context, ScaleRoute(page: BookListScreen()));
+        break;
+      case 'Notice':
+        Navigator.push(context, ScaleRoute(page: NoticeScreen()));
+        break;
+      case 'About':
+        Navigator.push(context, ScaleRoute(page: AboutScreen()));
         break;
     }
   }
@@ -254,13 +282,18 @@ class AppFunction {
   static void getAttendanceDashboardPage(BuildContext context, String title) {
     switch (title) {
       case 'Class Atten':
-        Navigator.push(context,  ScaleRoute(page: StudentAttendanceHome()));
+        Navigator.push(context, ScaleRoute(page: StudentAttendanceHome()));
         break;
       case 'Search Atten':
-        Navigator.push(context,  ScaleRoute(page: StudentSearch(status: 'attendance',)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: StudentSearch(
+              status: 'attendance',
+            )));
         break;
       case 'My Atten':
-        Navigator.push(context,  ScaleRoute(page: TeacherAttendanceScreen()));
+        Navigator.push(context, ScaleRoute(page: TeacherAttendanceScreen()));
         break;
     }
   }
@@ -268,13 +301,13 @@ class AppFunction {
   static void getAcademicDashboardPage(BuildContext context, String title) {
     switch (title) {
       case 'Subjects':
-        Navigator.push(context,  ScaleRoute(page: MySubjectScreen()));
+        Navigator.push(context, ScaleRoute(page: MySubjectScreen()));
         break;
       case 'Class Routine':
-        Navigator.push(context,  ScaleRoute(page: SearchRoutineScreen()));
+        Navigator.push(context, ScaleRoute(page: SearchRoutineScreen()));
         break;
       case 'My Routine':
-        Navigator.push(context,  ScaleRoute(page: TeacherMyRoutineScreen()));
+        Navigator.push(context, ScaleRoute(page: TeacherMyRoutineScreen()));
         break;
     }
   }
@@ -289,6 +322,18 @@ class AppFunction {
         break;
     }
   }
+
+  static void getHomeworkDashboardPage(BuildContext context, String title) {
+    switch (title) {
+      case 'HW List':
+        Navigator.push(context, ScaleRoute(page: TeacherHomework()));
+        break;
+      case 'Add HW':
+        Navigator.push(context, ScaleRoute(page: AddHomeworkScrren()));
+        break;
+    }
+  }
+
   static void getExaminationDashboardPage(BuildContext context, String title) {
     switch (title) {
       case 'Schedule':
@@ -300,7 +345,8 @@ class AppFunction {
     }
   }
 
-  static void getOnlineExaminationDashboardPage(BuildContext context, String title) {
+  static void getOnlineExaminationDashboardPage(
+      BuildContext context, String title) {
     switch (title) {
       case 'Schedule':
         Navigator.push(context, ScaleRoute(page: ScheduleScreen()));
@@ -345,5 +391,4 @@ class AppFunction {
     var parts = date.split("-");
     return parts[parts.length - 1];
   }
-
 }

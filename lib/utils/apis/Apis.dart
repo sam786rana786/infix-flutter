@@ -99,8 +99,18 @@ class InfixApi {
     return base_api+"section-routine/$id/$mClass/$mSection";
   }
   static String attendance_data_send(String id,String atten,String date,String mClass,String mSection){
-    return base_api+"student-attendance-store?id="+id+"&attendance="+atten+"&date="+date+"&class="+mClass+"&section="+mSection;
+    return base_api+"student-attendance-store-second?id="+id+"&attendance="+atten+"&date="+date+"&class="+mClass+"&section="+mSection;
+  }
+  static String attendance_defalut_send(String date,String mClass,String mSection){
+    return base_api+"student-attendance-store-first?date="+date+"&class="+mClass+"&section="+mSection;
+  }
+  static String attendance_check(String date,String mClass,String mSection){
+    return base_api+"student-attendance-check?date="+date+"&class="+mClass+"&section="+mSection;
   }
   static String ABOUT = base_api+"parent-about";
+
+   static String getHomeWorkListUrl(int id){
+    return base_api+"homework-list/$id";
+  }
 
 }

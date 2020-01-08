@@ -2,14 +2,16 @@ class teacherSubject {
   String subjectName;
   String subjectCode;
   String subjectType;
+  int subjectId;
 
-  teacherSubject({this.subjectName, this.subjectCode, this.subjectType});
+  teacherSubject({this.subjectName, this.subjectCode, this.subjectType,this.subjectId});
 
   factory teacherSubject.fromJson(Map<String, dynamic> json) {
     return teacherSubject(
       subjectName: json['subject_name'],
       subjectCode: json['subject_code'],
       subjectType: json['subject_type'],
+      subjectId: json['subject_id'],
     );
   }
 }
