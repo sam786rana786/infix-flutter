@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/GlobalClass.dart';
 import 'package:infixedu/utils/modal/Student.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
@@ -129,6 +130,11 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
+
+        if(function.getAbsent() == 0){
+         setDefaultAttendance();
+        }
+
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
@@ -218,6 +224,13 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
         );
       },
     );
-
+  }
+  void setDefaultAttendance() async {
+    final response = await http.get(InfixApi.attendance_defalut_send(date, '$classCode', '$sectionCode'));
+    if (response.statusCode == 200) {
+      debugPrint('Attendance default successful');
+    } else {
+      throw Exception('Failed to load');
+    }
   }
 }
