@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
@@ -9,6 +13,8 @@ import 'package:infixedu/utils/modal/TeacherSubject.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:permissions_plugin/permissions_plugin.dart';
 
 class AddHomeworkScrren extends StatefulWidget {
   @override
@@ -37,6 +43,10 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
   String _format = 'yyyy-MMMM-dd';
   DateTime _dateTime;
   DateTimePickerLocale _locale = DateTimePickerLocale.en_us;
+  File _file;
+  bool isResponse = false;
+  Response response;
+  Dio dio = new Dio();
 
   @override
   void initState() {
@@ -50,6 +60,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    checkPermissions(context);
     Utils.getStringValue('id').then((value) {
       setState(() {
         _id = value;
@@ -135,8 +146,8 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                         DatePicker.showDatePicker(
                           context,
                           pickerTheme: DateTimePickerTheme(
-                            confirm:
-                            Text('Done', style: TextStyle(color: Colors.red)),
+                            confirm: Text('Done',
+                                style: TextStyle(color: Colors.red)),
                             cancel: Text('cancel',
                                 style: TextStyle(color: Colors.cyan)),
                           ),
@@ -159,7 +170,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                                 print(
                                     '${_dateTime.year}-0${_dateTime.month}-${_dateTime.day}');
                                 _selectedaAssignDate =
-                                '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                    '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
                               });
                             });
                           },
@@ -171,7 +182,8 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                           children: <Widget>[
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                                padding:
+                                    const EdgeInsets.only(left: 8.0, top: 8.0),
                                 child: Text(
                                   _selectedaAssignDate == null
                                       ? 'Assign Date'
@@ -209,8 +221,8 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                         DatePicker.showDatePicker(
                           context,
                           pickerTheme: DateTimePickerTheme(
-                            confirm:
-                            Text('Done', style: TextStyle(color: Colors.red)),
+                            confirm: Text('Done',
+                                style: TextStyle(color: Colors.red)),
                             cancel: Text('cancel',
                                 style: TextStyle(color: Colors.cyan)),
                           ),
@@ -233,7 +245,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                                 print(
                                     '${_dateTime.year}-0${_dateTime.month}-${_dateTime.day}');
                                 _selectedSubmissionDate =
-                                '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                    '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
                               });
                             });
                           },
@@ -245,7 +257,8 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                           children: <Widget>[
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                                padding:
+                                    const EdgeInsets.only(left: 8.0, top: 8.0),
                                 child: Text(
                                   _selectedSubmissionDate == null
                                       ? 'Submission Date'
@@ -275,13 +288,12 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                         ),
                       ),
                     ),
-
                     SizedBox(
                       height: 5,
                     ),
                     InkWell(
                       onTap: () {
-
+                        pickDocument();
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -291,17 +303,21 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
-                                  _selectedSubmissionDate == null
-                                      ? 'Select file'
-                                      : _selectedSubmissionDate,
+                                  _file == null ? 'Select file' : _file.path,
                                   style: Theme.of(context)
                                       .textTheme
                                       .display1
                                       .copyWith(fontSize: 15.0),
+                                  maxLines: 2,
                                 ),
                               ),
                             ),
-                            Text('Browse',style: Theme.of(context).textTheme.display1.copyWith(decoration: TextDecoration.underline)),
+                            Text('Browse',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .display1
+                                    .copyWith(
+                                        decoration: TextDecoration.underline)),
                           ],
                         ),
                       ),
@@ -315,7 +331,6 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                         ),
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextFormField(
@@ -326,8 +341,8 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                             hintText: "Mark",
                             labelText: "Mark",
                             labelStyle: Theme.of(context).textTheme.display1,
-                            errorStyle:
-                            TextStyle(color: Colors.pinkAccent, fontSize: 15.0),
+                            errorStyle: TextStyle(
+                                color: Colors.pinkAccent, fontSize: 15.0),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             )),
@@ -343,8 +358,8 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                             hintText: "Description",
                             labelText: "Description",
                             labelStyle: Theme.of(context).textTheme.display1,
-                            errorStyle:
-                            TextStyle(color: Colors.pinkAccent, fontSize: 15.0),
+                            errorStyle: TextStyle(
+                                color: Colors.pinkAccent, fontSize: 15.0),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             )),
@@ -382,11 +397,16 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
             String mark = markController.text;
             String description = descriptionController.text;
 
-            if (mark.isNotEmpty) {
-            } else if (description.isNotEmpty) {
-            } else {}
+            if(mark.isNotEmpty && description.isNotEmpty && _file.path.isNotEmpty){
+              uploadHomework();
+            }else{
+              Utils.showToast('Check all the field');
+            }
           },
-        )
+        ),
+        isResponse == true ? LinearProgressIndicator(
+          backgroundColor: Colors.transparent,
+        ):Text(''),
       ],
     );
   }
@@ -480,6 +500,31 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
     );
   }
 
+  void uploadHomework() async{
+
+    FormData formData = FormData.fromMap({
+      "class": '$classId',
+      "section": '$sectionId',
+      "subject": '$subjectId',
+      "assign_date": _selectedaAssignDate,
+      "submission_date": _selectedSubmissionDate,
+      "description": descriptionController.text,
+      "teacher_id": _id,
+      "marks": markController.text,
+      "homework_file": await MultipartFile.fromFile(_file.path),
+    });
+    response = await dio.post(InfixApi.UPLOAD_HOMEWORK, data: formData);
+
+    if(response.statusCode == 200){
+      setState(() {
+        isResponse = true;
+      });
+      Utils.showToast('Upload successful');
+      Navigator.pop(context);
+    }
+
+  }
+
   int getCode<T>(T t, String title) {
     int code;
     for (var cls in t) {
@@ -536,5 +581,66 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
 
   String getAbsoluteDate(int date) {
     return date < 10 ? '0$date' : '$date';
+  }
+
+  Future pickDocument() async {
+    File file = await FilePicker.getFile();
+    setState(() {
+      _file = file;
+    });
+  }
+  Future<void> checkPermissions(BuildContext context) async {
+//
+//    final PermissionState aks = await PermissionsPlugin.isIgnoreBatteryOptimization;
+//
+//    PermissionState resBattery;
+//    if(aks != PermissionState.GRANTED)
+//      resBattery = await PermissionsPlugin.requestIgnoreBatteryOptimization;
+
+//    print(resBattery);
+
+    Map<Permission, PermissionState> permission =
+    await PermissionsPlugin.checkPermissions([
+      Permission.READ_EXTERNAL_STORAGE,
+    ]);
+
+    if (permission[Permission.READ_EXTERNAL_STORAGE] !=
+        PermissionState.GRANTED) {
+      try {
+        permission = await PermissionsPlugin.requestPermissions([
+          Permission.READ_EXTERNAL_STORAGE,
+        ]);
+      } on Exception {
+        debugPrint("Error");
+      }
+
+      if (permission[Permission.READ_EXTERNAL_STORAGE] ==
+          PermissionState.GRANTED)
+        print(" permission ok");
+      else
+        permissionsDenied(context);
+    } else {
+      print("permission ok");
+    }
+  }
+
+  void permissionsDenied(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext _context) {
+          return SimpleDialog(
+            title: const Text("Permission denied"),
+            children: <Widget>[
+              Container(
+                padding:
+                EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
+                child: const Text(
+                  "You must grant all permission to use this application",
+                  style: TextStyle(fontSize: 18, color: Colors.black54),
+                ),
+              )
+            ],
+          );
+        });
   }
 }

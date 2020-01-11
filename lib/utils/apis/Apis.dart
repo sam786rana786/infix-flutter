@@ -2,6 +2,8 @@ class InfixApi {
   static String root = 'https://infixedu.com/android/';
   static String base_api = root + 'api/';
 
+  static String UPLOAD_HOMEWORK = base_api+"add-homework";
+
   static String STUDENT_DORMITORY_LIST = base_api + "student-dormitory";
 
   static String BOOK_LIST = base_api+"book-list";

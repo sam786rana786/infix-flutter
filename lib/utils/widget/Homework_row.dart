@@ -9,18 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/StudentHomework.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:simple_permissions/simple_permissions.dart';
+import 'package:permissions_plugin/permissions_plugin.dart';
 
 class Student_homework_row extends StatelessWidget {
   Homework homework;
 
   Student_homework_row(this.homework);
 
-  Permission permission1 = Permission.WriteExternalStorage;
   Random random = Random();
 
   @override
   Widget build(BuildContext context) {
+    checkPermissions(context);
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -282,7 +282,9 @@ class Student_homework_row extends StatelessWidget {
                                     height: 10.0,
                                   ),
                                   Text(
-                                    homework.evaluationDate == null ? 'not assigned' : homework.evaluationDate,
+                                    homework.evaluationDate == null
+                                        ? 'not assigned'
+                                        : homework.evaluationDate,
                                     maxLines: 1,
                                     style: Theme.of(context).textTheme.display1,
                                   ),
@@ -319,7 +321,9 @@ class Student_homework_row extends StatelessWidget {
                               height: 10.0,
                             ),
                             Text(
-                              homework.description == null ? '' : homework.description,
+                              homework.description == null
+                                  ? ''
+                                  : homework.description,
                               maxLines: 10,
                               style: Theme.of(context).textTheme.display1,
                             ),
@@ -387,9 +391,7 @@ class Student_homework_row extends StatelessWidget {
     Widget yesButton = FlatButton(
       child: Text("download"),
       onPressed: () {
-        homework.fileUrl != null
-            ? downloadFile(homework.fileUrl)
-            : Utils.showToast('no file found');
+        homework.fileUrl != null ? null : Utils.showToast('no file found');
       },
     );
 
@@ -416,45 +418,73 @@ class Student_homework_row extends StatelessWidget {
   }
 
   Future<void> downloadFile(String url) async {
-    bool downloading = false;
     var progress = "";
-    var path = "No Data";
-    var platformVersion = "Unknown";
     Dio dio = Dio();
-    bool checkPermission1 =
-        await SimplePermissions.checkPermission(permission1);
-    // print(checkPermission1);
-    if (checkPermission1 == false) {
-      await SimplePermissions.requestPermission(permission1);
-      checkPermission1 = await SimplePermissions.checkPermission(permission1);
-    }
-    if (checkPermission1 == true) {
-      String dirloc = "";
-      if (Platform.isAndroid) {
-        dirloc = "/sdcard/download/";
-      } else {
-        dirloc = (await getApplicationDocumentsDirectory()).path;
-      }
 
-      var randid = random.nextInt(10000);
-
-      try {
-        FileUtils.mkdir([dirloc]);
-
-        await dio
-            .download(InfixApi.root + url, dirloc + AppFunction.getExtention(url),
-                onReceiveProgress: (receivedBytes, totalBytes) {
-          downloading = true;
-          progress =
-              ((receivedBytes / totalBytes) * 100).toStringAsFixed(0) + "%";
-        });
-      } catch (e) {
-        print(e);
-      }
-      progress = "Download Completed.Go to the download folder to find the file";
-      Utils.showToast(progress);
+    String dirloc = "";
+    if (Platform.isAndroid) {
+      dirloc = "/sdcard/download/";
     } else {
-      progress = "Permission Denied!";
+      dirloc = (await getApplicationDocumentsDirectory()).path;
     }
+
+    try {
+      FileUtils.mkdir([dirloc]);
+      await dio
+          .download(InfixApi.root + url, dirloc + AppFunction.getExtention(url),
+              onReceiveProgress: (receivedBytes, totalBytes) {
+        progress =
+            ((receivedBytes / totalBytes) * 100).toStringAsFixed(0) + "%";
+      });
+    } catch (e) {
+      print(e);
+    }
+    progress = "Download Completed.Go to the download folder to find the file";
+  }
+
+  Future<void> checkPermissions(BuildContext context) async {
+    Map<Permission, PermissionState> permission =
+        await PermissionsPlugin.checkPermissions([
+      Permission.WRITE_EXTERNAL_STORAGE,
+    ]);
+
+    if (permission[Permission.WRITE_EXTERNAL_STORAGE] !=
+        PermissionState.GRANTED) {
+      try {
+        permission = await PermissionsPlugin.requestPermissions([
+          Permission.WRITE_EXTERNAL_STORAGE,
+        ]);
+      } on Exception {
+        debugPrint("Error");
+      }
+
+      if (permission[Permission.WRITE_EXTERNAL_STORAGE] ==
+          PermissionState.GRANTED)
+        print("write  permission ok");
+      else
+        permissionsDenied(context);
+    } else {
+      print("write permission ok");
+    }
+  }
+
+  void permissionsDenied(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext _context) {
+          return SimpleDialog(
+            title: const Text("Permission denied"),
+            children: <Widget>[
+              Container(
+                padding:
+                    EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
+                child: const Text(
+                  "You must grant all permission to use this application",
+                  style: TextStyle(fontSize: 18, color: Colors.black54),
+                ),
+              )
+            ],
+          );
+        });
   }
 }
