@@ -28,6 +28,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
   int sectionId;
   String _selectedClass;
   String _selectedSection;
+  String _selectedContentType;
   String _selectedaAssignDate = null;
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -45,13 +46,21 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
   bool isResponse = false;
   Response response;
   Dio dio = new Dio();
+  var contentType = [
+    'assignment',
+    'study material',
+    'syllabus',
+    'other download'
+  ];
+  String radioStr = 'admin';
+  int allClasses = 0;
 
   @override
   void initState() {
     super.initState();
     date = DateTime.now();
     INIT_DATETIME =
-    '${date.year}-${getAbsoluteDate(date.month)}-${getAbsoluteDate(date.day)}';
+        '${date.year}-${getAbsoluteDate(date.month)}-${getAbsoluteDate(date.day)}';
     _dateTime = DateTime.parse(INIT_DATETIME);
   }
 
@@ -66,6 +75,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
         classes.then((value) {
           _selectedClass = value.classes[0].name;
           classId = value.classes[0].id;
+          _selectedContentType = 'assignment';
           sections = getAllSection(int.parse(_id), classId);
           sections.then((sectionValue) {
             _selectedSection = sectionValue.Sections[0].name;
@@ -95,6 +105,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
   }
 
   Widget getContent(BuildContext context) {
+    String value = "foo";
     return Column(
       children: <Widget>[
         Expanded(
@@ -104,7 +115,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
               if (snapshot.hasData) {
                 return ListView(
                   children: <Widget>[
-                    getClassDropdown(snapshot.data.classes),
+                    getContentTypeDropdown(),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextFormField(
@@ -122,6 +133,51 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                             )),
                       ),
                     ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Text('Available for',
+                        style: Theme.of(context)
+                            .textTheme
+                            .display1
+                            .copyWith(fontSize: 15.0),
+                      ),
+                    ),
+                    RadioListTile(
+                      groupValue: radioStr,
+                      title: Text("All Admin",style: Theme.of(context)
+                          .textTheme
+                          .display1
+                          .copyWith(fontSize: 15.0)),
+                      value: 'admin',
+                      onChanged: (val) {
+                        setState(() {
+                          radioStr = val;
+                        });
+                      },
+                      activeColor: Colors.purple,
+                      selected: true,
+                      dense: true,
+                    ),
+                    RadioListTile(
+                      groupValue: radioStr,
+                      title: Text("Student",style: Theme.of(context)
+                          .textTheme
+                          .display1
+                          .copyWith(fontSize: 15.0)),
+                      value: 'student',
+                      onChanged: (val) {
+                        setState(() {
+                          radioStr = val;
+                          showAlertDialog(context);
+                        });
+                      },
+                      activeColor: Colors.purple,
+                      dense: true,
+                    ),
+
                     SizedBox(
                       height: 5,
                     ),
@@ -154,7 +210,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                                 print(
                                     '${_dateTime.year}-0${_dateTime.month}-${_dateTime.day}');
                                 _selectedaAssignDate =
-                                '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                    '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
                               });
                             });
                           },
@@ -167,7 +223,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                             Expanded(
                               child: Padding(
                                 padding:
-                                const EdgeInsets.only(left: 8.0, top: 8.0),
+                                    const EdgeInsets.only(left: 8.0, top: 8.0),
                                 child: Text(
                                   _selectedaAssignDate == null
                                       ? 'Assign Date'
@@ -226,7 +282,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                                     .textTheme
                                     .display1
                                     .copyWith(
-                                    decoration: TextDecoration.underline)),
+                                        decoration: TextDecoration.underline)),
                           ],
                         ),
                       ),
@@ -289,69 +345,39 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
             showAlertDialog(context);
           },
         ),
-        isResponse == true ? LinearProgressIndicator(
-          backgroundColor: Colors.transparent,
-        ):Text(''),
+        isResponse == true
+            ? LinearProgressIndicator(
+                backgroundColor: Colors.transparent,
+              )
+            : Text(''),
       ],
     );
   }
 
-  Widget getClassDropdown(List<Classes> classes) {
+  Widget getContentTypeDropdown() {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: DropdownButton(
         elevation: 0,
         isExpanded: true,
-        items: classes.map((item) {
+        items: contentType.map((item) {
           return DropdownMenuItem<String>(
-            value: item.name,
+            value: item,
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
-              child: Text(item.name),
+              child: Text(item),
             ),
           );
         }).toList(),
         style: Theme.of(context).textTheme.display1.copyWith(fontSize: 15.0),
         onChanged: (value) {
           setState(() {
-            _selectedClass = value;
-            classId = getCode(classes, value);
-            debugPrint('User select $classId');
+            _selectedContentType = value;
+            debugPrint('User select $_selectedContentType');
           });
         },
-        value: _selectedClass,
-      ),
-    );
-  }
-
-  Widget getSectionDropdown(List<Section> sectionlist) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
-      child: DropdownButton(
-        elevation: 0,
-        isExpanded: true,
-        items: sectionlist.map((item) {
-          return DropdownMenuItem<String>(
-            value: item.name,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(item.name),
-            ),
-          );
-        }).toList(),
-        style: Theme.of(context).textTheme.display1.copyWith(fontSize: 15.0),
-        onChanged: (value) {
-          setState(() {
-            _selectedSection = value;
-
-            sectionId = getCode(sectionlist, value);
-
-            debugPrint('User select $sectionId');
-          });
-        },
-        value: _selectedSection,
+        value: _selectedContentType,
       ),
     );
   }
@@ -411,65 +437,27 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
     }
   }
 
-  Future<TeacherSubjectList> getAllSubject(int id) async {
-    final response = await http.get(InfixApi.getTeacherSubject(id));
-    if (response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body);
-      return TeacherSubjectList.fromJson(jsonData['data']['subjectsName']);
-    } else {
-      throw Exception('Failed to load');
-    }
-  }
-
   showAlertDialog(BuildContext context) {
-
-    Widget getClassDropdown1(List<Classes> classes) {
-      return Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        child: DropdownButton(
-          elevation: 0,
-          isExpanded: true,
-          items: classes.map((item) {
-            return DropdownMenuItem<String>(
-              value: item.name,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(item.name),
-              ),
-            );
-          }).toList(),
-          style: Theme.of(context).textTheme.display1.copyWith(fontSize: 15.0),
-          onChanged: (value) {
-            setState(() {
-              _selectedClass = value;
-              classId = getCode(classes, value);
-              debugPrint('User select $classId');
-            });
-          },
-          value: _selectedClass,
-        ),
-      );
-    }
-
     showDialog<void>(
       barrierDismissible: true,
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
-          builder: (context,setState){
+          builder: (context, setState) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
+
+
                 Padding(
                   padding: const EdgeInsets.all(0),
                   child: Container(
-                    height: MediaQuery.of(context).size.height/3,
+                    height: MediaQuery.of(context).size.height / 3,
                     width: MediaQuery.of(context).size.width,
                     color: Colors.white,
-                    child:  Padding(
-                      padding: const EdgeInsets.only(left: 10.0,top: 20.0),
-                      child:  Scaffold(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0, top: 20.0),
+                      child: Scaffold(
                         backgroundColor: Colors.white,
                         body: FutureBuilder<ClassList>(
                           future: classes,
@@ -477,14 +465,111 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                             if (snapshot.hasData) {
                               return ListView(
                                 children: <Widget>[
-                                  getClassDropdown1(snapshot.data.classes),
+
+                                  GestureDetector(
+                                    child: RadioListTile(
+                                      groupValue: allClasses,
+                                      title: Text("All Student",style: Theme.of(context)
+                                          .textTheme
+                                          .display1
+                                          .copyWith(fontSize: 15.0)),
+                                      value: 1,
+                                      onChanged: (val) {
+                                        setState(() {
+                                          allClasses = val;
+                                          Utils.showToast('$allClasses');
+                                        });
+                                      },
+                                      activeColor: Colors.purple,
+                                    ),
+                                    onTap: (){
+                                      setState(() {
+                                        if(allClasses==0){
+                                          allClasses = 1;
+                                        }else{
+                                          allClasses = 0;
+                                        }
+                                      });
+                                    },
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10.0),
+                                    child: DropdownButton(
+                                      elevation: 0,
+                                      isExpanded: true,
+                                      items: snapshot.data.classes.map((item) {
+                                        return DropdownMenuItem<String>(
+                                          value: item.name,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Text(item.name),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .display1
+                                          .copyWith(fontSize: 15.0),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _selectedClass = value;
+                                          classId = getCode(
+                                              snapshot.data.classes, value);
+                                          debugPrint('User select $classId');
+                                        });
+                                      },
+                                      value: _selectedClass,
+                                    ),
+                                  ),
                                   FutureBuilder<SectionList>(
                                     future: sections,
                                     builder: (context, secSnap) {
                                       if (secSnap.hasData) {
-                                        return getSectionDropdown(secSnap.data.Sections);
+                                        return Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          child: DropdownButton(
+                                            elevation: 0,
+                                            isExpanded: true,
+                                            items: secSnap.data.Sections
+                                                .map((item) {
+                                              return DropdownMenuItem<String>(
+                                                value: item.name,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 8.0),
+                                                  child: Text(item.name),
+                                                ),
+                                              );
+                                            }).toList(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .display1
+                                                .copyWith(fontSize: 15.0),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _selectedSection = value;
+
+                                                sectionId = getCode(
+                                                    secSnap.data.Sections,
+                                                    value);
+
+                                                debugPrint(
+                                                    'User select $sectionId');
+                                              });
+                                            },
+                                            value: _selectedSection,
+                                          ),
+                                        );
                                       } else {
-                                        return Center(child: Text("loading..."));
+                                        return Center(
+                                            child: Text("loading..."));
                                       }
                                     },
                                   ),
@@ -517,6 +602,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
       _file = file;
     });
   }
+
   Future<void> checkPermissions(BuildContext context) async {
 //
 //    final PermissionState aks = await PermissionsPlugin.isIgnoreBatteryOptimization;
@@ -528,7 +614,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
 //    print(resBattery);
 
     Map<Permission, PermissionState> permission =
-    await PermissionsPlugin.checkPermissions([
+        await PermissionsPlugin.checkPermissions([
       Permission.READ_EXTERNAL_STORAGE,
     ]);
 
@@ -561,7 +647,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
             children: <Widget>[
               Container(
                 padding:
-                EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
+                    EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
                 child: const Text(
                   "You must grant all permission to use this application",
                   style: TextStyle(fontSize: 18, color: Colors.black54),
