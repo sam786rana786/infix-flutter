@@ -391,7 +391,7 @@ class Student_homework_row extends StatelessWidget {
     Widget yesButton = FlatButton(
       child: Text("download"),
       onPressed: () {
-        homework.fileUrl != null ? null : Utils.showToast('no file found');
+        homework.fileUrl != null ? downloadFile(homework.fileUrl) : Utils.showToast('no file found');
       },
     );
 

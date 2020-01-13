@@ -30,6 +30,7 @@ dependencies:
   flutter_calendar_carousel: ^1.4.10
   scoped_model: ^1.0.1
   flutter_cupertino_date_picker: ^1.0.12
+  open_file: ^2.1.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

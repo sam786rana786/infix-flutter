@@ -16,9 +16,12 @@ import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
 import 'package:infixedu/screens/StudentHomework.dart';
 import 'package:infixedu/screens/teacher/AboutScreen.dart';
+import 'package:infixedu/screens/teacher/AddContentScreen.dart';
 import 'package:infixedu/screens/teacher/AddHomeworkScreen.dart';
 import 'package:infixedu/screens/teacher/AttendanceScreen.dart';
 import 'package:infixedu/screens/teacher/ClassAttendanceHome.dart';
+import 'package:infixedu/screens/teacher/ContentListScreen.dart';
+import 'package:infixedu/screens/teacher/ContentScreen.dart';
 import 'package:infixedu/screens/teacher/HomeworkScreen.dart';
 import 'package:infixedu/screens/teacher/MySubjectScreen.dart';
 import 'package:infixedu/screens/teacher/SearchClassRoutine.dart';
@@ -27,6 +30,7 @@ import 'package:infixedu/screens/teacher/TeacherHomeworkListScreen.dart';
 import 'package:infixedu/screens/teacher/TeacherMyAttendance.dart';
 import 'package:infixedu/screens/teacher/TeacherRoutineScreen.dart';
 import 'package:infixedu/screens/teacher/AcademicsScreen.dart';
+import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:infixedu/screens/Profile.dart';
 import 'package:infixedu/screens/Fees.dart';
@@ -142,6 +146,15 @@ class AppFunction {
     'HW List',
   ];
   static var homeworkIcons = [
+    'images/addhw.png',
+    'images/hwlist.png',
+  ];
+
+  static var contents = [
+    'Add Content',
+    'Content List',
+  ];
+  static var contentsIcons = [
     'images/addhw.png',
     'images/hwlist.png',
   ];
@@ -267,6 +280,10 @@ class AppFunction {
         Navigator.push(context,
             ScaleRoute(page: HomeworkHomeScreen(homework, homeworkIcons)));
         break;
+      case 'Contents':
+        Navigator.push(context,
+            ScaleRoute(page: ContentHomeScreen(contents, contentsIcons)));
+        break;
       case 'Library':
         Navigator.push(context, ScaleRoute(page: BookListScreen()));
         break;
@@ -334,6 +351,17 @@ class AppFunction {
     }
   }
 
+  static void getContentDashboardPage(BuildContext context, String title) {
+    switch (title) {
+      case 'Content List':
+        Navigator.push(context, ScaleRoute(page: ContentListScreen()));
+        break;
+      case 'Add Content':
+        Navigator.push(context, ScaleRoute(page: AddContentScreeen()));
+        break;
+    }
+  }
+
   static void getExaminationDashboardPage(BuildContext context, String title) {
     switch (title) {
       case 'Schedule':
@@ -355,6 +383,25 @@ class AppFunction {
         Navigator.push(context, ScaleRoute(page: BookIssuedScreen()));
         break;
     }
+  }
+
+  static String getContentType(String ctype){
+    String type = '';
+    switch(ctype){
+      case 'as':
+        type = 'assignment';
+        break;
+      case 'st':
+        type = 'study material';
+        break;
+      case 'sy':
+        type = 'syllabus';
+        break;
+        case 'ot':
+        type = 'others download';
+        break;
+    }
+    return type;
   }
 
   static var weeks = [

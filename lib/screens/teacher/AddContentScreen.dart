@@ -16,22 +16,20 @@ import 'dart:convert';
 
 import 'package:permissions_plugin/permissions_plugin.dart';
 
-class AddHomeworkScrren extends StatefulWidget {
+class AddContentScreeen extends StatefulWidget {
   @override
-  _AddHomeworkScrrenState createState() => _AddHomeworkScrrenState();
+  _AddContentScreeenState createState() => _AddContentScreeenState();
 }
 
-class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
+class _AddContentScreeenState extends State<AddContentScreeen> {
   String _id;
   int classId;
   int subjectId;
   int sectionId;
   String _selectedClass;
   String _selectedSection;
-  String _selectedSubject;
   String _selectedaAssignDate = null;
-  String _selectedSubmissionDate = null;
-  TextEditingController markController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   Future<ClassList> classes;
   Future<SectionList> sections;
@@ -53,7 +51,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
     super.initState();
     date = DateTime.now();
     INIT_DATETIME =
-        '${date.year}-${getAbsoluteDate(date.month)}-${getAbsoluteDate(date.day)}';
+    '${date.year}-${getAbsoluteDate(date.month)}-${getAbsoluteDate(date.day)}';
     _dateTime = DateTime.parse(INIT_DATETIME);
   }
 
@@ -72,14 +70,6 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
           sections.then((sectionValue) {
             _selectedSection = sectionValue.Sections[0].name;
             sectionId = sectionValue.Sections[0].id;
-            subjects = getAllSubject(int.parse(_id));
-            subjects.then((subVal) {
-              setState(() {
-                subjectList = subVal;
-                subjectId = subVal.subjects[0].subjectId;
-                _selectedSubject = subVal.subjects[0].subjectName;
-              });
-            });
           });
         });
       });
@@ -95,7 +85,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-        appBar: AppBarWidget.header(context, 'Add Homework'),
+        appBar: AppBarWidget.header(context, 'Add Content'),
         backgroundColor: Colors.white,
         body: Container(
           child: getContent(context),
@@ -115,28 +105,22 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                 return ListView(
                   children: <Widget>[
                     getClassDropdown(snapshot.data.classes),
-                    FutureBuilder<SectionList>(
-                      future: sections,
-                      builder: (context, secSnap) {
-                        if (secSnap.hasData) {
-                          return getSectionDropdown(secSnap.data.Sections);
-                        } else {
-                          return Center(child: Text("loading..."));
-                        }
-                      },
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    FutureBuilder<TeacherSubjectList>(
-                      future: subjects,
-                      builder: (context, subSnap) {
-                        if (subSnap.hasData) {
-                          return getSubjectDropdown(subSnap.data.subjects);
-                        } else {
-                          return Center(child: Text("loading..."));
-                        }
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        style: Theme.of(context).textTheme.display1,
+                        controller: titleController,
+                        decoration: InputDecoration(
+                            hintText: "Title",
+                            labelText: "Title",
+                            labelStyle: Theme.of(context).textTheme.display1,
+                            errorStyle: TextStyle(
+                                color: Colors.pinkAccent, fontSize: 15.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            )),
+                      ),
                     ),
                     SizedBox(
                       height: 5,
@@ -170,7 +154,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                                 print(
                                     '${_dateTime.year}-0${_dateTime.month}-${_dateTime.day}');
                                 _selectedaAssignDate =
-                                    '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
+                                '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
                               });
                             });
                           },
@@ -183,86 +167,11 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                             Expanded(
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
+                                const EdgeInsets.only(left: 8.0, top: 8.0),
                                 child: Text(
                                   _selectedaAssignDate == null
                                       ? 'Assign Date'
                                       : _selectedaAssignDate,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .display1
-                                      .copyWith(fontSize: 15.0),
-                                ),
-                              ),
-                            ),
-                            Icon(
-                              Icons.calendar_today,
-                              color: Colors.black12,
-                              size: 20.0,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Container(
-                        height: 1,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        DatePicker.showDatePicker(
-                          context,
-                          pickerTheme: DateTimePickerTheme(
-                            confirm: Text('Done',
-                                style: TextStyle(color: Colors.red)),
-                            cancel: Text('cancel',
-                                style: TextStyle(color: Colors.cyan)),
-                          ),
-                          minDateTime: DateTime.parse(INIT_DATETIME),
-                          maxDateTime: DateTime.parse(MAX_DATETIME),
-                          initialDateTime: _dateTime,
-                          dateFormat: _format,
-                          locale: _locale,
-                          onClose: () => print("----- onClose -----"),
-                          onCancel: () => print('onCancel'),
-                          onChange: (dateTime, List<int> index) {
-                            setState(() {
-                              _dateTime = dateTime;
-                            });
-                          },
-                          onConfirm: (dateTime, List<int> index) {
-                            setState(() {
-                              setState(() {
-                                _dateTime = dateTime;
-                                print(
-                                    '${_dateTime.year}-0${_dateTime.month}-${_dateTime.day}');
-                                _selectedSubmissionDate =
-                                    '${_dateTime.year}-${getAbsoluteDate(_dateTime.month)}-${getAbsoluteDate(_dateTime.day)}';
-                              });
-                            });
-                          },
-                        );
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
-                                child: Text(
-                                  _selectedSubmissionDate == null
-                                      ? 'Submission Date'
-                                      : _selectedSubmissionDate,
                                   style: Theme.of(context)
                                       .textTheme
                                       .display1
@@ -317,7 +226,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                                     .textTheme
                                     .display1
                                     .copyWith(
-                                        decoration: TextDecoration.underline)),
+                                    decoration: TextDecoration.underline)),
                           ],
                         ),
                       ),
@@ -329,23 +238,6 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                         decoration: BoxDecoration(
                           color: Colors.grey.shade300,
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        style: Theme.of(context).textTheme.display1,
-                        controller: markController,
-                        decoration: InputDecoration(
-                            hintText: "Mark",
-                            labelText: "Mark",
-                            labelStyle: Theme.of(context).textTheme.display1,
-                            errorStyle: TextStyle(
-                                color: Colors.pinkAccent, fontSize: 15.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            )),
                       ),
                     ),
                     Padding(
@@ -394,17 +286,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
             ),
           ),
           onTap: () {
-            String mark = markController.text;
-            String description = descriptionController.text;
-
-            if(mark.isNotEmpty && description.isNotEmpty && _file.path.isNotEmpty){
-              setState(() {
-                isResponse = true;
-              });
-              uploadHomework();
-            }else{
-              Utils.showToast('Check all the field');
-            }
+            showAlertDialog(context);
           },
         ),
         isResponse == true ? LinearProgressIndicator(
@@ -474,55 +356,26 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
     );
   }
 
-  Widget getSubjectDropdown(List<teacherSubject> subjectList) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
-      child: DropdownButton(
-        elevation: 0,
-        isExpanded: true,
-        items: subjectList.map((item) {
-          return DropdownMenuItem<String>(
-            value: item.subjectName,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(item.subjectName),
-            ),
-          );
-        }).toList(),
-        style: Theme.of(context).textTheme.display1.copyWith(fontSize: 15.0),
-        onChanged: (value) {
-          setState(() {
-            _selectedSubject = value;
-            subjectId = getSubjectId(subjectList, value);
-            debugPrint('User select $subjectId');
-          });
-        },
-        value: _selectedSubject,
-      ),
-    );
-  }
-
-  void uploadHomework() async{
-
-    FormData formData = FormData.fromMap({
-      "class": '$classId',
-      "section": '$sectionId',
-      "subject": '$subjectId',
-      "assign_date": _selectedaAssignDate,
-      "submission_date": _selectedSubmissionDate,
-      "description": descriptionController.text,
-      "teacher_id": _id,
-      "marks": markController.text,
-      "homework_file": await MultipartFile.fromFile(_file.path),
-    });
-    response = await dio.post(InfixApi.UPLOAD_HOMEWORK, data: formData);
-
-    if(response.statusCode == 200){
-      Utils.showToast('Upload successful');
-      Navigator.pop(context);
-    }
-  }
+//  void uploadContent() async{
+//
+//    FormData formData = FormData.fromMap({
+//      "class": '$classId',
+//      "section": '$sectionId',
+//      "subject": '$subjectId',
+//      "assign_date": _selectedaAssignDate,
+//      "submission_date": _selectedSubmissionDate,
+//      "description": descriptionController.text,
+//      "teacher_id": _id,
+//      "marks": markController.text,
+//      "homework_file": await MultipartFile.fromFile(_file.path),
+//    });
+//    response = await dio.post(InfixApi.UPLOAD_HOMEWORK, data: formData);
+//
+//    if(response.statusCode == 200){
+//      Utils.showToast('Upload successful');
+//      Navigator.pop(context);
+//    }
+//  }
 
   int getCode<T>(T t, String title) {
     int code;
@@ -568,14 +421,90 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
     }
   }
 
-  int getSubjectId<T>(T t, String subject) {
-    int code;
-    for (var s in t) {
-      if (s.subjectName == subject) {
-        code = s.subjectId;
-      }
+  showAlertDialog(BuildContext context) {
+
+    Widget getClassDropdown1(List<Classes> classes) {
+      return Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: DropdownButton(
+          elevation: 0,
+          isExpanded: true,
+          items: classes.map((item) {
+            return DropdownMenuItem<String>(
+              value: item.name,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(item.name),
+              ),
+            );
+          }).toList(),
+          style: Theme.of(context).textTheme.display1.copyWith(fontSize: 15.0),
+          onChanged: (value) {
+            setState(() {
+              _selectedClass = value;
+              classId = getCode(classes, value);
+              debugPrint('User select $classId');
+            });
+          },
+          value: _selectedClass,
+        ),
+      );
     }
-    return code;
+
+    showDialog<void>(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context,setState){
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height/3,
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.white,
+                    child:  Padding(
+                      padding: const EdgeInsets.only(left: 10.0,top: 20.0),
+                      child:  Scaffold(
+                        backgroundColor: Colors.white,
+                        body: FutureBuilder<ClassList>(
+                          future: classes,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView(
+                                children: <Widget>[
+                                  getClassDropdown1(snapshot.data.classes),
+                                  FutureBuilder<SectionList>(
+                                    future: sections,
+                                    builder: (context, secSnap) {
+                                      if (secSnap.hasData) {
+                                        return getSectionDropdown(secSnap.data.Sections);
+                                      } else {
+                                        return Center(child: Text("loading..."));
+                                      }
+                                    },
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return Center(child: Text("loading..."));
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   String getAbsoluteDate(int date) {

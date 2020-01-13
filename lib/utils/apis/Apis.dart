@@ -100,6 +100,12 @@ class InfixApi {
   static String getRoutineByClassAndSection(int id,int mClass,int mSection){
     return base_api+"section-routine/$id/$mClass/$mSection";
   }
+  static String getAllContent(){
+    return base_api+"content-list";
+  }
+  static String deleteContent(int id){
+    return base_api+"delete-content/$id";
+  }
   static String attendance_data_send(String id,String atten,String date,String mClass,String mSection){
     return base_api+"student-attendance-store-second?id="+id+"&attendance="+atten+"&date="+date+"&class="+mClass+"&section="+mSection;
   }
