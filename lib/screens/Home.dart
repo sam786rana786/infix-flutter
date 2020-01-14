@@ -39,19 +39,16 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     isTapped = false;
-
     Utils.getStringValue('email').then((value) {
       _email = value;
     });
-
     Utils.getStringValue('password').then((value) {
       _password = value;
     });
-
     Utils.getStringValue('id').then((value) {
       _id = value;
     });
-    Utils.getStringValue('rule').then((value) {
+    Utils.getStringValue('rule').then((value){
       _rule = value;
     });
   }
@@ -113,6 +110,8 @@ class _HomeState extends State<Home> {
                     AppFunction.getDashboardPage(context, _titles[index]);
                   }else if(_rule == '4'){
                     AppFunction.getTeacherDashboardPage(context, _titles[index]);
+                  }else if(_rule == '3'){
+                    AppFunction.getParentDashboardPage(context, _titles[index]);
                   }
                 });
               },

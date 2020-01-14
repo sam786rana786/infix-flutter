@@ -8,6 +8,8 @@ class InfixApi {
 
   static String BOOK_LIST = base_api+"book-list";
 
+  static String UPLOAD_CONTENT = base_api+"teacher-upload-content";
+
   static String login(String email, String password) {
     return base_api + 'login?email=' + email + '&password=' + password;
   }
@@ -120,5 +122,13 @@ class InfixApi {
    static String getHomeWorkListUrl(int id){
     return base_api+"homework-list/$id";
   }
-
+  static String getLeaveList(int id){
+    return base_api+"staff-apply-list/$id";
+  }
+  static String getParentChildList(String id){
+    return base_api+"child-list/$id";
+  }
+  static String leaveType = base_api+"staff-leave-type";
+  static String applyLeave = base_api+"staff-apply-leave";
+  static String getEmail = base_api+"user-demo";
 }

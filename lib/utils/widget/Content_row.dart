@@ -266,9 +266,7 @@ class _Content_rowState extends State<Content_row> {
     final response = await http.get(InfixApi.deleteContent(cid));
 
     if(response.statusCode == 200){
-      setState(() {
         widget.onPressed();Utils.showToast('Content deleted');
-      });
     }else{
       throw Exception('failed to load');
     }

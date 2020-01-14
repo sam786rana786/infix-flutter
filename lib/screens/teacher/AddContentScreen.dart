@@ -62,11 +62,8 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
     INIT_DATETIME =
         '${date.year}-${getAbsoluteDate(date.month)}-${getAbsoluteDate(date.day)}';
     _dateTime = DateTime.parse(INIT_DATETIME);
-  }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+
     checkPermissions(context);
     Utils.getStringValue('id').then((value) {
       setState(() {
@@ -342,7 +339,17 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
             ),
           ),
           onTap: () {
-            showAlertDialog(context);
+            String title = titleController.text;
+            String description = descriptionController.text;
+
+            if(title.isNotEmpty && description.isNotEmpty && _file.path.isNotEmpty){
+              setState(() {
+                isResponse = true;
+              });
+              uploadContent();
+            }else{
+              Utils.showToast('Check all the field');
+            }
           },
         ),
         isResponse == true
@@ -382,26 +389,26 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
     );
   }
 
-//  void uploadContent() async{
-//
-//    FormData formData = FormData.fromMap({
-//      "class": '$classId',
-//      "section": '$sectionId',
-//      "subject": '$subjectId',
-//      "assign_date": _selectedaAssignDate,
-//      "submission_date": _selectedSubmissionDate,
-//      "description": descriptionController.text,
-//      "teacher_id": _id,
-//      "marks": markController.text,
-//      "homework_file": await MultipartFile.fromFile(_file.path),
-//    });
-//    response = await dio.post(InfixApi.UPLOAD_HOMEWORK, data: formData);
-//
-//    if(response.statusCode == 200){
-//      Utils.showToast('Upload successful');
-//      Navigator.pop(context);
-//    }
-//  }
+  void uploadContent() async{
+    FormData formData = FormData.fromMap({
+      "class": '$classId',
+      "section": '$sectionId',
+      "upload_date": _selectedaAssignDate,
+      "available_for": radioStr,
+      "description": descriptionController.text,
+      "created_by": '$_id',
+      "all_classes": '$allClasses',
+      "content_title": titleController.text,
+      "content_type": _selectedContentType.substring(0,2),
+      "attach_file": await MultipartFile.fromFile(_file.path),
+    });
+    response = await dio.post(InfixApi.UPLOAD_CONTENT, data: formData);
+
+    if(response.statusCode == 200){
+      Utils.showToast('Upload successful');
+      Navigator.pop(context);
+    }
+  }
 
   int getCode<T>(T t, String title) {
     int code;
@@ -437,7 +444,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
     }
   }
 
-  showAlertDialog(BuildContext context) {
+  showAlertDialog(BuildContext context)   {
     showDialog<void>(
       barrierDismissible: true,
       context: context,
@@ -447,8 +454,6 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-
-
                 Padding(
                   padding: const EdgeInsets.all(0),
                   child: Container(
@@ -477,7 +482,6 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
                                       onChanged: (val) {
                                         setState(() {
                                           allClasses = val;
-                                          Utils.showToast('$allClasses');
                                         });
                                       },
                                       activeColor: Colors.purple,

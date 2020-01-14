@@ -1,6 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/server/Login.dart';
 import 'package:infixedu/utils/Utils.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,6 +16,12 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
+  String user;
+  String email;
+  Future<String> futureEmail;
+  String password = '123456';
+  bool isResponse = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +61,66 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: MediaQuery.of(context).size.height / 2,
                     child: ListView(
                       children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: FlatButton(
+                                onPressed: () {
+                                  user = 'student';
+                                  futureEmail = getEmail(user);
+                                  futureEmail.then((value){
+                                    setState(() {
+                                      email = value;
+                                      emailController.text = email;
+                                      passwordController.text = password;
+                                    });
+                                  });
+                                },
+                                color: Colors.purpleAccent,
+                                textColor: Colors.white,
+                                child: Text("Student",style: Theme.of(context).textTheme.display1.copyWith(color: Colors.white),),
+                              ),
+                            ),
+                            Expanded(
+                              child: FlatButton(
+                                onPressed: () {
+                                  setState(() {
+                                    user = 'teacher';
+                                    futureEmail = getEmail(user);
+                                    futureEmail.then((value){
+                                      setState(() {
+                                        email = value;
+                                        emailController.text = email;
+                                        passwordController.text = password;
+                                      });
+                                    });
+                                  });
+                                },
+                                color: Colors.purpleAccent,
+                                textColor: Colors.white,
+                                child: Text("Teacher",style: Theme.of(context).textTheme.display1.copyWith(color: Colors.white)),
+                              ),
+                            ),
+                            Expanded(
+                              child: FlatButton(
+                                onPressed: () {
+                                  user = 'parent';
+                                  futureEmail = getEmail(user);
+                                  futureEmail.then((value){
+                                    setState(() {
+                                      email = value;
+                                      emailController.text = email;
+                                      passwordController.text = password;
+                                    });
+                                  });
+                                },
+                                color: Colors.purpleAccent,
+                                textColor: Colors.white,
+                                child: Text("Parents",style: Theme.of(context).textTheme.display1.copyWith(color: Colors.white)),
+                              ),
+                            ),
+                          ],
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: TextFormField(
@@ -120,12 +191,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
                             if(email.length > 5 && password.length > 5){
+                              setState(() {
+                                isResponse = true;
+                              });
                               Login(email, password).getData(context).then((result)=>{
                                 if(result){
                                   debugPrint('success')
                                 }
                               });
                             }else{
+                              setState(() {
+                                isResponse = false;
+                              });
                               Utils.showToast('invalid email and password');
                             }
 //                            setState(() {
@@ -147,6 +224,12 @@ class _LoginScreenState extends State<LoginScreen> {
 //                            });
                           },
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: isResponse == true ? LinearProgressIndicator(
+                            backgroundColor: Colors.transparent,
+                          ):Text(''),
+                        ),
                       ],
                     ),
                   ),
@@ -156,4 +239,14 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ));
   }
+
+  Future<String> getEmail(String user) async{
+
+    final response = await http.get(InfixApi.getEmail);
+
+    var jsonData = json.decode(response.body);
+
+    return jsonData['data'][user]['email'];
+  }
+
 }

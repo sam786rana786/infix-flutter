@@ -15,14 +15,18 @@ import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
 import 'package:infixedu/screens/StudentHomework.dart';
+import 'package:infixedu/screens/parent/ChildListScreen.dart';
 import 'package:infixedu/screens/teacher/AboutScreen.dart';
 import 'package:infixedu/screens/teacher/AddContentScreen.dart';
 import 'package:infixedu/screens/teacher/AddHomeworkScreen.dart';
+import 'package:infixedu/screens/teacher/ApplyLeaveScreen.dart';
 import 'package:infixedu/screens/teacher/AttendanceScreen.dart';
 import 'package:infixedu/screens/teacher/ClassAttendanceHome.dart';
 import 'package:infixedu/screens/teacher/ContentListScreen.dart';
 import 'package:infixedu/screens/teacher/ContentScreen.dart';
 import 'package:infixedu/screens/teacher/HomeworkScreen.dart';
+import 'package:infixedu/screens/teacher/LeaveListScreen.dart';
+import 'package:infixedu/screens/teacher/LeaveScreen.dart';
 import 'package:infixedu/screens/teacher/MySubjectScreen.dart';
 import 'package:infixedu/screens/teacher/SearchClassRoutine.dart';
 import 'package:infixedu/screens/teacher/StudentSearch.dart';
@@ -115,6 +119,15 @@ class AppFunction {
     'images/fees_icon.png',
   ];
 
+  static var parent = [
+    'Child',
+    'About',
+  ];
+  static var parentIcons = [
+    'images/fees_icon.png',
+    'images/fees_icon.png',
+  ];
+
   static var librarys = [
     'Book List',
     'Books Issued',
@@ -159,6 +172,15 @@ class AppFunction {
     'images/hwlist.png',
   ];
 
+  static var leaves = [
+    'Apply Leave',
+    'Leave List',
+  ];
+  static var leavesIcons = [
+    'images/hwlist.png',
+    'images/addhw.png',
+  ];
+
   static var academics = [
     'My Routine',
     'Class Routine',
@@ -197,7 +219,7 @@ class AppFunction {
         break;
       case '3':
         route = MaterialPageRoute(
-            builder: (context) => Home(students, studentIcons));
+            builder: (context) => Home(parent, parentIcons));
         Navigator.pushReplacement(context, route);
         break;
       case '4':
@@ -284,11 +306,25 @@ class AppFunction {
         Navigator.push(context,
             ScaleRoute(page: ContentHomeScreen(contents, contentsIcons)));
         break;
+      case 'Leave':
+        Navigator.push(
+            context, ScaleRoute(page: LeaveHomeScreen(leaves, leavesIcons)));
+        break;
       case 'Library':
         Navigator.push(context, ScaleRoute(page: BookListScreen()));
         break;
       case 'Notice':
         Navigator.push(context, ScaleRoute(page: NoticeScreen()));
+        break;
+      case 'About':
+        Navigator.push(context, ScaleRoute(page: AboutScreen()));
+        break;
+    }
+  }
+  static void getParentDashboardPage(BuildContext context, String title) {
+    switch (title) {
+      case 'Child':
+        Navigator.push(context, ScaleRoute(page: ChildListScreen()));
         break;
       case 'About':
         Navigator.push(context, ScaleRoute(page: AboutScreen()));
@@ -362,6 +398,17 @@ class AppFunction {
     }
   }
 
+  static void getLeaveDashboardPage(BuildContext context, String title) {
+    switch (title) {
+      case 'Leave List':
+        Navigator.push(context, ScaleRoute(page: LeaveListScreen()));
+        break;
+      case 'Apply Leave':
+        Navigator.push(context, ScaleRoute(page: ApplyLeaveScreen()));
+        break;
+    }
+  }
+
   static void getExaminationDashboardPage(BuildContext context, String title) {
     switch (title) {
       case 'Schedule':
@@ -385,9 +432,9 @@ class AppFunction {
     }
   }
 
-  static String getContentType(String ctype){
+  static String getContentType(String ctype) {
     String type = '';
-    switch(ctype){
+    switch (ctype) {
       case 'as':
         type = 'assignment';
         break;
@@ -397,7 +444,7 @@ class AppFunction {
       case 'sy':
         type = 'syllabus';
         break;
-        case 'ot':
+      case 'ot':
         type = 'others download';
         break;
     }

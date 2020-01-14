@@ -51,7 +51,6 @@ class _ContentListScreenState extends State<ContentListScreen> {
 //                     snapshot.data.contents.removeAt(index);
 //                     Utils.showToast('$index');
                      _removeSingleItems(index, snapshot.data.contents);
-
                   },);
                 },
               );
@@ -71,7 +70,7 @@ class _ContentListScreenState extends State<ContentListScreen> {
     // to work with before it disappears from view since the original
     // has already been deleted.
     AnimatedListRemovedItemBuilder builder = (context, animation) {
-      return Content_row(removedItem,animation);
+      //return Content_row(removedItem,animation);
     };
     _listKey.currentState.removeItem(index, builder);
   }
