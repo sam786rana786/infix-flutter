@@ -9,6 +9,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class StudentHomework extends StatefulWidget {
+  String id;
+
+  StudentHomework({this.id});
+
   @override
   _StudentHomeworkState createState() => _StudentHomeworkState();
 }
@@ -20,10 +24,9 @@ class _StudentHomeworkState extends State<StudentHomework> {
   @override
   void initState() {
     super.initState();
-
     Utils.getStringValue('id').then((value) {
       setState(() {
-        homeworks = fetchHomework(int.parse(value));
+        homeworks = fetchHomework(widget.id != null ? int.parse(widget.id):int.parse(value));
       });
 
     });

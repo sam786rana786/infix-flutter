@@ -9,6 +9,10 @@ import 'package:infixedu/utils/widget/Routine_row.dart';
 class Routine extends StatelessWidget {
 
   List<String> weeks = AppFunction.weeks;
+  String id;
+
+
+  Routine({this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,7 @@ class Routine extends StatelessWidget {
           body: ListView.builder(
             itemCount: weeks.length,
             itemBuilder: (context,index){
-              return RoutineRow(title:weeks[index]);
+              return RoutineRow(title:weeks[index],id: id,);
             },
           ),
         ),

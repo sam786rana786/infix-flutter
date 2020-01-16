@@ -9,6 +9,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class SubjectScreen extends StatefulWidget {
+  String id;
+
+  SubjectScreen({this.id});
+
   @override
   _SubjectScreenState createState() => _SubjectScreenState();
 }
@@ -21,7 +25,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     super.didChangeDependencies();
     Utils.getStringValue('id').then((value) {
       setState(() {
-        subjects = getAllSubject(int.parse(value));
+        subjects = getAllSubject(widget.id != null ? int.parse(widget.id):int.parse(value));
       });
     });
   }

@@ -230,19 +230,19 @@ class AppFunction {
     }
   }
 
-  static void getDashboardPage(BuildContext context, String title) {
+  static void getDashboardPage(BuildContext context, String title,{var id,String image}) {
     switch (title) {
       case 'Profile':
-        Navigator.push(context, ScaleRoute(page: Profile()));
+        Navigator.push(context, ScaleRoute(page: Profile(id: id,image: image,)));
         break;
       case 'Fees':
-        Navigator.push(context, ScaleRoute(page: Fees_screen()));
+        Navigator.push(context, ScaleRoute(page: Fees_screen(id:id)));
         break;
       case 'Routine':
-        Navigator.push(context, ScaleRoute(page: Routine()));
+        Navigator.push(context, ScaleRoute(page: Routine(id:id)));
         break;
       case 'Homework':
-        Navigator.push(context, ScaleRoute(page: StudentHomework()));
+        Navigator.push(context, ScaleRoute(page: StudentHomework(id:id)));
         break;
       case 'Dormitory':
         Navigator.push(context, ScaleRoute(page: DormitoryScreen()));
@@ -251,20 +251,20 @@ class AppFunction {
         Navigator.push(context, ScaleRoute(page: TransportScreen()));
         break;
       case 'Subjects':
-        Navigator.push(context, ScaleRoute(page: SubjectScreen()));
+        Navigator.push(context, ScaleRoute(page: SubjectScreen(id: id,)));
         break;
       case 'Teacher':
-        Navigator.push(context, ScaleRoute(page: StudentTeacher()));
+        Navigator.push(context, ScaleRoute(page: StudentTeacher(id: id,)));
         break;
       case 'Library':
         Navigator.push(
-            context, ScaleRoute(page: LibraryHome(librarys, libraryIcons)));
+            context, ScaleRoute(page: LibraryHome(librarys, libraryIcons,id: id,)));
         break;
       case 'Notice':
         Navigator.push(context, ScaleRoute(page: NoticeScreen()));
         break;
       case 'Timeline':
-        Navigator.push(context, ScaleRoute(page: TimelineScreen()));
+        Navigator.push(context, ScaleRoute(page: TimelineScreen(id:id)));
         break;
       case 'Examination':
         Navigator.push(context,
@@ -278,7 +278,7 @@ class AppFunction {
                     onlineExaminations, onlineExaminationIcons)));
         break;
       case 'Attendance':
-        Navigator.push(context, ScaleRoute(page: StudentAttendanceScreen()));
+        Navigator.push(context, ScaleRoute(page: StudentAttendanceScreen(id: int.parse(id),)));
         break;
     }
   }
@@ -365,13 +365,13 @@ class AppFunction {
     }
   }
 
-  static void getLibraryDashboardPage(BuildContext context, String title) {
+  static void getLibraryDashboardPage(BuildContext context, String title,{var id}) {
     switch (title) {
       case 'Book List':
         Navigator.push(context, ScaleRoute(page: BookListScreen()));
         break;
       case 'Books Issued':
-        Navigator.push(context, ScaleRoute(page: BookIssuedScreen()));
+        Navigator.push(context, ScaleRoute(page: BookIssuedScreen(id: id,)));
         break;
     }
   }

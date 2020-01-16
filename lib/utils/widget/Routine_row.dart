@@ -14,9 +14,10 @@ class RoutineRow extends StatefulWidget {
   String title;
   int classCode;
   int sectionCode;
+  String id;
 
 
-  RoutineRow({this.title, this.classCode, this.sectionCode});
+  RoutineRow({this.title, this.classCode, this.sectionCode,this.id});
 
   @override
   _ClassRoutineState createState() => _ClassRoutineState(title,classCode,sectionCode);
@@ -39,7 +40,7 @@ class _ClassRoutineState extends State<RoutineRow> {
     Utils.getStringValue('id').then((value) {
       setState(() {
         if(classCode == null && sectionCode == null){
-          routine = fetchRoutine(int.parse(value), title);
+          routine = fetchRoutine(int.parse(widget.id!= null ? widget.id : value), title);
         }else{
           routine = fetchRoutineByClsSec(int.parse(value), title);
         }

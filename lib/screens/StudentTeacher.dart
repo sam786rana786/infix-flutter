@@ -10,6 +10,10 @@ import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/Student_teacher_row_layout.dart';
 
 class StudentTeacher extends StatefulWidget {
+  String id;
+
+  StudentTeacher({this.id});
+
   @override
   _StudentTeacherState createState() => _StudentTeacherState();
 }
@@ -35,7 +39,7 @@ class _StudentTeacherState extends State<StudentTeacher> with SingleTickerProvid
     super.didChangeDependencies();
     Utils.getStringValue('id').then((value) {
       setState(() {
-        teachers = getAllTeacher(int.parse(value));
+        teachers = getAllTeacher(widget.id != null ? int.parse(widget.id):int.parse(value));
       });
     });
   }

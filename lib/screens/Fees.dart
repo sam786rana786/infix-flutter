@@ -8,6 +8,10 @@ import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:flutter/services.dart';
 
 class Fees_screen extends StatefulWidget {
+  String id;
+
+  Fees_screen({this.id});
+
   @override
   _Fees_screenState createState() => _Fees_screenState();
 }
@@ -54,7 +58,7 @@ class _Fees_screenState extends State<Fees_screen> {
                     if(id.hasData){
                       return Container(
                         child: FutureBuilder(
-                          future: FeeService(int.parse(id.data)).fetchTotalFee(),
+                          future: FeeService(int.parse(widget.id!= null ? widget.id : id.data)).fetchTotalFee(),
                           builder: (BuildContext context,
                               AsyncSnapshot<List<String>> total_fees_snapshot){
 
@@ -213,7 +217,7 @@ class _Fees_screenState extends State<Fees_screen> {
                       return Container(
                         child: FutureBuilder(
                           future:
-                              FeeService(int.parse(snap_id.data)).fetchFee(),
+                              FeeService(int.parse(widget.id!= null ? widget.id : snap_id.data)).fetchFee(),
                           builder: (BuildContext context,
                               AsyncSnapshot<List<Fee>> fees_snapshot) {
                             if (fees_snapshot.hasData) {

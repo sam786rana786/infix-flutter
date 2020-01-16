@@ -13,8 +13,9 @@ import 'package:infixedu/utils/widget/AppBarWidget.dart';
 class LibraryHome extends StatefulWidget {
   var _titles;
   var _images;
+  var id;
 
-  LibraryHome(this._titles,this._images);
+  LibraryHome(this._titles,this._images,{this.id});
 
   @override
   _HomeState createState() => _HomeState(_titles,_images);
@@ -64,7 +65,7 @@ class _HomeState extends State<LibraryHome> {
               onSelect: () {
                 setState(() {
                   currentSelectedIndex = index;
-                  AppFunction.getLibraryDashboardPage(context, _titles[index]);
+                  AppFunction.getLibraryDashboardPage(context, _titles[index],id: widget.id);
                 });
               },
               headline: _titles[index],

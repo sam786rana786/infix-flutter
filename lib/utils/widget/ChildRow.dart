@@ -27,7 +27,7 @@ class _ChildRowState extends State<ChildRow> {
     return InkWell(
       onTap: (){
         Route route = MaterialPageRoute(
-            builder: (context) => ChildHome(AppFunction.students, AppFunction.studentIcons,child.id));
+            builder: (context) => ChildHome(AppFunction.students, AppFunction.studentIcons,child.id,InfixApi.root+child.photo));
         Navigator.pushReplacement(context, route);
       },
       splashColor: Colors.purple.shade200,

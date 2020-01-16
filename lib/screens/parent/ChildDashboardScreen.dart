@@ -14,8 +14,9 @@ class ChildHome extends StatefulWidget {
   var _titles;
   var _images;
   int id;
+  String profileImage;
 
-  ChildHome(this._titles, this._images,this.id);
+  ChildHome(this._titles, this._images,this.id,this.profileImage);
 
   @override
   _ChildHomeState createState() => _ChildHomeState(_titles, _images);
@@ -58,7 +59,7 @@ class _ChildHomeState extends State<ChildHome> {
               onSelect: () {
                 setState(() {
                   currentSelectedIndex = index;
-                  AppFunction.getDashboardPage(context, _titles[index]);
+                  AppFunction.getDashboardPage(context, _titles[index],id:widget.id.toString(),image: widget.profileImage);
                 });
               },
               headline: _titles[index],

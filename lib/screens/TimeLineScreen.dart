@@ -9,6 +9,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class TimelineScreen extends StatefulWidget {
+  String id;
+
+  TimelineScreen({this.id});
+
   @override
   _TimelineScreenState createState() => _TimelineScreenState();
 }
@@ -22,7 +26,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
     super.didChangeDependencies();
     Utils.getStringValue('id').then((value) {
       setState(() {
-        timelinelist = getAllTimeline(int.parse(value));
+        timelinelist = getAllTimeline(widget.id != null ? int.parse(widget.id):int.parse(value));
       });
     });
   }

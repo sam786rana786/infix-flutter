@@ -9,6 +9,10 @@ import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/BookIssuedRow.dart';
 
 class BookIssuedScreen extends StatefulWidget {
+  var id;
+
+  BookIssuedScreen({this.id});
+
   @override
   _BookIssuedScreenState createState() => _BookIssuedScreenState();
 }
@@ -21,7 +25,7 @@ class _BookIssuedScreenState extends State<BookIssuedScreen> {
     super.didChangeDependencies();
     Utils.getStringValue('id').then((value) {
       setState(() {
-        bookList = getIssuedBooks(int.parse(value));
+        bookList = getIssuedBooks(widget.id != null ? int.parse(widget.id):int.parse(value));
       });
     });
   }

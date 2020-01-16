@@ -338,9 +338,10 @@ Future<String> getImageUrl(String email, String password, String rule) async {
 
   if (response.statusCode == 200) {
     Map<String, dynamic> user = jsonDecode(response.body) as Map;
-
     if (rule == '2')
       image = InfixApi.root + user['data']['userDetails']['student_photo'];
+    else if (rule == '3')
+      image = InfixApi.root + user['data']['userDetails']['fathers_photo'];
     else
       image = InfixApi.root + user['data']['userDetails']['staff_photo'];
   }
