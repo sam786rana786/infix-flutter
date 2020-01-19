@@ -10,6 +10,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ClassExamResultScreen extends StatefulWidget {
+  var id;
+
+  ClassExamResultScreen({this.id});
+
   @override
   _ClassExamResultScreenState createState() => _ClassExamResultScreenState();
 }
@@ -17,7 +21,7 @@ class ClassExamResultScreen extends StatefulWidget {
 class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
 
   Future<ClassExamResultList> results;
-  int id;
+  var id;
   int code;
   var _selected;
   Future<ClassExamList> exams;
@@ -27,8 +31,8 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
     super.didChangeDependencies();
     Utils.getStringValue('id').then((value) {
       setState(() {
-      id = int.parse(value);
-      exams = getAllClassExam(int.parse(value));
+      id = widget.id != null ? widget.id : value;
+      exams = getAllClassExam(id);
       exams.then((val) {
         _selected = val.exams[0].examName;
         code = val.exams[0].examId;
@@ -107,18 +111,20 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
   }
 
   Future<ClassExamResultList> getAllClassExamResult(
-      int id, int code) async {
+      var id, int code) async {
     final response =
     await http.get(InfixApi.getStudentClassExamResult(id, code));
     if (response.statusCode == 200) {
+      Utils.showToast('$id $code');
       var jsonData = jsonDecode(response.body);
-      return ClassExamResultList.fromJson(jsonData['data']['exam_result']);
+      Utils.showToast(jsonData['data'].toString());
+      return ClassExamResultList.fromJson(jsonData['data']);
     } else {
       throw Exception('Failed to load');
     }
   }
 
-  Future<ClassExamList> getAllClassExam(int id) async {
+  Future<ClassExamList> getAllClassExam(var id) async {
     final response = await http.get(InfixApi.getStudentClassExamName(id));
 
     if (response.statusCode == 200) {

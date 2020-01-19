@@ -11,8 +11,14 @@ import 'dart:convert';
 import 'package:infixedu/utils/widget/ExamRow.dart';
 
 class ScheduleScreen extends StatefulWidget {
+
+  var id;
+
+
+  ScheduleScreen({this.id});
+
   @override
-  _ScheduleScreenState createState() => _ScheduleScreenState();
+  _ScheduleScreenState createState() => _ScheduleScreenState(id: id);
 }
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
@@ -20,16 +26,19 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   Future<ClassExamList> exams;
   Future<classExamScheduleList> examlist;
-  int id;
+  var id;
   int code;
+
+
+  _ScheduleScreenState({this.id});
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     Utils.getStringValue('id').then((value) {
       setState(() {
-        id = int.parse(value);
-        exams = getAllClassExam(int.parse(value));
+        id = id != null ? id : value;
+        exams = getAllClassExam(id);
         examlist = getAllClassExamSchedule(id, code);
         exams.then((val) {
           _selected = val.exams[0].examName;
@@ -138,7 +147,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     return code;
   }
 
-  Future<ClassExamList> getAllClassExam(int id) async {
+  Future<ClassExamList> getAllClassExam(var id) async {
     final response = await http.get(InfixApi.getStudentClassExamName(id));
 
     if (response.statusCode == 200) {
@@ -150,7 +159,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   }
 
   Future<classExamScheduleList> getAllClassExamSchedule(
-      int id, int code) async {
+      var id, int code) async {
     final response =
         await http.get(InfixApi.getStudentClsExamShedule(id, code));
     if (response.statusCode == 200) {

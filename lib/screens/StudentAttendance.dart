@@ -11,9 +11,9 @@ import 'dart:convert';
 import '../utils/widget/AppBarWidget.dart';
 
 class StudentAttendanceScreen extends StatefulWidget {
-  int id;
+  var id;
 
-  StudentAttendanceScreen({this.id});
+  StudentAttendanceScreen({this.id = null});
 
   @override
   _StudentAttendanceScreenState createState() => _StudentAttendanceScreenState(id: id);
@@ -21,7 +21,7 @@ class StudentAttendanceScreen extends StatefulWidget {
 
 class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 
-  int id;
+  var id;
   Future<StudentAttendanceList> attendances;
 
 
@@ -209,7 +209,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   }
 
 
-  Future<StudentAttendanceList> getAllStudentAttendance(int id,int month,int year) async {
+  Future<StudentAttendanceList> getAllStudentAttendance(var id,int month,int year) async {
 
     debugPrint('call');
 

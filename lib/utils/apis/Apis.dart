@@ -49,11 +49,11 @@ class InfixApi {
     return base_api+"student-timeline/$id";
   }
 
-   static String getStudentClassExamName(int id){
+   static String getStudentClassExamName(var id){
     return base_api+"exam-list/$id";
   }
 
-  static String getStudentClsExamShedule(int id,int code){
+  static String getStudentClsExamShedule(var id,int code){
     return base_api+"exam-schedule/$id/$code";
   }
 
@@ -61,14 +61,14 @@ class InfixApi {
     return base_api+"my-attendance/$id?month=$month&year=$year";
   }
 
-  static String getStudentAttendence(int id,int month,int year){
+  static String getStudentAttendence(var id,int month,int year){
     return base_api+"student-my-attendance/$id?month=$month&year=$year";
   }
 
   static String getStudentOnlineResult(int id,int exam_id){
     return base_api+"online-exam-result/$id/$exam_id";
   }
-  static String getStudentClassExamResult(int id,int exam_id){
+  static String getStudentClassExamResult(var id,int exam_id){
     return base_api+"exam-result/$id/$exam_id";
   }
 

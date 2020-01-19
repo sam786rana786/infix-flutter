@@ -67,12 +67,10 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           primary: false,
           centerTitle: false,
-          title: Container(
-            width: MediaQuery.of(context).size.width,
-            child: Stack(
+          title:Stack(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 25.0),
+                  padding: const EdgeInsets.only(top: 30.0),
                   child: Image.asset(
                     'images/inflex_edu_logo.png',
                     width: 80.0,
@@ -87,7 +85,6 @@ class _HomeState extends State<Home> {
                 ),
               ],
             ),
-          ),
           flexibleSpace: Image(
             image: AssetImage('images/tool_bar_bg.png'),
             fit: BoxFit.cover,
@@ -207,13 +204,13 @@ showOhtersProfileDialog(BuildContext context) {
             Padding(
               padding: const EdgeInsets.only(top: 80.0),
               child: Container(
-                height: MediaQuery.of(context).size.height / 5,
+                height: MediaQuery.of(context).size.height / 6,
                 width: MediaQuery.of(context).size.width/1.2,
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle, // BoxShape.circle or BoxShape.retangle
                     //color: const Color(0xFF66BB6A),
                     boxShadow: [BoxShadow(
-                      color: Colors.deepPurple,
+                      color: Colors.deepPurple.shade300,
                       blurRadius: 20.0,
                     ),]
                 ),
@@ -231,6 +228,7 @@ showOhtersProfileDialog(BuildContext context) {
                           textAlign: TextAlign.end,
                           style: Theme.of(context).textTheme.headline,
                         ),
+                        SizedBox(height: 10.0,),
                         GestureDetector(
                           child: Text(
                             "Logout",
@@ -303,12 +301,15 @@ Widget getProfileImage(
           onTap: () {
             rule == '2' ? showStudentProfileDialog(context) : showOhtersProfileDialog(context);
           },
-          child: Align(
+          child: Container(
             alignment: Alignment.bottomRight,
-            child: CircleAvatar(
-              radius: 25.0,
-              backgroundImage: NetworkImage(snapshot.data),
-              backgroundColor: Colors.transparent,
+            child: Padding(
+              padding: const EdgeInsets.only(top:16.0),
+              child: CircleAvatar(
+                  radius: 22.0,
+                  backgroundImage: NetworkImage(snapshot.data),
+                  backgroundColor: Colors.transparent,
+                ),
             ),
           ),
         );

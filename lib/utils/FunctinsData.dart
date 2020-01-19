@@ -268,7 +268,7 @@ class AppFunction {
         break;
       case 'Examination':
         Navigator.push(context,
-            ScaleRoute(page: ExaminationHome(examinations, examinationIcons)));
+            ScaleRoute(page: ExaminationHome(examinations, examinationIcons,id: id,)));
         break;
       case 'Online Exam':
         Navigator.push(
@@ -278,7 +278,7 @@ class AppFunction {
                     onlineExaminations, onlineExaminationIcons)));
         break;
       case 'Attendance':
-        Navigator.push(context, ScaleRoute(page: StudentAttendanceScreen(id: int.parse(id),)));
+        Navigator.push(context, ScaleRoute(page: StudentAttendanceScreen(id: id)));
         break;
     }
   }
@@ -409,13 +409,13 @@ class AppFunction {
     }
   }
 
-  static void getExaminationDashboardPage(BuildContext context, String title) {
+  static void getExaminationDashboardPage(BuildContext context, String title,{var id}) {
     switch (title) {
       case 'Schedule':
-        Navigator.push(context, ScaleRoute(page: ScheduleScreen()));
+        Navigator.push(context, ScaleRoute(page: ScheduleScreen(id: id,)));
         break;
       case 'Result':
-        Navigator.push(context, ScaleRoute(page: ClassExamResultScreen()));
+        Navigator.push(context, ScaleRoute(page: ClassExamResultScreen(id: id,)));
         break;
     }
   }
