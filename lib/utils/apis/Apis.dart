@@ -128,6 +128,15 @@ class InfixApi {
   static String getParentChildList(String id){
     return base_api+"child-list/$id";
   }
+  static String getStudentOnlineActiveExam(var id){
+    return base_api+"student-online-exam/$id";
+  }
+  static String getStudentOnlineActiveExamName(var id){
+    return base_api+"choose-exam/$id";
+  }
+  static String getStudentOnlineActiveExamResult(var id,var exam_id){
+    return base_api+"online-exam-result/$id/$exam_id";
+  }
   static String leaveType = base_api+"staff-leave-type";
   static String applyLeave = base_api+"staff-apply-leave";
   static String getEmail = base_api+"user-demo";

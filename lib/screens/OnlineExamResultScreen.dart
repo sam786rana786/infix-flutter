@@ -2,42 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
-import 'package:infixedu/utils/modal/ClassExam.dart';
-import 'package:infixedu/utils/modal/ClassExamSchedule.dart';
+import 'package:infixedu/utils/modal/ONlineExamResult.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
-import 'package:infixedu/utils/widget/ClassExamResultRow.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class ClassExamResultScreen extends StatefulWidget {
+import 'package:infixedu/utils/widget/OnlineExamResultRow.dart';
+
+class OnlineExamResultScreen extends StatefulWidget {
   var id;
 
-  ClassExamResultScreen({this.id});
+  OnlineExamResultScreen({this.id});
 
   @override
-  _ClassExamResultScreenState createState() => _ClassExamResultScreenState();
+  _OnlineExamResultScreenState createState() => _OnlineExamResultScreenState();
 }
 
-class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
+class _OnlineExamResultScreenState extends State<OnlineExamResultScreen> {
 
-  Future<ClassExamResultList> results;
+  Future<OnlineExamResultList> results;
   var id;
   int code;
   var _selected;
-  Future<ClassExamList> exams;
+  Future<OnlineExamNameList> exams;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     Utils.getStringValue('id').then((value) {
       setState(() {
-      id = widget.id != null ? widget.id : value;
-      exams = getAllClassExam(id);
-      exams.then((val) {
-        _selected = val.exams[0].examName;
-        code = val.exams[0].examId;
-        results = getAllClassExamResult(id, code);
-      });
+        id = widget.id != null ? widget.id : value;
+        exams = getAllOnlineExam(id);
+        exams.then((val) {
+          _selected = val.names[0].title;
+          code = val.names[0].id;
+          results = getAllOnlineExamResult(id, code);
+        });
       });
     });
   }
@@ -56,13 +56,13 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
       child: Scaffold(
         appBar: AppBarWidget.header(context,'Result'),
         backgroundColor: Colors.white,
-        body: FutureBuilder<ClassExamList>(
+        body: FutureBuilder<OnlineExamNameList>(
           future: exams,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(
                 children: <Widget>[
-                  getDropdown(snapshot.data.exams),
+                  getDropdown(snapshot.data.names),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -78,17 +78,17 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
     );
   }
 
-  Widget getDropdown(List<ClassExamName> exams) {
+  Widget getDropdown(List<OnlineExamName> names) {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: DropdownButton(
         elevation: 0,
         isExpanded: true,
-        items: exams.map((item) {
+        items: names.map((item) {
           return DropdownMenuItem<String>(
-            value: item.examName,
-            child: Text(item.examName),
+            value: item.title,
+            child: Text(item.title),
           );
         }).toList(),
         style: Theme.of(context).textTheme.display1.copyWith(fontSize: 15.0),
@@ -96,11 +96,11 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
           setState(() {
             _selected = value;
 
-            code = getExamCode(exams, value);
+            code = getExamCode(names, value);
 
-            debugPrint('User select $value');
+            debugPrint('User select $code');
 
-            results = getAllClassExamResult(id, code);
+            results = getAllOnlineExamResult(id, code);
 
             getExamResultList();
           });
@@ -110,35 +110,34 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
     );
   }
 
-  Future<ClassExamResultList> getAllClassExamResult(
+  Future<OnlineExamResultList> getAllOnlineExamResult(
       var id, int code) async {
     final response =
-    await http.get(InfixApi.getStudentClassExamResult(id, code));
+    await http.get(InfixApi.getStudentOnlineActiveExamResult(id, code));
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
-      return ClassExamResultList.fromJson(jsonData['data']['exam_result']);
+      return OnlineExamResultList.fromJson(jsonData['data']['exam_result']);
     } else {
       throw Exception('Failed to load');
     }
   }
 
-  Future<ClassExamList> getAllClassExam(var id) async {
-    final response = await http.get(InfixApi.getStudentClassExamName(id));
+  Future<OnlineExamNameList> getAllOnlineExam(var id) async {
+    final response = await http.get(InfixApi.getStudentOnlineActiveExamName(id));
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
-      return ClassExamList.fromJson(jsonData['data']);
+      return OnlineExamNameList.fromJson(jsonData['data']);
     } else {
       throw Exception('Failed to load');
     }
   }
 
-  int getExamCode(List<ClassExamName> exams, String title) {
+  int getExamCode(List<OnlineExamName> names, String title) {
     int code;
-
-    for (ClassExamName exam in exams) {
-      if (exam.examName == title) {
-        code = exam.examId;
+    for (OnlineExamName name in names) {
+      if (name.title == title) {
+        code = name.id;
         break;
       }
     }
@@ -146,16 +145,15 @@ class _ClassExamResultScreenState extends State<ClassExamResultScreen> {
   }
 
   Widget getExamResultList() {
-    return FutureBuilder<ClassExamResultList>(
+    return FutureBuilder<OnlineExamResultList>(
       future: results,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-
           return ListView.builder(
             itemCount: snapshot.data.results.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return ClassExamResultRow(snapshot.data.results[index]);
+              return OnlineExamResultRow(snapshot.data.results[index]);
             },
           );
         } else {

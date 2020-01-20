@@ -26,18 +26,18 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
 
   _StudentAttendanceRowState(this.student,this.mClass,this.mSection,this.date);
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    isChecked = checkAttendance();
-    isChecked.then((value){
-      if(value){
-        setDefaultAttendance();
-      }
-    });
-
-  }
+//  @override
+//  void didChangeDependencies() {
+//    super.didChangeDependencies();
+//
+//    isChecked = checkAttendance();
+//    isChecked.then((value){
+//      if(value){
+//        setDefaultAttendance();
+//      }
+//    });
+//
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,14 +96,14 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
       throw Exception('Failed to load');
     }
   }
-  void setDefaultAttendance() async {
-    final response = await http.get(InfixApi.attendance_defalut_send(date, mClass, mSection));
-    if (response.statusCode == 200) {
-      debugPrint('Attendance default successful');
-    } else {
-      throw Exception('Failed to load');
-    }
-  }
+//  void setDefaultAttendance() async {
+//    final response = await http.get(InfixApi.attendance_defalut_send(date, mClass, mSection));
+//    if (response.statusCode == 200) {
+//      debugPrint('Attendance default successful');
+//    } else {
+//      throw Exception('Failed to load');
+//    }
+//  }
   Future<bool> checkAttendance() async {
     final response = await http.get(InfixApi.attendance_check(date, mClass, mSection));
     if (response.statusCode == 200) {

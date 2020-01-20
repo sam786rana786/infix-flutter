@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:infixedu/screens/SplashScreen.dart';
 import 'package:infixedu/utils/theme.dart';
 
@@ -19,6 +20,14 @@ class MyApp extends StatelessWidget{
       home: Scaffold(
         body: Splash(),
       ),
+//        localizationsDelegates: [
+//          GlobalMaterialLocalizations.delegate,
+//          GlobalWidgetsLocalizations.delegate,
+//          GlobalCupertinoLocalizations.delegate,
+//        ],
+//        supportedLocales: [
+//        Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
+//    ],
     );
   }
 

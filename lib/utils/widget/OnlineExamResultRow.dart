@@ -1,21 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/ClassExam.dart';
+import 'package:infixedu/utils/modal/ONlineExamResult.dart';
 
-class ClassExamResultRow extends StatefulWidget {
+class OnlineExamResultRow extends StatefulWidget {
 
-  ClassExamResult result;
+  OnlineExamResult result;
 
 
-  ClassExamResultRow(this.result);
+  OnlineExamResultRow(this.result);
 
   @override
   _DormitoryScreenState createState() => _DormitoryScreenState(result);
 }
 
-class _DormitoryScreenState extends State<ClassExamResultRow> {
+class _DormitoryScreenState extends State<OnlineExamResultRow> {
 
-  ClassExamResult result;
+  OnlineExamResult result;
 
   _DormitoryScreenState(this.result);
 
@@ -28,7 +29,7 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              result.examName,
+              result.subject,
               textAlign: TextAlign.start,
               style: Theme.of(context).textTheme.title.copyWith(fontSize: 15.0),
             ),
@@ -41,30 +42,8 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Subject',
-                          maxLines: 1,
-                          style: Theme.of(context)
-                              .textTheme
-                              .display1
-                              .copyWith(fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          result.subject,
-                          maxLines: 1,
-                          style: Theme.of(context).textTheme.display1,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Marks',
+                          'Full Marks',
+                          textDirection: TextDirection.rtl,
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
@@ -76,6 +55,29 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                         ),
                         Text(
                           result.marks.toString(),
+                          maxLines: 1,
+                          style: Theme.of(context).textTheme.display1,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Pass Marks',
+                          maxLines: 1,
+                          style: Theme.of(context)
+                              .textTheme
+                              .display1
+                              .copyWith(fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Text(
+                          result.passMarks.toString(),
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),

@@ -35,8 +35,8 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
       setState(() {
         _id = value;
         year = '${date.year}';
-        month = '0${date.month}';
-        day = '0${date.day}';
+        month = getAbsoluteDate(date.year);
+        day = getAbsoluteDate(date.day);
         classes = getAllClass(int.parse(_id));
         classes.then((value) {
           _selectedClass = value.classes[0].name;
@@ -222,6 +222,10 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
         value: _selectedSection,
       ),
     );
+  }
+
+  String getAbsoluteDate(int date) {
+    return date < 10 ? '0$date' : '$date';
   }
 
   int getCode<T>(T t, String title) {

@@ -29,8 +29,8 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
   String _selectedClass;
   String _selectedSection;
   String _selectedSubject;
-  String _selectedaAssignDate = null;
-  String _selectedSubmissionDate = null;
+  String _selectedaAssignDate ;
+  String _selectedSubmissionDate ;
   TextEditingController markController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   Future<ClassList> classes;

@@ -1,36 +1,34 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:infixedu/utils/modal/ClassExam.dart';
+import 'package:infixedu/utils/modal/ActiveOnlineExam.dart';
 
-class ClassExamResultRow extends StatefulWidget {
+class ActiveOnlineExamRow extends StatelessWidget {
+  ActiveOnlineExam exam;
 
-  ClassExamResult result;
+  ActiveOnlineExamRow(this.exam);
 
-
-  ClassExamResultRow(this.result);
-
-  @override
-  _DormitoryScreenState createState() => _DormitoryScreenState(result);
-}
-
-class _DormitoryScreenState extends State<ClassExamResultRow> {
-
-  ClassExamResult result;
-
-  _DormitoryScreenState(this.result);
+  Random random = Random();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              result.examName,
-              textAlign: TextAlign.start,
-              style: Theme.of(context).textTheme.title.copyWith(fontSize: 15.0),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    exam.title == null ? 'not assigned' : exam.title,
+                    style: Theme.of(context)
+                        .textTheme
+                        .title
+                        .copyWith(fontSize: 15.0),
+                    maxLines: 1,
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
@@ -52,7 +50,9 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                           height: 10.0,
                         ),
                         Text(
-                          result.subject,
+                          exam.subject == null
+                              ? 'not assigned'
+                              : exam.subject,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),
@@ -64,7 +64,7 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Marks',
+                          'Date',
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
@@ -75,7 +75,9 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                           height: 10.0,
                         ),
                         Text(
-                          result.marks.toString(),
+                          exam.date == null
+                              ? 'not assigned'
+                              : exam.date,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),
@@ -87,7 +89,7 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Obtain',
+                          'Status',
                           maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
@@ -95,36 +97,9 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 5.0,
                         ),
-                        Text(
-                          result.obtains.toString(),
-                          maxLines: 1,
-                          style: Theme.of(context).textTheme.display1,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Grade',
-                          maxLines: 1,
-                          style: Theme.of(context)
-                              .textTheme
-                              .display1
-                              .copyWith(fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          result.grade,
-                          maxLines: 1,
-                          style: Theme.of(context).textTheme.display1,
-                        ),
+                        getStatus(context, exam.status),
                       ],
                     ),
                   ),
@@ -145,5 +120,44 @@ class _DormitoryScreenState extends State<ClassExamResultRow> {
         ),
       ),
     );
+  }
+
+  Widget getStatus(BuildContext context, int status) {
+    if (status == 1) {
+      return Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(color: Colors.green.shade500),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Text(
+            'Submitted',
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            style: Theme.of(context)
+                .textTheme
+                .display1
+                .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
+          ),
+        ),
+      );
+    }
+    if (status == 0) {
+      return Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(color: Colors.red.shade500),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Text(
+            'Take Exam',
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            style: Theme.of(context)
+                .textTheme
+                .display1
+                .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
+          ),
+        ),
+      );
+    }
   }
 }

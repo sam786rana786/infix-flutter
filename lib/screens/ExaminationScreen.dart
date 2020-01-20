@@ -1,12 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:infixedu/utils/CardItem.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'package:infixedu/utils/Utils.dart';
-import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infixedu/screens/ActiveOnlineExamScreen.dart';
 import 'package:infixedu/screens/BookIssuedScreen.dart';
 import 'package:infixedu/screens/BookListScreen.dart';
 import 'package:infixedu/screens/ClassExamResult.dart';
@@ -6,6 +7,7 @@ import 'package:infixedu/screens/Dormitory.dart';
 import 'package:infixedu/screens/ExaminationScreen.dart';
 import 'package:infixedu/screens/LibraryScreen.dart';
 import 'package:infixedu/screens/NoticeScreen.dart';
+import 'package:infixedu/screens/OnlineExamResultScreen.dart';
 import 'package:infixedu/screens/OnlineExamScreen.dart';
 import 'package:infixedu/screens/ScheduleScreen.dart';
 import 'package:infixedu/screens/StudentTeacher.dart';
@@ -275,7 +277,7 @@ class AppFunction {
             context,
             ScaleRoute(
                 page: OnlineExaminationHome(
-                    onlineExaminations, onlineExaminationIcons)));
+                    onlineExaminations, onlineExaminationIcons,id: id,)));
         break;
       case 'Attendance':
         Navigator.push(context, ScaleRoute(page: StudentAttendanceScreen(id: id)));
@@ -421,13 +423,13 @@ class AppFunction {
   }
 
   static void getOnlineExaminationDashboardPage(
-      BuildContext context, String title) {
+      BuildContext context, String title,{var id}) {
     switch (title) {
-      case 'Schedule':
-        Navigator.push(context, ScaleRoute(page: ScheduleScreen()));
+      case 'Active Exam':
+        Navigator.push(context, ScaleRoute(page: ActiveOnlineExamScreen(id: id,)));
         break;
-      case 'Books Issued':
-        Navigator.push(context, ScaleRoute(page: BookIssuedScreen()));
+      case 'Exam Result':
+        Navigator.push(context, ScaleRoute(page: OnlineExamResultScreen(id: id,)));
         break;
     }
   }

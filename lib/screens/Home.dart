@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter/widgets.dart';
 import 'package:infixedu/utils/CardItem.dart';
 import 'package:infixedu/utils/FunctinsData.dart';

@@ -10,8 +10,9 @@ import 'package:infixedu/utils/widget/AppBarWidget.dart';
 class OnlineExaminationHome extends StatefulWidget {
   var _titles;
   var _images;
+  var id;
 
-  OnlineExaminationHome(this._titles,this._images);
+  OnlineExaminationHome(this._titles,this._images,{this.id});
 
   @override
   _HomeState createState() => _HomeState(_titles,_images);
@@ -61,7 +62,7 @@ class _HomeState extends State<OnlineExaminationHome> {
               onSelect: () {
                 setState(() {
                   currentSelectedIndex = index;
-                  AppFunction.getOnlineExaminationDashboardPage(context, _titles[index]);
+                  AppFunction.getOnlineExaminationDashboardPage(context, _titles[index],id: widget.id);
                 });
               },
               headline: _titles[index],
