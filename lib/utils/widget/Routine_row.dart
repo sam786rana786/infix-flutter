@@ -52,7 +52,7 @@ class _ClassRoutineState extends State<RoutineRow> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16.0,left: 10.0),
+      padding: const EdgeInsets.only(top: 16.0,left: 10.0,right: 10.0),
       child: FutureBuilder<ScheduleList>(
         future: routine,
         builder: (context,snapshot){
@@ -91,7 +91,7 @@ class _ClassRoutineState extends State<RoutineRow> {
                    },
                  ),
                  Padding(
-                   padding: const EdgeInsets.only(top:8.0,right: 8.0),
+                   padding: const EdgeInsets.only(top:8.0),
                    child: Container(
                      height: 0.5,
                      decoration: BoxDecoration(

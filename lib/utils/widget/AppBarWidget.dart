@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/Utils.dart';
 
-
 class AppBarWidget {
-
-
-  static PreferredSize header(BuildContext context,String title){
-
+  static PreferredSize header(BuildContext context, String title) {
     return PreferredSize(
       preferredSize: Size(double.infinity, 40.0), // 40 is the height
       child: AppBar(
@@ -15,38 +11,43 @@ class AppBarWidget {
         title: Center(
           child: Container(
             width: MediaQuery.of(context).size.width,
-            child: Stack(
+            child: Row(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Text(title,style: TextStyle(fontSize: 20.0),),
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Text(
+                    title,
+                    style: TextStyle(fontSize: 20.0),
+                  ),
                 ),
-          FutureBuilder(
-            future:  Utils.getStringValue('image'),
-            builder: (BuildContext context,AsyncSnapshot<String> snapshot){
-
-              if(snapshot.hasData){
-                Utils.saveStringValue('image', snapshot.data);
-                return Align(
-                    alignment: Alignment.bottomRight,
-                    child: CircleAvatar(
-                      radius: 25.0,
-                      backgroundImage: NetworkImage(snapshot.data),
-                      backgroundColor: Colors.transparent,
-                    ),
-                  );
-              }else{
-                return Align(
-                    alignment: Alignment.bottomRight,
-                    child: CircleAvatar(
-                      radius: 25.0,
-                      backgroundImage: NetworkImage('https://i.imgur.com/BoN9kdC.png'),
-                      backgroundColor: Colors.transparent,
-                    ),
-                  );
-              }
-            },
-          ),
+                Expanded(child: Container()),
+                FutureBuilder(
+                  future: Utils.getStringValue('image'),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      Utils.saveStringValue('image', snapshot.data);
+                      return Align(
+                        alignment: Alignment.bottomRight,
+                        child: CircleAvatar(
+                          radius: 25.0,
+                          backgroundImage: NetworkImage(snapshot.data),
+                          backgroundColor: Colors.transparent,
+                        ),
+                      );
+                    } else {
+                      return Align(
+                        alignment: Alignment.bottomRight,
+                        child: CircleAvatar(
+                          radius: 25.0,
+                          backgroundImage:
+                              NetworkImage('https://i.imgur.com/BoN9kdC.png'),
+                          backgroundColor: Colors.transparent,
+                        ),
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           ),
@@ -69,7 +70,6 @@ class AppBarWidget {
         elevation: 0.0,
       ),
     );
-
   }
 
   static void navigateToPreviousPage(BuildContext context) {

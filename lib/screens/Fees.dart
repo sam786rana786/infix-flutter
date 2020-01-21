@@ -31,7 +31,7 @@ class _Fees_screenState extends State<Fees_screen> {
         body: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 10.0),
+              padding: const EdgeInsets.only(left: 10.0,right: 10.0),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -49,7 +49,7 @@ class _Fees_screenState extends State<Fees_screen> {
             ),
             Padding(
               padding:
-                  const EdgeInsets.only(top: 10.0, left: 10.0, bottom: 20.0),
+                  const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0,bottom: 20.0),
               child: Container(
                 child:FutureBuilder(
                   future: Utils.getStringValue('id'),

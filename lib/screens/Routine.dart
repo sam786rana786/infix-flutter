@@ -27,11 +27,14 @@ class Routine extends StatelessWidget {
       child: Scaffold(
           appBar: AppBarWidget.header(context, 'Routine'),
           backgroundColor: Colors.white,
-          body: ListView.builder(
-            itemCount: weeks.length,
-            itemBuilder: (context,index){
-              return RoutineRow(title:weeks[index],id: id,);
-            },
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              itemCount: weeks.length,
+              itemBuilder: (context,index){
+                return RoutineRow(title:weeks[index],id: id,);
+              },
+            ),
           ),
         ),
     );

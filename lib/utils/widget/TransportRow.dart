@@ -81,7 +81,7 @@ class TransportRow extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 color: Colors.white,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0, top: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0, right: 10.0,top: 20.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[

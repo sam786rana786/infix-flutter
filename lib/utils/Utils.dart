@@ -16,6 +16,12 @@ class Utils{
     return prefs.setString(key, value);
   }
 
+  static Future<bool> saveIntValue(String key ,int value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.setInt(key, value);
+  }
+
   static Future<bool> getBooleanValue(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool(key) ?? false;
@@ -24,6 +30,11 @@ class Utils{
   static Future<String> getStringValue(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
+  }
+
+  static Future<int> getIntValue(String key) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(key);
   }
 
   static Future<bool> clearAllValue() async {

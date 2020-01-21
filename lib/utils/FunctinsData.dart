@@ -10,6 +10,7 @@ import 'package:infixedu/screens/NoticeScreen.dart';
 import 'package:infixedu/screens/OnlineExamResultScreen.dart';
 import 'package:infixedu/screens/OnlineExamScreen.dart';
 import 'package:infixedu/screens/ScheduleScreen.dart';
+import 'package:infixedu/screens/SettingsScreen.dart';
 import 'package:infixedu/screens/StudentTeacher.dart';
 import 'package:infixedu/screens/SubjectScreen.dart';
 import 'package:infixedu/screens/TimeLineScreen.dart';
@@ -124,10 +125,12 @@ class AppFunction {
   static var parent = [
     'Child',
     'About',
+    'Settings',
   ];
   static var parentIcons = [
+    'images/mychild.png',
     'images/fees_icon.png',
-    'images/fees_icon.png',
+    'images/addhw.png',
   ];
 
   static var librarys = [
@@ -330,6 +333,9 @@ class AppFunction {
         break;
       case 'About':
         Navigator.push(context, ScaleRoute(page: AboutScreen()));
+        break;
+      case 'Settings':
+        Navigator.push(context, ScaleRoute(page: SettingScreen()));
         break;
     }
   }
