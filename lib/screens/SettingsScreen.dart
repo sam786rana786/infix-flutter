@@ -18,7 +18,7 @@ class _SettingScreenState extends State<SettingScreen> {
     Utils.getIntValue('locale').then((value) {
       setState(() {
         isSelected[value] = true;
-        Utils.showToast('$value');
+        //Utils.showToast('$value');
       });
     });
   }

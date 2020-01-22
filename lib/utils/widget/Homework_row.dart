@@ -20,7 +20,6 @@ class Student_homework_row extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    checkPermissions(context);
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -42,6 +41,7 @@ class Student_homework_row extends StatelessWidget {
                   width: 80.0,
                   child: GestureDetector(
                     onTap: () {
+                      checkPermissions(context);
                       showDownloadAlertDialog(context);
                     },
                     child: Text(
@@ -392,6 +392,7 @@ class Student_homework_row extends StatelessWidget {
       child: Text("download"),
       onPressed: () {
         homework.fileUrl != null ? downloadFile(homework.fileUrl) : Utils.showToast('no file found');
+        Navigator.of(context).pop();
       },
     );
 

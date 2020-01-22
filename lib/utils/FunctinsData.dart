@@ -58,7 +58,8 @@ class AppFunction {
     'Teacher',
     'Library',
     'Transport',
-    'Dormitory'
+    'Dormitory',
+    'Settings',
   ];
   static var studentIcons = [
     'images/profile.png',
@@ -74,7 +75,8 @@ class AppFunction {
     'images/teacher.png',
     'images/library.png',
     'images/transport.png',
-    'images/dormitory.png'
+    'images/dormitory.png',
+    'images/addhw.png',
   ];
 
   static var teachers = [
@@ -87,6 +89,7 @@ class AppFunction {
     'Library',
     'Homework',
     'About',
+    'Settings',
   ];
 
   static var teachersIcons = [
@@ -99,6 +102,7 @@ class AppFunction {
     'images/library.png',
     'images/homework.png',
     'images/about.png',
+    'images/addhw.png',
   ];
 
   static var admins = [
@@ -223,8 +227,8 @@ class AppFunction {
         Navigator.pushReplacement(context, route);
         break;
       case '3':
-        route = MaterialPageRoute(
-            builder: (context) => Home(parent, parentIcons));
+        route =
+            MaterialPageRoute(builder: (context) => Home(parent, parentIcons));
         Navigator.pushReplacement(context, route);
         break;
       case '4':
@@ -235,19 +239,26 @@ class AppFunction {
     }
   }
 
-  static void getDashboardPage(BuildContext context, String title,{var id,String image}) {
+  static void getDashboardPage(BuildContext context, String title,
+      {var id, String image}) {
     switch (title) {
       case 'Profile':
-        Navigator.push(context, ScaleRoute(page: Profile(id: id,image: image,)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: Profile(
+              id: id,
+              image: image,
+            )));
         break;
       case 'Fees':
-        Navigator.push(context, ScaleRoute(page: Fees_screen(id:id)));
+        Navigator.push(context, ScaleRoute(page: Fees_screen(id: id)));
         break;
       case 'Routine':
-        Navigator.push(context, ScaleRoute(page: Routine(id:id)));
+        Navigator.push(context, ScaleRoute(page: Routine(id: id)));
         break;
       case 'Homework':
-        Navigator.push(context, ScaleRoute(page: StudentHomework(id:id)));
+        Navigator.push(context, ScaleRoute(page: StudentHomework(id: id)));
         break;
       case 'Dormitory':
         Navigator.push(context, ScaleRoute(page: DormitoryScreen()));
@@ -256,34 +267,63 @@ class AppFunction {
         Navigator.push(context, ScaleRoute(page: TransportScreen()));
         break;
       case 'Subjects':
-        Navigator.push(context, ScaleRoute(page: SubjectScreen(id: id,)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: SubjectScreen(
+              id: id,
+            )));
         break;
       case 'Teacher':
-        Navigator.push(context, ScaleRoute(page: StudentTeacher(id: id,)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: StudentTeacher(
+              id: id,
+            )));
         break;
       case 'Library':
         Navigator.push(
-            context, ScaleRoute(page: LibraryHome(librarys, libraryIcons,id: id,)));
+            context,
+            ScaleRoute(
+                page: LibraryHome(
+              librarys,
+              libraryIcons,
+              id: id,
+            )));
         break;
       case 'Notice':
         Navigator.push(context, ScaleRoute(page: NoticeScreen()));
         break;
       case 'Timeline':
-        Navigator.push(context, ScaleRoute(page: TimelineScreen(id:id)));
+        Navigator.push(context, ScaleRoute(page: TimelineScreen(id: id)));
         break;
       case 'Examination':
-        Navigator.push(context,
-            ScaleRoute(page: ExaminationHome(examinations, examinationIcons,id: id,)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: ExaminationHome(
+              examinations,
+              examinationIcons,
+              id: id,
+            )));
         break;
       case 'Online Exam':
         Navigator.push(
             context,
             ScaleRoute(
                 page: OnlineExaminationHome(
-                    onlineExaminations, onlineExaminationIcons,id: id,)));
+              onlineExaminations,
+              onlineExaminationIcons,
+              id: id,
+            )));
         break;
       case 'Attendance':
-        Navigator.push(context, ScaleRoute(page: StudentAttendanceScreen(id: id)));
+        Navigator.push(
+            context, ScaleRoute(page: StudentAttendanceScreen(id: id)));
+        break;
+      case 'Settings':
+        Navigator.push(context, ScaleRoute(page: SettingScreen()));
         break;
     }
   }
@@ -324,8 +364,12 @@ class AppFunction {
       case 'About':
         Navigator.push(context, ScaleRoute(page: AboutScreen()));
         break;
+      case 'Settings':
+        Navigator.push(context, ScaleRoute(page: SettingScreen()));
+        break;
     }
   }
+
   static void getParentDashboardPage(BuildContext context, String title) {
     switch (title) {
       case 'Child':
@@ -373,13 +417,19 @@ class AppFunction {
     }
   }
 
-  static void getLibraryDashboardPage(BuildContext context, String title,{var id}) {
+  static void getLibraryDashboardPage(BuildContext context, String title,
+      {var id}) {
     switch (title) {
       case 'Book List':
         Navigator.push(context, ScaleRoute(page: BookListScreen()));
         break;
       case 'Books Issued':
-        Navigator.push(context, ScaleRoute(page: BookIssuedScreen(id: id,)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: BookIssuedScreen(
+              id: id,
+            )));
         break;
     }
   }
@@ -417,25 +467,47 @@ class AppFunction {
     }
   }
 
-  static void getExaminationDashboardPage(BuildContext context, String title,{var id}) {
+  static void getExaminationDashboardPage(BuildContext context, String title,
+      {var id}) {
     switch (title) {
       case 'Schedule':
-        Navigator.push(context, ScaleRoute(page: ScheduleScreen(id: id,)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: ScheduleScreen(
+              id: id,
+            )));
         break;
       case 'Result':
-        Navigator.push(context, ScaleRoute(page: ClassExamResultScreen(id: id,)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: ClassExamResultScreen(
+              id: id,
+            )));
         break;
     }
   }
 
   static void getOnlineExaminationDashboardPage(
-      BuildContext context, String title,{var id}) {
+      BuildContext context, String title,
+      {var id}) {
     switch (title) {
       case 'Active Exam':
-        Navigator.push(context, ScaleRoute(page: ActiveOnlineExamScreen(id: id,)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: ActiveOnlineExamScreen(
+              id: id,
+            )));
         break;
       case 'Exam Result':
-        Navigator.push(context, ScaleRoute(page: OnlineExamResultScreen(id: id,)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: OnlineExamResultScreen(
+              id: id,
+            )));
         break;
     }
   }

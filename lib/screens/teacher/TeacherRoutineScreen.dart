@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
-import 'package:infixedu/utils/apis/Apis.dart';
-import 'package:infixedu/utils/modal/Schedule.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
-import 'package:infixedu/utils/widget/Routine_row.dart';
 import 'package:infixedu/utils/widget/TeacherMyRoutineItem.dart';
 
 class TeacherMyRoutineScreen extends StatelessWidget {

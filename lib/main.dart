@@ -22,6 +22,7 @@ class _MyAppState extends State<MyApp> {
     Utils.getIntValue('locale').then((value) {
       setState(() {
         isRTL = value == 0 ? true : false;
+        //Utils.showToast('$isRTL');
       });
     });
   }

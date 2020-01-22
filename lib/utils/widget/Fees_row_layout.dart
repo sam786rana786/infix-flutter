@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/paymentGateway/PaymentHome.dart';
 import 'package:infixedu/utils/modal/Fee.dart';
+
+import 'ScaleRoute.dart';
 
 
 class Fees_row extends StatelessWidget {
@@ -11,7 +13,7 @@ class Fees_row extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
           Row(
@@ -162,7 +164,7 @@ class Fees_row extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 color: Colors.white,
                 child:  Padding(
-                  padding: const EdgeInsets.only(left: 10.0,top: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0,top: 20.0),
                   child: Column(
                     children: <Widget>[
                       Row(
@@ -301,11 +303,28 @@ class Fees_row extends StatelessWidget {
                           ],
                         ),
                       ),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, ScaleRoute(page: PaymentHome()));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top:16.0,right: 16.0),
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Center(child: Text('Payment',style: Theme.of(context).textTheme.title.copyWith(color: Colors.white,fontSize: 16.0),)),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
               ),
-            )
+            ),
           ],
         );
       },

@@ -35,7 +35,6 @@ class _Content_rowState extends State<Content_row> {
 
   @override
   Widget build(BuildContext context) {
-    checkPermissions(context);
     return SizeTransition(
       sizeFactor: widget.animation,
       child: Container(
@@ -59,6 +58,7 @@ class _Content_rowState extends State<Content_row> {
                     width: 80.0,
                     child: GestureDetector(
                       onTap: () {
+                        checkPermissions(context);
                         if (progress == 'Download') {
                           showDownloadAlertDialog(context);
                         }

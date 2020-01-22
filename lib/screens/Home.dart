@@ -9,6 +9,7 @@ import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 
+import '../main.dart';
 import 'Login.dart';
 import 'Profile.dart';
 
@@ -139,8 +140,9 @@ class _HomeState extends State<Home> {
       child: Text("yes"),
       onPressed: () {
         Utils.clearAllValue();
+//        Utils.saveBooleanValue('isLogged', false);
         Utils.saveIntValue('locale', rtlValue);
-        Route route = MaterialPageRoute(builder: (context) => LoginScreen());
+        Route route = MaterialPageRoute(builder: (context) => MyApp());
         Navigator.pushAndRemoveUntil(context, route,ModalRoute.withName('/'));
       },
     );

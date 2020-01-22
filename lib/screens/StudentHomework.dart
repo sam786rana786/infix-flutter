@@ -8,6 +8,8 @@ import 'package:infixedu/utils/widget/Homework_row.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:permissions_plugin/permissions_plugin.dart';
+
 class StudentHomework extends StatefulWidget {
   String id;
 
@@ -18,7 +20,6 @@ class StudentHomework extends StatefulWidget {
 }
 
 class _StudentHomeworkState extends State<StudentHomework> {
-
   Future<HomeworkList> homeworks;
 
   @override
@@ -26,16 +27,14 @@ class _StudentHomeworkState extends State<StudentHomework> {
     super.initState();
     Utils.getStringValue('id').then((value) {
       setState(() {
-        homeworks = fetchHomework(widget.id != null ? int.parse(widget.id):int.parse(value));
+        homeworks = fetchHomework(
+            widget.id != null ? int.parse(widget.id) : int.parse(value));
       });
-
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     final double statusBarHeight = MediaQuery.of(context).padding.top;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: Colors.indigo, //or set color with: Color(0xFF0000FF)
@@ -44,40 +43,36 @@ class _StudentHomeworkState extends State<StudentHomework> {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-          appBar: AppBarWidget.header(context, 'Homework'),
-          backgroundColor: Colors.white,
-          body: FutureBuilder<HomeworkList>(
-            future: homeworks,
-            builder: (context,snapshot){
-              if(snapshot.hasData && snapshot != null){
-                return ListView.builder(
-                  itemCount: snapshot.data.homeworks.length,
-                  itemBuilder: (context , index){
-                    return Student_homework_row(snapshot.data.homeworks[index]);
-                  },
-                );
-              }else{
-                return Text("loading...");
-              }
-            },
-          ),
+        appBar: AppBarWidget.header(context, 'Homework'),
+        backgroundColor: Colors.white,
+        body: FutureBuilder<HomeworkList>(
+          future: homeworks,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot != null) {
+              return ListView.builder(
+                itemCount: snapshot.data.homeworks.length,
+                itemBuilder: (context, index) {
+                  return Student_homework_row(snapshot.data.homeworks[index]);
+                },
+              );
+            } else {
+              return Text("loading...");
+            }
+          },
         ),
+      ),
     );
   }
 
-  Future<HomeworkList> fetchHomework(int id) async{
-
+  Future<HomeworkList> fetchHomework(int id) async {
     final response = await http.get(InfixApi.getStudenthomeWorksUrl(id));
 
-    if(response.statusCode == 200){
-
+    if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
 
       return HomeworkList.fromJson(jsonData['data']);
-
-    }else{
+    } else {
       throw Exception('failed to load');
     }
   }
-
 }
