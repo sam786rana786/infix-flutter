@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
+import 'package:infixedu/utils/widget/ScaleRoute.dart';
+
+import 'GooglePayScreen.dart';
 
 class PaymentHome extends StatefulWidget {
   @override
@@ -35,15 +38,20 @@ class _PaymentHomeState extends State<PaymentHome> {
                 title: Text('Paytm',style: Theme.of(context).textTheme.headline.copyWith(fontWeight: FontWeight.w700,fontSize: 18),),
               ),
             ),
-            Card(
-              elevation: 4.0,
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 25.0,
-                  backgroundColor: Colors.greenAccent,
-                  child: Image.asset('images/googleplay.png'),
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, ScaleRoute(page: GooglePayScreen()));
+              },
+              child: Card(
+                elevation: 4.0,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 25.0,
+                    backgroundColor: Colors.greenAccent,
+                    child: Image.asset('images/googleplay.png'),
+                  ),
+                  title: Text('GPay',style: Theme.of(context).textTheme.headline.copyWith(fontWeight: FontWeight.w700,fontSize: 18,color: Colors.redAccent),),
                 ),
-                title: Text('GPay',style: Theme.of(context).textTheme.headline.copyWith(fontWeight: FontWeight.w700,fontSize: 18,color: Colors.redAccent),),
               ),
             ),
             Card(
