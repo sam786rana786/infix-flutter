@@ -18,6 +18,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infixedu/utils/apis/Config.dart';
+import 'package:infixedu/utils/modal/Fee.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/buy_sheet.dart';
 import 'package:square_in_app_payments/models.dart';
@@ -26,13 +27,17 @@ import 'package:square_in_app_payments/google_pay_constants.dart'
     as google_pay_constants;
 
 class GooglePayScreen extends StatefulWidget {
+  Fee fee;
+
+  GooglePayScreen(this.fee);
+
   GooglePayScreenState createState() => GooglePayScreenState();
 }
 
 class GooglePayScreenState extends State<GooglePayScreen> {
   bool isLoading = true;
-  bool applePayEnabled = false;
-  bool googlePayEnabled = false;
+  bool applePayEnabled = true;
+  bool googlePayEnabled = true;
 
   static final GlobalKey<ScaffoldState> scaffoldKey =
       GlobalKey<ScaffoldState>();
@@ -105,6 +110,7 @@ class GooglePayScreenState extends State<GooglePayScreen> {
                       AlwaysStoppedAnimation<Color>(Colors.deepPurpleAccent),
                 ))
               : BuySheet(
+                  fee: widget.fee,
                   applePayEnabled: applePayEnabled,
                   googlePayEnabled: googlePayEnabled,
                   applePayMerchantId: applePayMerchantId,

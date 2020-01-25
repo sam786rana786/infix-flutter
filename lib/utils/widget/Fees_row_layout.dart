@@ -305,7 +305,7 @@ class Fees_row extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: (){
-                          Navigator.push(context, ScaleRoute(page: PaymentHome()));
+                          Navigator.push(context, ScaleRoute(page: PaymentHome(fee)));
                         },
                         child: Container(
                           margin: EdgeInsets.only(top:16.0,right: 16.0),

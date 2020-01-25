@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:infixedu/utils/modal/Fee.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 
 import 'GooglePayScreen.dart';
 
 class PaymentHome extends StatefulWidget {
+
+  Fee fee;
+  PaymentHome(this.fee);
+
   @override
   _PaymentHomeState createState() => _PaymentHomeState();
 }
@@ -40,7 +45,7 @@ class _PaymentHomeState extends State<PaymentHome> {
             ),
             GestureDetector(
               onTap: (){
-                Navigator.push(context, ScaleRoute(page: GooglePayScreen()));
+                Navigator.push(context, ScaleRoute(page: GooglePayScreen(widget.fee)));
               },
               child: Card(
                 elevation: 4.0,
