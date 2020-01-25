@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'cookie_button.dart';
 
 enum PaymentType { cardPayment, googlePay, applePay }
-final int cookieAmount = 200;
 
-String getCookieAmount() => (cookieAmount / 100).toStringAsFixed(2);
 
 class OrderSheet extends StatelessWidget {
   final bool googlePayEnabled;
@@ -155,6 +153,8 @@ class _PaymentTotal extends StatelessWidget {
 
   _PaymentTotal(this.balance);
 
+  String getCookieAmount() => (balance / 100).toStringAsFixed(2);
+
   @override
   Widget build(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -167,7 +167,7 @@ class _PaymentTotal extends StatelessWidget {
           ),
           Padding(padding: EdgeInsets.only(right: 47)),
           Text(
-            "\$${balance/100}",
+            "\$${getCookieAmount()}",
             style:Theme.of(context).textTheme.title,
             textAlign: TextAlign.center,
           ),

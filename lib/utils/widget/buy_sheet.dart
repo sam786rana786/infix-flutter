@@ -50,6 +50,8 @@ class BuySheetState extends State<BuySheet> {
 
   bool get _applePayMerchantIdSet => widget.applePayMerchantId != "REPLACE_ME";
 
+  String getCookieAmount() => (double.parse(widget.fee.balance) / 100).toStringAsFixed(2);
+
   void _showOrderSheet() async {
     var selection =
         await custom_modal_bottom_sheet.showModalBottomSheet<PaymentType>(
@@ -101,7 +103,7 @@ class BuySheetState extends State<BuySheet> {
           '--data \'{'
           '\"idempotency_key\": \"$uuid\",'
           '\"amount_money\": {'
-          '\"amount\": $cookieAmount,'
+          '\"amount\": $getCookieAmount(),'
           '\"currency\": \"USD\"},'
           '\"card_nonce\": \"$nonce\"'
           '}\'');
@@ -113,7 +115,7 @@ class BuySheetState extends State<BuySheet> {
           '--data \'{'
           '\"idempotency_key\": \"$uuid\",'
           '\"amount_money\": {'
-          '\"amount\": $cookieAmount,'
+          '\"amount\": $getCookieAmount(),'
           '\"currency\": \"USD\"},'
           '\"source_id\": \"$nonce\",'
           '\"verification_token\": \"$verificationToken\"'
