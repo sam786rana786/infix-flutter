@@ -117,6 +117,9 @@ class InfixApi {
   static String attendance_check(String date,String mClass,String mSection){
     return base_api+"student-attendance-check?date="+date+"&class="+mClass+"&section="+mSection;
   }
+  static String studentFeePayment(String stuId,int feesType,String amount,String paidBy,String paymentMethod){
+    return base_api+"student-fees-payment?student_id=$stuId&fees_type_id=$feesType&amount=$amount&paid_by=$paidBy&payment_mode=C";
+  }
   static String ABOUT = base_api+"parent-about";
 
    static String getHomeWorkListUrl(int id){

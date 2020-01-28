@@ -48,6 +48,7 @@ class _HomeState extends State<Home> {
     });
     Utils.getStringValue('id').then((value) {
       _id = value;
+      Utils.showToast('$value');
     });
     Utils.getStringValue('rule').then((value){
       _rule = value;
