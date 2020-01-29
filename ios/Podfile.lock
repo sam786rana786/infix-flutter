@@ -12,6 +12,10 @@ PODS:
     - Flutter
   - permissions_plugin (0.0.1):
     - Flutter
+  - razorpay-pod (1.1.4)
+  - razorpay_flutter (1.1.1):
+    - Flutter
+    - razorpay-pod (~> 1.1.4)
   - shared_preferences (0.0.1):
     - Flutter
   - shared_preferences_macos (0.0.1):
@@ -33,6 +37,7 @@ DEPENDENCIES:
   - open_file (from `.symlinks/plugins/open_file/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permissions_plugin (from `.symlinks/plugins/permissions_plugin/ios`)
+  - razorpay_flutter (from `.symlinks/plugins/razorpay_flutter/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
   - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
@@ -40,6 +45,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - razorpay-pod
     - SquareBuyerVerificationSDK
     - SquareInAppPaymentsSDK
 
@@ -58,6 +64,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider/ios"
   permissions_plugin:
     :path: ".symlinks/plugins/permissions_plugin/ios"
+  razorpay_flutter:
+    :path: ".symlinks/plugins/razorpay_flutter/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   shared_preferences_macos:
@@ -75,6 +83,8 @@ SPEC CHECKSUMS:
   open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   permissions_plugin: 98cd73ca0d2e7ab845e3d0efdd29ef2737ffa27c
+  razorpay-pod: 592624080178be4c6121216508e7857fc245f4b8
+  razorpay_flutter: 2af1a15499076b1798d81bc35e4837d467b2daac
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9

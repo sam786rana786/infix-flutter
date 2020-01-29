@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Fee.dart';
 import 'PaymentStatusScreen.dart';
@@ -21,6 +22,7 @@ class PaytmPayment extends StatefulWidget {
 
 class _PaytmPaymentState extends State<PaytmPayment> {
   String amount;
+  bool isGet = false;
 
   _PaytmPaymentState(this.amount);
 
@@ -64,12 +66,21 @@ class _PaytmPaymentState extends State<PaytmPayment> {
     // Add a listener to on url changed
     _onUrlChanged = flutterWebviewPlugin.onUrlChanged.listen((String url) {
       if (mounted) {
+
         print("URL changed: $url");
-        if (url.endsWith('callback')) {
+
+        if (url.endsWith('request1.jsp')) {
+          setState(() {
+            isGet = true;
+          });
+        }
+
+        if (url.endsWith('callback') && isGet) {
           isPaymentSuccesful().then((value) {
             if (value) {
               setState(() {
                 isCompleted = true;
+                isGet = false;
               });
             }
           });
@@ -81,11 +92,14 @@ class _PaytmPaymentState extends State<PaytmPayment> {
             print('RESPCODE $cookies["RESPCODE"]');
             print('RESPMSG $cookies["RESPMSG"]');
             print('TXNDATE $cookies["TXNDATE"]');
+
 //               add logic to make show payment status
             flutterWebviewPlugin.close();
           });
         } else {
-          isCompleted = false;
+          setState(() {
+            isCompleted = false;
+          });
         }
       }
     });
@@ -99,7 +113,7 @@ class _PaytmPaymentState extends State<PaytmPayment> {
     //print(Settings.apiUrl);
 
     return isCompleted
-        ? PaymentStatusScreen(widget.fee)
+        ? PaymentStatusScreen(widget.fee,amount)
         : WebviewScaffold(
             url: Settings.apiUrl + queryParams,
             appBar: new AppBar(
@@ -108,8 +122,9 @@ class _PaytmPaymentState extends State<PaytmPayment> {
   }
 
   Future<bool> isPaymentSuccesful() async {
-    final response =
-        await http.get(InfixApi.studentFeePayment('9', 1, amount, '9', 'C'));
+    print('${widget.fee.id}');
+    final response = await http
+        .get(InfixApi.studentFeePayment('9', widget.fee.id, amount, '9', 'C'));
     var jsonData = json.decode(response.body);
     return jsonData['success'];
   }

@@ -5,8 +5,9 @@ import 'package:infixedu/utils/widget/fees_payment_row_widget.dart';
 class PaymentStatusScreen extends StatefulWidget {
 
   Fee fee;
+  String amount;
 
-  PaymentStatusScreen(this.fee);
+  PaymentStatusScreen(this.fee,this.amount);
 
   @override
   _PaymentStatusScreenState createState() => _PaymentStatusScreenState();
@@ -36,6 +37,7 @@ class _PaymentStatusScreenState extends State<PaymentStatusScreen> with SingleTi
     Future.delayed(Duration(seconds: 2), () {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
+      Navigator.of(context).pop();
     });
   }
 
@@ -52,7 +54,7 @@ class _PaymentStatusScreenState extends State<PaymentStatusScreen> with SingleTi
 
             SafeArea(child: Fees_payment_row(widget.fee)),
 
-            SafeArea(child: Center(child: Text('Paid Amount : \$ ${widget.fee.balance}'))),
+            SafeArea(child: Center(child: Text('Paid Amount : \$ ${widget.amount}'))),
 
             SafeArea(child: Center(child: Text('Payment successful'))),
           ],

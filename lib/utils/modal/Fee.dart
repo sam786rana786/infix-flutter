@@ -1,5 +1,6 @@
 class Fee{
 
+  int _id;
   String _title;
   String _dueDate;
   String _amount;
@@ -9,8 +10,14 @@ class Fee{
   String _fine;
 
 
-  Fee(this._title, this._dueDate, this._amount, this._paid, this._balance, this._discount, this._fine);
+  Fee(this._title, this._dueDate, this._amount, this._paid, this._balance, this._discount, this._fine,this._id);
 
+
+  int get id => _id;
+
+  set id(int value) {
+    _id = value;
+  }
 
   String get title => _title;
 

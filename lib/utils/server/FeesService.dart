@@ -28,7 +28,7 @@ class FeeService{
 
     if(isSuccess){
       for(var f in data){
-        feeMap.add(Fee(f['fees_name'], f['due_date'], f['amount'].toString(), f['paid'].toString(), f['balance'].toString(),f['discount_amount'].toString(), f['fine'].toString()));
+        feeMap.add(Fee(f['fees_name'], f['due_date'], f['amount'].toString(), f['paid'].toString(), f['balance'].toString(),f['discount_amount'].toString(), f['fine'].toString(),f['fees_type_id']));
       }
 
     }else{

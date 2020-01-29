@@ -326,6 +326,7 @@ class Fees_row extends StatelessWidget {
                           ],
                         ),
                       ),
+                      int.parse(fee.balance) > 0 ?
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -351,7 +352,7 @@ class Fees_row extends StatelessWidget {
                             )),
                           ),
                         ),
-                      )
+                      ):Text(''),
                     ],
                   ),
                 ),
@@ -364,7 +365,7 @@ class Fees_row extends StatelessWidget {
   }
 
   Widget getStatus(BuildContext context) {
-    if (fee.balance == 0) {
+    if (int.parse(fee.balance) == 0) {
       return Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(color: Colors.greenAccent),
@@ -382,7 +383,7 @@ class Fees_row extends StatelessWidget {
         ),
       );
     }
-    if (int.parse(fee.balance) > 0) {
+    if (int.parse(fee.paid) > 0) {
       return Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(color: Colors.amberAccent),
@@ -401,7 +402,7 @@ class Fees_row extends StatelessWidget {
       );
     }
 
-    if (int.parse(fee.balance) == int.parse(fee.amount)) {
+    if (int.parse(fee.balance) == int.parse(fee.amount) || int.parse(fee.balance) < 0) {
       return Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(color: Colors.redAccent),

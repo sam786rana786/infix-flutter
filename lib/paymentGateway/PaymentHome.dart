@@ -6,6 +6,7 @@ import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:infixedu/paymentGateway/paytm/PaytmHomeScreen.dart';
 import 'package:infixedu/utils/widget/fees_payment_row_widget.dart';
 import 'GooglePayScreen.dart';
+import 'RazorPay/RazorPayHome.dart';
 
 class PaymentHome extends StatefulWidget {
   Fee fee;
@@ -64,7 +65,7 @@ class _PaymentHomeState extends State<PaymentHome> {
                 child: ListTile(
                   leading: CircleAvatar(
                     radius: 25.0,
-                    backgroundColor: Colors.greenAccent,
+                    backgroundColor: Colors.orangeAccent,
                     child: Image.asset('images/googleplay.png'),
                   ),
                   title: Text(
@@ -73,6 +74,52 @@ class _PaymentHomeState extends State<PaymentHome> {
                         fontWeight: FontWeight.w700,
                         fontSize: 18,
                         color: Colors.redAccent),
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context, ScaleRoute(page: GooglePayScreen(widget.fee)));
+              },
+              child: Card(
+                elevation: 4.0,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 25.0,
+                    backgroundColor: Colors.greenAccent,
+                    child: Image.asset('images/payumoney.png'),
+                  ),
+                  title: Text(
+                    'PayUMoney',
+                    style: Theme.of(context).textTheme.headline.copyWith(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        color: Colors.green),
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context, ScaleRoute(page: RazorPayment(widget.fee)));
+              },
+              child: Card(
+                elevation: 4.0,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 25.0,
+                    backgroundColor: Colors.blueAccent,
+                    child: Image.asset('images/razorpay.jpeg'),
+                  ),
+                  title: Text(
+                    'Razorpay',
+                    style: Theme.of(context).textTheme.headline.copyWith(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        color: Colors.blue),
                   ),
                 ),
               ),
@@ -106,7 +153,10 @@ class AddAmount extends StatelessWidget {
   String amount;
   TextEditingController amountController = TextEditingController();
 
-  AddAmount(this.fee);
+  AddAmount(this.fee) {
+    amount = '${absoluteAmount(fee.balance)}';
+    amountController.text = amount;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,9 +164,6 @@ class AddAmount extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: Colors.indigo, //or set color with: Color(0xFF0000FF)
     ));
-
-    amount = fee.balance;
-    amountController.text = amount;
 
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
@@ -158,7 +205,10 @@ class AddAmount extends StatelessWidget {
                 child: FlatButton(
                   onPressed: () {
                     Navigator.push(
-                        context, ScaleRoute(page: PaytmPayment(fee,amountController.text)));
+                        context,
+                        ScaleRoute(
+                            page: PaytmPayment(fee,
+                                '${absoluteAmount(amountController.text)}')));
                   },
                   color: Colors.purpleAccent,
                   textColor: Colors.white,
@@ -176,5 +226,14 @@ class AddAmount extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  int absoluteAmount(String am) {
+    int amount = int.parse(am);
+    if (amount < 0) {
+      return -amount;
+    } else {
+      return amount;
+    }
   }
 }
