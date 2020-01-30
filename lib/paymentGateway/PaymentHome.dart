@@ -10,8 +10,8 @@ import 'RazorPay/RazorPayHome.dart';
 
 class PaymentHome extends StatefulWidget {
   Fee fee;
-
-  PaymentHome(this.fee);
+  String id;
+  PaymentHome(this.fee,this.id);
 
   @override
   _PaymentHomeState createState() => _PaymentHomeState();
@@ -104,7 +104,7 @@ class _PaymentHomeState extends State<PaymentHome> {
             GestureDetector(
               onTap: () {
                 Navigator.push(
-                    context, ScaleRoute(page: RazorPayment(widget.fee)));
+                    context, ScaleRoute(page: RazorPayment(widget.fee,widget.id)));
               },
               child: Card(
                 elevation: 4.0,

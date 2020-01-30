@@ -1,26 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:infixedu/paymentGateway/paytm/PaymentStatusScreen.dart';
+import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Fee.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
-import 'package:infixedu/utils/widget/cookie_button.dart';
 import 'package:infixedu/utils/widget/fees_payment_row_widget.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-import '../PaymentHome.dart';
+import 'AddRazorPayment.dart';
 
 class RazorPayment extends StatefulWidget {
   Fee fee;
-
-  RazorPayment(this.fee);
+  String id;
+  RazorPayment(this.fee,this.id);
 
   @override
-  _RazorPaymentState createState() => _RazorPaymentState();
+  _RazorPaymentState createState() => _RazorPaymentState(id);
 }
 
 class _RazorPaymentState extends State<RazorPayment> {
-  static const platform = const MethodChannel("razorpay_flutter");
+
+  String id;
+
+  _RazorPaymentState(this.id);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +64,7 @@ class _RazorPaymentState extends State<RazorPayment> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
-                      context, ScaleRoute(page: AddRazorAmount(widget.fee)));
+                      context, ScaleRoute(page: AddRazorAmount(widget.fee,widget.id)));
                 },
                 child: Container(
                   height: 40.0,
@@ -87,8 +95,8 @@ class _RazorPaymentState extends State<RazorPayment> {
 
 class AddRazorAmount extends StatefulWidget {
   Fee fee;
-
-  AddRazorAmount(this.fee);
+  String id;
+  AddRazorAmount(this.fee,this.id);
 
   @override
   _AddRazorAmountState createState() => _AddRazorAmountState(fee);
@@ -98,6 +106,7 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
   Fee fee;
   String amount;
   TextEditingController amountController = TextEditingController();
+  static const platform = const MethodChannel("razorpay_flutter");
   Razorpay _razorpay;
 
   _AddRazorAmountState(this.fee) {
@@ -192,11 +201,11 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
 
   void openCheckout(String am) async {
     var options = {
-      'key': 'rzp_test_1DP5mmOlF5G5ag',
+      'key': 'rzp_test_R0z0osfrEa8sfg',
       'amount': '${int.parse(am)*100}',
       'currency':'INR',
       'name': 'Mamun Hossain',
-      'description': 'Fine Payment',
+      'description': fee.title,
       'prefill': {'contact': '01903273865', 'email': 'test@razorpay.com'},
       'external': {
         'wallets': ['paytm']
@@ -216,6 +225,15 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId, timeInSecForIos: 4);
+
+    isPaymentSuccesful().then((value) {
+      if(value){
+        Utils.showToast(widget.id);
+        Navigator.push(
+            context, ScaleRoute(page: PaymentStatusScreen(widget.fee,amountController.text)));
+      }
+    });
+
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -236,5 +254,12 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
     } else {
       return amount;
     }
+  }
+  Future<bool> isPaymentSuccesful() async {
+    print('${widget.id}');
+    final response = await http
+        .get(InfixApi.studentFeePayment(widget.id, widget.fee.id, amountController.text, widget.id, 'C'));
+    var jsonData = json.decode(response.body);
+    return jsonData['success'];
   }
 }

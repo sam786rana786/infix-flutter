@@ -6,8 +6,8 @@ import 'ScaleRoute.dart';
 
 class Fees_row extends StatelessWidget {
   Fee fee;
-
-  Fees_row(this.fee);
+  String id;
+  Fees_row(this.fee,this.id);
 
   @override
   Widget build(BuildContext context) {
@@ -330,7 +330,7 @@ class Fees_row extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
-                                  context, ScaleRoute(page: PaymentHome(fee)))
+                                  context, ScaleRoute(page: PaymentHome(fee,id)))
                               .then((result) {
                             Navigator.of(context).pop();
                           });

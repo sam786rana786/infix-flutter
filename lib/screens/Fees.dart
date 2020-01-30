@@ -223,7 +223,7 @@ class _Fees_screenState extends State<Fees_screen> {
                               return ListView.builder(
                                   itemCount: fees_snapshot.data.length,
                                   itemBuilder: (context, index) {
-                                    return Fees_row(fees_snapshot.data[index]);
+                                    return Fees_row(fees_snapshot.data[index],widget.id!= null ? widget.id : snap_id.data);
                                   });
                             } else {
                               return Text(
