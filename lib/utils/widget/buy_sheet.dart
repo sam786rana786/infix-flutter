@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,8 @@ import 'package:square_in_app_payments/google_pay_constants.dart'
     as google_pay_constants;
 import 'package:infixedu/utils/apis/Config.dart';
 import 'package:infixedu/paymentGateway/transaction_service.dart';
+import 'AppBarWidget.dart';
+import 'ScaleRoute.dart';
 import 'cookie_button.dart';
 import 'dialog_modal.dart';
 
@@ -23,6 +26,8 @@ enum ApplePayStatus { success, fail, unknown }
 
 class BuySheet extends StatefulWidget {
   Fee fee;
+  String id;
+  String amount;
   final bool applePayEnabled;
   final bool googlePayEnabled;
   final String squareLocationId;
@@ -35,7 +40,9 @@ class BuySheet extends StatefulWidget {
       this.googlePayEnabled,
       this.applePayMerchantId,
       this.squareLocationId,
-      this.fee});
+      this.fee,
+      this.id,
+      this.amount});
 
   @override
   BuySheetState createState() => BuySheetState();
@@ -50,14 +57,13 @@ class BuySheetState extends State<BuySheet> {
 
   bool get _applePayMerchantIdSet => widget.applePayMerchantId != "REPLACE_ME";
 
-  String getCookieAmount() => (double.parse(widget.fee.balance) / 100).toStringAsFixed(2);
 
   void _showOrderSheet() async {
     var selection =
         await custom_modal_bottom_sheet.showModalBottomSheet<PaymentType>(
             context: BuySheet.scaffoldKey.currentState.context,
             builder: (context) => OrderSheet(
-                  balance: widget.fee.balance,
+                  balance: widget.amount,
                   applePayEnabled: widget.applePayEnabled,
                   googlePayEnabled: widget.googlePayEnabled,
                 ));
@@ -103,7 +109,7 @@ class BuySheetState extends State<BuySheet> {
           '--data \'{'
           '\"idempotency_key\": \"$uuid\",'
           '\"amount_money\": {'
-          '\"amount\": $getCookieAmount(),'
+          '\"amount\": ${widget.amount},'
           '\"currency\": \"USD\"},'
           '\"card_nonce\": \"$nonce\"'
           '}\'');
@@ -115,7 +121,7 @@ class BuySheetState extends State<BuySheet> {
           '--data \'{'
           '\"idempotency_key\": \"$uuid\",'
           '\"amount_money\": {'
-          '\"amount\": $getCookieAmount(),'
+          '\"amount\": ${widget.amount},'
           '\"currency\": \"USD\"},'
           '\"source_id\": \"$nonce\",'
           '\"verification_token\": \"$verificationToken\"'
@@ -173,7 +179,7 @@ class BuySheetState extends State<BuySheet> {
       return;
     }
     try {
-      await chargeCard(result);
+      await chargeCard(result,widget.amount,widget.id,widget.fee,context);
       InAppPayments.completeCardEntry(
           onCardEntryComplete: _onCardEntryComplete);
     } on ChargeException catch (ex) {
@@ -223,7 +229,7 @@ class BuySheetState extends State<BuySheet> {
     try {
       await InAppPayments.requestGooglePayNonce(
           priceStatus: google_pay_constants.totalPriceStatusFinal,
-          price: getCookieAmount(),
+          price: widget.amount,
           currencyCode: 'USD',
           onGooglePayNonceRequestSuccess: _onGooglePayNonceRequestSuccess,
           onGooglePayNonceRequestFailure: _onGooglePayNonceRequestFailure,
@@ -242,7 +248,7 @@ class BuySheetState extends State<BuySheet> {
       return;
     }
     try {
-      await chargeCard(result);
+      await chargeCard(result,widget.amount,widget.id,widget.fee,context);
       showAlertDialog(
           context: BuySheet.scaffoldKey.currentContext,
           title: "Your order was successful",
@@ -270,7 +276,7 @@ class BuySheetState extends State<BuySheet> {
   void _onStartApplePay() async {
     try {
       await InAppPayments.requestApplePayNonce(
-          price: getCookieAmount(),
+          price: widget.amount,
           summaryLabel: 'Cookie',
           countryCode: 'US',
           currencyCode: 'USD',
@@ -293,7 +299,7 @@ class BuySheetState extends State<BuySheet> {
       return;
     }
     try {
-      await chargeCard(result);
+      await chargeCard(result,widget.amount,widget.id,widget.fee,context);
       _applePayStatus = ApplePayStatus.success;
       showAlertDialog(
           context: BuySheet.scaffoldKey.currentContext,
@@ -353,7 +359,16 @@ class BuySheetState extends State<BuySheet> {
         description: errorInfo.toString());
   }
 
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.indigo, //or set color with: Color(0xFF0000FF)
+    ));
+
+    return Padding(
+      padding: EdgeInsets.only(top: statusBarHeight),
+      child: Scaffold(
+        appBar: AppBarWidget.header(context, 'GPay Payment'),
         key: BuySheet.scaffoldKey,
         body: Builder(
           builder: (context) => Center(
@@ -375,15 +390,215 @@ class BuySheetState extends State<BuySheet> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 32),
-                child: CookieButton(
-                  text: "Make payment",
-                  onPressed: _showOrderSheet,
+              GestureDetector(
+                onTap: () {
+                  _showOrderSheet();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(top: 32),
+                  child: Container(
+                    height: 40.0,
+                    margin: EdgeInsets.symmetric(horizontal: 20.0),
+                    decoration: BoxDecoration(
+                      color: Colors.deepPurple,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Make Payment',
+                        style: Theme.of(context)
+                            .textTheme
+                            .display1
+                            .copyWith(color: Colors.white),
+                      ),
+                    ),
+//                onPressed: openCheckout,
+                  ),
                 ),
               ),
             ],
           )),
         ),
-      );
+      ),
+    );
+  }
+}
+
+class AddGpayAmount extends StatefulWidget {
+  Fee fee;
+  String id;
+
+  AddGpayAmount(this.fee, this.id);
+
+  @override
+  _AddGpayAmountState createState() => _AddGpayAmountState(fee, id);
+}
+
+class _AddGpayAmountState extends State<AddGpayAmount> {
+  Fee fee;
+  String amount;
+  String id;
+  bool isLoading = true;
+  bool applePayEnabled = true;
+  bool googlePayEnabled = true;
+  TextEditingController amountController = TextEditingController();
+
+  static final GlobalKey<ScaffoldState> scaffoldKey =
+      GlobalKey<ScaffoldState>();
+
+  _AddGpayAmountState(this.fee, this.id) {
+    amount = '${absoluteAmount(fee.balance)}';
+    amountController.text = amount;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initSquarePayment();
+
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
+  Future<void> _initSquarePayment() async {
+    await InAppPayments.setSquareApplicationId(squareApplicationId);
+
+    var canUseApplePay = true;
+    var canUseGooglePay = true;
+    if (Platform.isAndroid) {
+      await InAppPayments.initializeGooglePay(
+          squareLocationId, google_pay_constants.environmentTest);
+      canUseGooglePay = await InAppPayments.canUseGooglePay;
+    } else if (Platform.isIOS) {
+      await _setIOSCardEntryTheme();
+      await InAppPayments.initializeApplePay(applePayMerchantId);
+      canUseApplePay = await InAppPayments.canUseApplePay;
+    }
+
+    setState(() {
+      isLoading = false;
+      applePayEnabled = canUseApplePay;
+      googlePayEnabled = canUseGooglePay;
+    });
+  }
+
+  Future _setIOSCardEntryTheme() async {
+    var themeConfiguationBuilder = IOSThemeBuilder();
+    themeConfiguationBuilder.saveButtonTitle = 'Pay';
+    themeConfiguationBuilder.errorColor = RGBAColorBuilder()
+      ..r = 255
+      ..g = 0
+      ..b = 0;
+    themeConfiguationBuilder.tintColor = RGBAColorBuilder()
+      ..r = 36
+      ..g = 152
+      ..b = 141;
+    themeConfiguationBuilder.keyboardAppearance = KeyboardAppearance.light;
+    themeConfiguationBuilder.messageColor = RGBAColorBuilder()
+      ..r = 114
+      ..g = 114
+      ..b = 114;
+
+    await InAppPayments.setIOSCardEntryTheme(themeConfiguationBuilder.build());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.indigo, //or set color with: Color(0xFF0000FF)
+    ));
+
+    return Padding(
+      padding: EdgeInsets.only(top: statusBarHeight),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Container(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Fees_payment_row(fee),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  style: Theme.of(context).textTheme.title,
+                  controller: amountController,
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'please enter a valid amount';
+                    }
+                    return value;
+                  },
+                  decoration: InputDecoration(
+                      hintText: "amount",
+                      labelText: "amount",
+                      labelStyle: Theme.of(context).textTheme.display1,
+                      errorStyle:
+                          TextStyle(color: Colors.pinkAccent, fontSize: 15.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      )),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        ScaleRoute(
+                            page: BuySheet(
+                          fee: widget.fee,
+                          applePayEnabled: applePayEnabled,
+                          googlePayEnabled: googlePayEnabled,
+                          applePayMerchantId: applePayMerchantId,
+                          squareLocationId: squareLocationId,
+                          id: widget.id,
+                          amount: amountController.text,
+                        )));
+                  },
+                  child: Container(
+                    height: 40.0,
+                    color: Colors.purpleAccent,
+                    child: Center(
+                      child: Text(
+                        "Enter amount",
+                        style: Theme.of(context).textTheme.display1.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+//  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+//    Fluttertoast.showToast(
+//        msg: "SUCCESS: " + response.paymentId, timeInSecForIos: 4);
+//
+//    isPaymentSuccesful().then((value) {
+//      if (value) {
+//        Navigator.push(
+//            context,
+//            ScaleRoute(
+//                page: PaymentStatusScreen(widget.fee, amountController.text)));
+//      }
+//    });
+//  }
+
+  int absoluteAmount(String am) {
+    int amount = int.parse(am);
+    if (amount < 0) {
+      return -amount;
+    } else {
+      return amount;
+    }
+  }
 }

@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:infixedu/utils/Utils.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:infixedu/paymentGateway/paytm/PaymentStatusScreen.dart';
+import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:infixedu/utils/modal/Fee.dart';
+import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:square_in_app_payments/models.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,10 +16,12 @@ String chargeUrl = "$chargeServerHost/chargeForCookie";
 
 class ChargeException implements Exception {
   String errorMessage;
+
   ChargeException(this.errorMessage);
 }
 
-Future<void> chargeCard(CardDetails result) async {
+Future<void> chargeCard(CardDetails result, String amount, String id, Fee fee,
+    BuildContext context) async {
   var body = jsonEncode({"nonce": result.nonce});
   http.Response response;
   try {
@@ -29,6 +35,7 @@ Future<void> chargeCard(CardDetails result) async {
 
   var responseBody = json.decode(response.body);
   if (response.statusCode == 200) {
+    isPaymentSuccesful(amount, id, fee,context);
     return;
   } else {
     throw ChargeException(responseBody["errorMessage"]);
@@ -54,4 +61,15 @@ Future<void> chargeCardAfterBuyerVerification(
   } else {
     throw ChargeException(responseBody["errorMessage"]);
   }
+}
+
+Future<bool> isPaymentSuccesful(String amount, String id, Fee fee,BuildContext context) async {
+  final response =
+      await http.get(InfixApi.studentFeePayment(id, fee.id, amount, id, 'C'));
+  var jsonData = json.decode(response.body);
+  if(response.statusCode == 200){
+    Navigator.push(
+        context, ScaleRoute(page: PaymentStatusScreen(fee, amount)));
+  }
+  return jsonData['success'];
 }

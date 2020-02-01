@@ -4,12 +4,12 @@ import 'cookie_button.dart';
 
 enum PaymentType { cardPayment, googlePay, applePay }
 
-
 class OrderSheet extends StatelessWidget {
   final bool googlePayEnabled;
   final bool applePayEnabled;
   final String balance;
-  OrderSheet({this.balance,this.googlePayEnabled, this.applePayEnabled});
+
+  OrderSheet({this.balance, this.googlePayEnabled, this.applePayEnabled});
 
   @override
   Widget build(BuildContext context) => Container(
@@ -60,7 +60,10 @@ class OrderSheet extends StatelessWidget {
           child: Expanded(
             child: Text(
               "Place your payment",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.deepPurple),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple),
               textAlign: TextAlign.center,
             ),
           ),
@@ -112,7 +115,7 @@ class _ShippingInformation extends StatelessWidget {
           Padding(padding: EdgeInsets.only(left: 30)),
           Text(
             "Ship to",
-            style:Theme.of(context).textTheme.title,
+            style: Theme.of(context).textTheme.title,
           ),
           Padding(padding: EdgeInsets.only(left: 30)),
           Column(
@@ -121,7 +124,10 @@ class _ShippingInformation extends StatelessWidget {
               children: <Widget>[
                 Text(
                   "Mamun Hossain",
-                  style:Theme.of(context).textTheme.title.copyWith(fontSize: 16.0,fontWeight: FontWeight.w500),
+                  style: Theme.of(context)
+                      .textTheme
+                      .title
+                      .copyWith(fontSize: 16.0, fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),
                 Padding(
@@ -129,7 +135,7 @@ class _ShippingInformation extends StatelessWidget {
                 ),
                 Text(
                   "Dhaka\nBangladesh",
-                  style:Theme.of(context).textTheme.display1,
+                  style: Theme.of(context).textTheme.display1,
                 ),
               ]),
         ],
@@ -147,9 +153,7 @@ class _LineDivider extends StatelessWidget {
 }
 
 class _PaymentTotal extends StatelessWidget {
-
   final double balance;
-
 
   _PaymentTotal(this.balance);
 
@@ -163,12 +167,12 @@ class _PaymentTotal extends StatelessWidget {
           Padding(padding: EdgeInsets.only(left: 30)),
           Text(
             "Total",
-            style:Theme.of(context).textTheme.title,
+            style: Theme.of(context).textTheme.title,
           ),
           Padding(padding: EdgeInsets.only(right: 47)),
           Text(
-            "\$${getCookieAmount()}",
-            style:Theme.of(context).textTheme.title,
+            "\$$balance",
+            style: Theme.of(context).textTheme.title,
             textAlign: TextAlign.center,
           ),
         ],
@@ -187,7 +191,7 @@ class _RefundInformation extends StatelessWidget {
               width: MediaQuery.of(context).size.width - 60,
               child: Text(
                 "You can refund this transaction through your Square dashboard, go to squareup.com/dashboard.",
-                style:Theme.of(context).textTheme.display1,
+                style: Theme.of(context).textTheme.display1,
               ),
             ),
           ],

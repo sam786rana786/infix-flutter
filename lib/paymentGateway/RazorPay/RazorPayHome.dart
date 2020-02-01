@@ -13,19 +13,17 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'AddRazorPayment.dart';
-
 class RazorPayment extends StatefulWidget {
   Fee fee;
   String id;
-  RazorPayment(this.fee,this.id);
+
+  RazorPayment(this.fee, this.id);
 
   @override
   _RazorPaymentState createState() => _RazorPaymentState(id);
 }
 
 class _RazorPaymentState extends State<RazorPayment> {
-
   String id;
 
   _RazorPaymentState(this.id);
@@ -63,8 +61,8 @@ class _RazorPaymentState extends State<RazorPayment> {
               margin: EdgeInsets.only(top: 32),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context, ScaleRoute(page: AddRazorAmount(widget.fee,widget.id)));
+                  Navigator.push(context,
+                      ScaleRoute(page: AddRazorAmount(widget.fee, widget.id)));
                 },
                 child: Container(
                   height: 40.0,
@@ -96,7 +94,8 @@ class _RazorPaymentState extends State<RazorPayment> {
 class AddRazorAmount extends StatefulWidget {
   Fee fee;
   String id;
-  AddRazorAmount(this.fee,this.id);
+
+  AddRazorAmount(this.fee, this.id);
 
   @override
   _AddRazorAmountState createState() => _AddRazorAmountState(fee);
@@ -159,7 +158,7 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     openCheckout(amountController.text);
                   },
                   child: Container(
@@ -168,10 +167,8 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
                     child: Center(
                       child: Text(
                         "Enter amount",
-                        style: Theme.of(context)
-                            .textTheme
-                            .display1
-                            .copyWith(color: Colors.white,fontWeight: FontWeight.w700),
+                        style: Theme.of(context).textTheme.display1.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -202,17 +199,15 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
   void openCheckout(String am) async {
     var options = {
       'key': 'rzp_test_R0z0osfrEa8sfg',
-      'amount': '${int.parse(am)*100}',
-      'currency':'INR',
+      'amount': '${int.parse(am) * 100}',
+      'currency': 'INR',
       'name': 'Mamun Hossain',
       'description': fee.title,
       'prefill': {'contact': '01903273865', 'email': 'test@razorpay.com'},
       'external': {
         'wallets': ['paytm']
       },
-      "theme": {
-        "color": "#415094"
-      }
+      "theme": {"color": "#415094"}
     };
 
     try {
@@ -227,13 +222,13 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
         msg: "SUCCESS: " + response.paymentId, timeInSecForIos: 4);
 
     isPaymentSuccesful().then((value) {
-      if(value){
-        Utils.showToast(widget.id);
+      if (value) {
         Navigator.push(
-            context, ScaleRoute(page: PaymentStatusScreen(widget.fee,amountController.text)));
+            context,
+            ScaleRoute(
+                page: PaymentStatusScreen(widget.fee, amountController.text)));
       }
     });
-
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -255,10 +250,10 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
       return amount;
     }
   }
+
   Future<bool> isPaymentSuccesful() async {
-    print('${widget.id}');
-    final response = await http
-        .get(InfixApi.studentFeePayment(widget.id, widget.fee.id, amountController.text, widget.id, 'C'));
+    final response = await http.get(InfixApi.studentFeePayment(
+        widget.id, widget.fee.id, amountController.text, widget.id, 'C'));
     var jsonData = json.decode(response.body);
     return jsonData['success'];
   }

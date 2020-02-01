@@ -58,7 +58,7 @@ class _PaymentHomeState extends State<PaymentHome> {
             GestureDetector(
               onTap: () {
                 Navigator.push(
-                    context, ScaleRoute(page: GooglePayScreen(widget.fee)));
+                    context, ScaleRoute(page: GooglePayScreen(widget.fee,widget.id)));
               },
               child: Card(
                 elevation: 4.0,
@@ -78,29 +78,29 @@ class _PaymentHomeState extends State<PaymentHome> {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context, ScaleRoute(page: GooglePayScreen(widget.fee)));
-              },
-              child: Card(
-                elevation: 4.0,
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 25.0,
-                    backgroundColor: Colors.greenAccent,
-                    child: Image.asset('images/payumoney.png'),
-                  ),
-                  title: Text(
-                    'PayUMoney',
-                    style: Theme.of(context).textTheme.headline.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                        color: Colors.green),
-                  ),
-                ),
-              ),
-            ),
+//            GestureDetector(
+//              onTap: () {
+//                Navigator.push(
+//                    context, ScaleRoute(page: GooglePayScreen(widget.fee)));
+//              },
+//              child: Card(
+//                elevation: 4.0,
+//                child: ListTile(
+//                  leading: CircleAvatar(
+//                    radius: 25.0,
+//                    backgroundColor: Colors.greenAccent,
+//                    child: Image.asset('images/payumoney.png'),
+//                  ),
+//                  title: Text(
+//                    'PayUMoney',
+//                    style: Theme.of(context).textTheme.headline.copyWith(
+//                        fontWeight: FontWeight.w700,
+//                        fontSize: 18,
+//                        color: Colors.green),
+//                  ),
+//                ),
+//              ),
+//            ),
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -124,23 +124,6 @@ class _PaymentHomeState extends State<PaymentHome> {
                 ),
               ),
             ),
-            Card(
-              elevation: 4.0,
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 25.0,
-                  backgroundColor: Colors.deepPurpleAccent,
-                  child: Image.asset('images/phonepe.jpg'),
-                ),
-                title: Text(
-                  'Phonepe',
-                  style: Theme.of(context).textTheme.headline.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18,
-                      color: Colors.deepPurple),
-                ),
-              ),
-            )
           ],
         ),
       ),
