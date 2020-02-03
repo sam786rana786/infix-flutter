@@ -81,6 +81,7 @@ class _PaytmPaymentState extends State<PaytmPayment> {
               setState(() {
                 isCompleted = true;
                 isGet = false;
+                flutterWebviewPlugin.close();
               });
             }
           });
