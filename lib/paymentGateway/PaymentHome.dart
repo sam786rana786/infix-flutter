@@ -7,6 +7,7 @@ import 'package:infixedu/paymentGateway/paytm/PaytmHomeScreen.dart';
 import 'package:infixedu/utils/widget/fees_payment_row_widget.dart';
 import 'GooglePayScreen.dart';
 import 'RazorPay/RazorPayHome.dart';
+import 'package:infixedu/paymentGateway/paypal/PaypalHomeScreen.dart';
 
 class PaymentHome extends StatefulWidget {
   Fee fee;
@@ -47,6 +48,29 @@ class _PaymentHomeState extends State<PaymentHome> {
                   ),
                   title: Text(
                     'Paytm',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline
+                        .copyWith(fontWeight: FontWeight.w700, fontSize: 18),
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context, ScaleRoute(page: AddPaypalAmount(widget.fee,widget.id)));
+              },
+              child: Card(
+                elevation: 4.0,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 25.0,
+                    backgroundColor: Colors.black12,
+                    child: Image.asset('images/paypal.png'),
+                  ),
+                  title: Text(
+                    'Paypal',
                     style: Theme.of(context)
                         .textTheme
                         .headline

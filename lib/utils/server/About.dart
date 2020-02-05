@@ -1,3 +1,4 @@
+import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/InfixMap.dart';
 import 'dart:async';
@@ -25,4 +26,12 @@ class About {
 
     return infixMap;
   }
+
+  static Future<int> PhonePermission() async{
+    final response = await http.get(InfixApi.CURRENT_PERMISSION);
+    var jsonData = json.decode(response.body);
+    int no = jsonData['data']['phone_number_privacy'];
+    return no;
+  }
+
 }

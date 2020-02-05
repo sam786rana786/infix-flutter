@@ -4,6 +4,7 @@ import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Teacher.dart';
 import 'package:http/http.dart' as http;
+import 'package:infixedu/utils/server/About.dart';
 import 'dart:convert';
 
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
@@ -21,7 +22,8 @@ class StudentTeacher extends StatefulWidget {
 class _StudentTeacherState extends State<StudentTeacher> with SingleTickerProviderStateMixin{
 
   Future<TeacherList> teachers;
-
+  int mId;
+  int perm = -1;
   AnimationController controller;
   Animation animation;
 
@@ -29,19 +31,16 @@ class _StudentTeacherState extends State<StudentTeacher> with SingleTickerProvid
   void initState() {
     super.initState();
 
+    Utils.getStringValue('id').then((value) {
+      setState(() {
+        mId = widget.id != null ? int.parse(widget.id):int.parse(value);
+        teachers = getAllTeacher(mId);
+      });
+    });
+
     controller = AnimationController(duration: Duration(seconds: 1),vsync: this);
     animation = Tween(begin: -1.0,end: 0.0).animate(CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn));
     controller.forward();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Utils.getStringValue('id').then((value) {
-      setState(() {
-        teachers = getAllTeacher(widget.id != null ? int.parse(widget.id):int.parse(value));
-      });
-    });
   }
 
   @override
@@ -103,13 +102,20 @@ class _StudentTeacherState extends State<StudentTeacher> with SingleTickerProvid
                 future: teachers,
                 builder: (context,snapshot){
                   if(snapshot.hasData){
-                    return ListView.builder(
+                    About.PhonePermission().then((val){
+                      if(mounted){
+                        setState(() {
+                          perm = val;
+                        });
+                      }
+                    });
+                    return perm != -1 ? ListView.builder(
                       shrinkWrap: true,
                       itemCount: snapshot.data.teachers.length,
                       itemBuilder: (context, index) {
-                        return StudentTeacherRowLayout(snapshot.data.teachers[index]);
+                        return StudentTeacherRowLayout(snapshot.data.teachers[index],perm);
                       },
-                    );
+                    ):Container();
                   }else{
                     return Center(child: Text("Loading..."));
                   }

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/modal/Teacher.dart';
 class StudentTeacherRowLayout extends StatelessWidget {
 
   Teacher teacher;
+  int per;
 
 
-  StudentTeacherRowLayout(this.teacher);
+  StudentTeacherRowLayout(this.teacher,this.per);
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: <Widget>[
         Container(
@@ -21,7 +24,7 @@ class StudentTeacherRowLayout extends StatelessWidget {
                 child:  Text(teacher.teacherEmail,style:Theme.of(context).textTheme.display1.copyWith(fontSize: 10.0)),
               ),
               Expanded(
-                child:  Text(teacher.teacherPhone,style:Theme.of(context).textTheme.display1.copyWith(fontSize: 10.0)),
+                child:  Text(per == 1 ? teacher.teacherPhone: 'not available',style:Theme.of(context).textTheme.display1.copyWith(fontSize: 10.0)),
               ),
             ],
           ),

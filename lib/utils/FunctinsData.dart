@@ -18,6 +18,7 @@ import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
 import 'package:infixedu/screens/StudentHomework.dart';
+import 'package:infixedu/screens/admin/AdminSettings.dart';
 import 'package:infixedu/screens/parent/ChildListScreen.dart';
 import 'package:infixedu/screens/teacher/AboutScreen.dart';
 import 'package:infixedu/screens/teacher/AddContentScreen.dart';
@@ -113,17 +114,19 @@ class AppFunction {
     'Attendance',
     'Fees',
     'Library',
-    'Transport'
+    'Transport',
+    'Settings',
   ];
   static var adminIcons = [
+    'images/students.png',
+    'images/leave.png',
+    'images/staff.png',
+    'images/dormitory.png',
+    'images/attendance.png',
     'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
-    'images/fees_icon.png',
+    'images/library.png',
+    'images/transport.png',
+    'images/addhw.png',
   ];
 
   static var parent = [
@@ -324,6 +327,14 @@ class AppFunction {
         break;
       case 'Settings':
         Navigator.push(context, ScaleRoute(page: SettingScreen()));
+        break;
+    }
+  }
+
+  static void getAdminDashboardPage(BuildContext context,String title){
+    switch(title){
+      case 'Settings':
+        Navigator.push(context, ScaleRoute(page: AdminSettings()));
         break;
     }
   }

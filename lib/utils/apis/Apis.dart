@@ -9,6 +9,7 @@ class InfixApi {
   static String BOOK_LIST = base_api+"book-list";
 
   static String UPLOAD_CONTENT = base_api+"teacher-upload-content";
+  static String CURRENT_PERMISSION = base_api+"privacy-permission-status";
 
   static String login(String email, String password) {
     return base_api + 'login?email=' + email + '&password=' + password;
@@ -35,6 +36,9 @@ class InfixApi {
 
   static String getStudentTeacherUrl(int id) {
     return base_api + "studentTeacher/$id";
+  }
+  static String getTeacherPhonePermission(int mPerm) {
+    return base_api + "privacy-permission/$mPerm";
   }
 
   static String getStudentIssuedBook(int id){

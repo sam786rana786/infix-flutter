@@ -116,6 +116,8 @@ class _HomeState extends State<Home> {
                     AppFunction.getTeacherDashboardPage(context, _titles[index]);
                   }else if(_rule == '3'){
                     AppFunction.getParentDashboardPage(context, _titles[index]);
+                  }else if(_rule == '1'){
+                    AppFunction.getAdminDashboardPage(context, _titles[index]);
                   }
                 });
               },
