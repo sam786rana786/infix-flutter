@@ -18,7 +18,9 @@ import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/Routine.dart';
 import 'package:infixedu/screens/StudentHomework.dart';
+import 'package:infixedu/screens/admin/AdminFeesHome.dart';
 import 'package:infixedu/screens/admin/AdminSettings.dart';
+import 'package:infixedu/screens/admin/AdminFeeList.dart';
 import 'package:infixedu/screens/parent/ChildListScreen.dart';
 import 'package:infixedu/screens/teacher/AboutScreen.dart';
 import 'package:infixedu/screens/teacher/AddContentScreen.dart';
@@ -193,6 +195,15 @@ class AppFunction {
     'images/addhw.png',
   ];
 
+  static var adminFees = [
+    'Add Fee',
+    'Fee List',
+  ];
+  static var adminFeeIcons = [
+    'images/fees_icon.png',
+    'images/addhw.png',
+  ];
+
   static var academics = [
     'My Routine',
     'Class Routine',
@@ -333,8 +344,25 @@ class AppFunction {
 
   static void getAdminDashboardPage(BuildContext context,String title){
     switch(title){
+      case 'Students':
+        Navigator.push(context, ScaleRoute(page: StudentSearch()));
+        break;
+      case 'Fees':
+        Navigator.push(context, ScaleRoute(page: AdminFeesHome(adminFees,adminFeeIcons)));
+        break;
       case 'Settings':
         Navigator.push(context, ScaleRoute(page: AdminSettings()));
+        break;
+    }
+  }
+
+  static void getAdminFeePage(BuildContext context,String title){
+    switch(title){
+      case 'Add Fee':
+        Navigator.push(context, ScaleRoute(page: StudentSearch()));
+        break;
+      case 'Fee List':
+        Navigator.push(context, ScaleRoute(page: AdminFeeListView()));
         break;
     }
   }

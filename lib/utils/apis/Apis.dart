@@ -7,6 +7,7 @@ class InfixApi {
   static String STUDENT_DORMITORY_LIST = base_api + "student-dormitory";
 
   static String BOOK_LIST = base_api+"book-list";
+  static String ADMIN_FEE_LIST = base_api+"fees-group";
 
   static String UPLOAD_CONTENT = base_api+"teacher-upload-content";
   static String CURRENT_PERMISSION = base_api+"privacy-permission-status";
@@ -144,6 +145,14 @@ class InfixApi {
   static String getStudentOnlineActiveExamResult(var id,var exam_id){
     return base_api+"online-exam-result/$id/$exam_id";
   }
+
+  static String fees_data_send(String name,String description){
+    return base_api+"fees-group-store?name="+name+"&description="+description;
+  }
+  static String fees_data_update(String name,String description,int id){
+    return base_api+"fees-group-update?name="+name+"&description="+description+"&id=$id";
+  }
+
   static String leaveType = base_api+"staff-leave-type";
   static String applyLeave = base_api+"staff-apply-leave";
   static String getEmail = base_api+"user-demo";

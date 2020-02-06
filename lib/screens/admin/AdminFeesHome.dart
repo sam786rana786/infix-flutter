@@ -1,42 +1,35 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
+import 'package:flutter/widgets.dart';
 import 'package:infixedu/utils/CardItem.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
-import 'package:infixedu/utils/Utils.dart';
-import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 
-
-class AttendanceHomeScreen extends StatefulWidget {
+class AdminFeesHome extends StatefulWidget {
   var _titles;
   var _images;
+  int id;
+  String profileImage;
 
-  AttendanceHomeScreen(this._titles,this._images);
+  AdminFeesHome(this._titles, this._images);
 
   @override
-  _HomeState createState() => _HomeState(_titles,_images);
+  _AdminFeesHomeState createState() => _AdminFeesHomeState(_titles, _images);
 }
 
-class _HomeState extends State<AttendanceHomeScreen> {
+class _AdminFeesHomeState extends State<AdminFeesHome> {
   bool isTapped;
   int currentSelectedIndex;
-  String _id;
   var _titles;
   var _images;
 
-  _HomeState(this._titles,this._images);
+  _AdminFeesHomeState(this._titles, this._images);
 
   @override
   void initState() {
     super.initState();
     isTapped = false;
-
-    Utils.getStringValue('id').then((value) {
-      _id = value;
-    });
   }
 
   @override
@@ -50,8 +43,7 @@ class _HomeState extends State<AttendanceHomeScreen> {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-        appBar: AppBarWidget.header(context,'Academic'),
-        backgroundColor: Colors.white,
+        appBar: AppBarWidget.header(context, 'Admin Dashboard'),
         body: GridView.builder(
           itemCount: _titles.length,
           gridDelegate:
@@ -63,7 +55,7 @@ class _HomeState extends State<AttendanceHomeScreen> {
               onSelect: () {
                 setState(() {
                   currentSelectedIndex = index;
-                  AppFunction.getAttendanceDashboardPage(context, _titles[index]);
+                  AppFunction.getAdminFeePage(context, _titles[index]);
                 });
               },
               headline: _titles[index],
