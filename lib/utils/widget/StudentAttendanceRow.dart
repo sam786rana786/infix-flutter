@@ -5,6 +5,7 @@ import 'package:infixedu/utils/modal/GlobalClass.dart';
 import 'package:infixedu/utils/modal/Student.dart';
 import 'package:http/http.dart' as http;
 
+// ignore: must_be_immutable
 class StudentAttendanceRow extends StatefulWidget {
   Student student;
   String mClass,mSection,date;
@@ -89,7 +90,7 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
     );
   }
   void setAttendance() async {
-    final response = await http.get(InfixApi.attendance_data_send('${student.uid}', atten, date, mClass, mSection));
+    final response = await http.get(InfixApi.attendanceDataSend('${student.uid}', atten, date, mClass, mSection));
     if (response.statusCode == 200) {
       debugPrint('Attendance successful');
     } else {
@@ -105,7 +106,7 @@ class _StudentAttendanceRowState extends State<StudentAttendanceRow> {
 //    }
 //  }
   Future<bool> checkAttendance() async {
-    final response = await http.get(InfixApi.attendance_check(date, mClass, mSection));
+    final response = await http.get(InfixApi.attendanceCheck(date, mClass, mSection));
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
       return jsonData['success'];

@@ -25,7 +25,7 @@ class _AdminSettingsState extends State<AdminSettings> {
     super.initState();
     Utils.getStringValue('id').then((value) {
       id = int.parse(value);
-      About.PhonePermission().then((val) {
+      About.phonePermission().then((val) {
         setState(() {
           perm = val;
         });

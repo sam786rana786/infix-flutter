@@ -1,159 +1,167 @@
 class InfixApi {
   static String root = 'https://infixedu.com/android/';
-  static String base_api = root + 'api/';
+  static String baseApi = root + 'api/';
 
-  static String UPLOAD_HOMEWORK = base_api+"add-homework";
+  static String uploadHomework = baseApi+"add-homework";
 
-  static String STUDENT_DORMITORY_LIST = base_api + "student-dormitory";
+  static String studentDormitoryList = baseApi + "student-dormitory";
 
-  static String BOOK_LIST = base_api+"book-list";
-  static String ADMIN_FEE_LIST = base_api+"fees-group";
+  static String bookList = baseApi+"book-list";
+  static String adminFeeList = baseApi+"fees-group";
 
-  static String UPLOAD_CONTENT = base_api+"teacher-upload-content";
-  static String CURRENT_PERMISSION = base_api+"privacy-permission-status";
+  static String uploadContent = baseApi+"teacher-upload-content";
+  static String currentPermission = baseApi+"privacy-permission-status";
 
   static String login(String email, String password) {
-    return base_api + 'login?email=' + email + '&password=' + password;
+    return baseApi + 'login?email=' + email + '&password=' + password;
   }
 
   static String getFeesUrl(int id) {
-    return base_api + 'fees-collect-student-wise/$id';
+    return baseApi + 'fees-collect-student-wise/$id';
   }
 
   static String getRoutineUrl(int id) {
-    return base_api + "student-class-routine/$id";
+    return baseApi + "student-class-routine/$id";
   }
 
   static String getStudenthomeWorksUrl(int id) {
-    return base_api + "student-homework/$id";
+    return baseApi + "student-homework/$id";
   }
 
-  static String DRIVER_LIST = base_api + "driver-list";
-  static String STUDENT_TRANSPORT_LIST = base_api + "student-transport-report";
+  static String driverList = baseApi + "driver-list";
+  static String studentTransportList = baseApi + "student-transport-report";
 
   static String getSubjectsUrl(int id) {
-    return base_api + "studentSubject/$id";
+    return baseApi + "studentSubject/$id";
   }
 
   static String getStudentTeacherUrl(int id) {
-    return base_api + "studentTeacher/$id";
+    return baseApi + "studentTeacher/$id";
   }
   static String getTeacherPhonePermission(int mPerm) {
-    return base_api + "privacy-permission/$mPerm";
+    return baseApi + "privacy-permission/$mPerm";
   }
 
   static String getStudentIssuedBook(int id){
-    return base_api+"student-library/$id";
+    return baseApi+"student-library/$id";
   }
 
   static String getNoticeUrl(int id){
-    return base_api+"student-noticeboard/$id";
+    return baseApi+"student-noticeboard/$id";
   }
 
    static String getStudentTimeline(int id){
-    return base_api+"student-timeline/$id";
+    return baseApi+"student-timeline/$id";
   }
 
    static String getStudentClassExamName(var id){
-    return base_api+"exam-list/$id";
+    return baseApi+"exam-list/$id";
   }
 
   static String getStudentClsExamShedule(var id,int code){
-    return base_api+"exam-schedule/$id/$code";
+    return baseApi+"exam-schedule/$id/$code";
   }
 
    static String getTeacherAttendence(int id,int month,int year){
-    return base_api+"my-attendance/$id?month=$month&year=$year";
+    return baseApi+"my-attendance/$id?month=$month&year=$year";
   }
 
   static String getStudentAttendence(var id,int month,int year){
-    return base_api+"student-my-attendance/$id?month=$month&year=$year";
+    return baseApi+"student-my-attendance/$id?month=$month&year=$year";
   }
 
-  static String getStudentOnlineResult(int id,int exam_id){
-    return base_api+"online-exam-result/$id/$exam_id";
+  static String getStudentOnlineResult(int id,int examId){
+    return baseApi+"online-exam-result/$id/$examId";
   }
-  static String getStudentClassExamResult(var id,int exam_id){
-    return base_api+"exam-result/$id/$exam_id";
+  static String getStudentClassExamResult(var id,int examId){
+    return baseApi+"exam-result/$id/$examId";
   }
 
   static String getStudentByClass(int mClass){
-    return base_api+"search-student?class=$mClass";
+    return baseApi+"search-student?class=$mClass";
   }
   static String getStudentByName(String name){
-    return base_api+"search-student?name=$name";
+    return baseApi+"search-student?name=$name";
   }
   static String getStudentByRoll(String roll){
-    return base_api+"search-student?roll_no=$roll";
+    return baseApi+"search-student?roll_no=$roll";
   }
   static String getStudentByClassAndSection(int mClass,int mSection){
-    return base_api+"search-student?section=$mSection&class=$mClass";
+    return baseApi+"search-student?section=$mSection&class=$mClass";
   }
   static String getSectionById(int id,int classId){
-    return base_api+"teacher-section-list?id=$id&class=$classId";
+    return baseApi+"teacher-section-list?id=$id&class=$classId";
   }
   static String getClassById(int id){
-    return base_api+"teacher-class-list?id=$id";
+    return baseApi+"teacher-class-list?id=$id";
   }
    static String getChildren(String id){
-    return base_api+"childInfo/$id";
+    return baseApi+"childInfo/$id";
   }
   static String getTeacherSubject(int id){
-    return base_api+"subject/$id";
+    return baseApi+"subject/$id";
   }
   static String getTeacherMyRoutine(int id){
-    return base_api+"my-routine/$id";
+    return baseApi+"my-routine/$id";
   }
   static String getRoutineByClassAndSection(int id,int mClass,int mSection){
-    return base_api+"section-routine/$id/$mClass/$mSection";
+    return baseApi+"section-routine/$id/$mClass/$mSection";
   }
   static String getAllContent(){
-    return base_api+"content-list";
+    return baseApi+"content-list";
   }
   static String deleteContent(int id){
-    return base_api+"delete-content/$id";
+    return baseApi+"delete-content/$id";
   }
-  static String attendance_data_send(String id,String atten,String date,String mClass,String mSection){
-    return base_api+"student-attendance-store-second?id="+id+"&attendance="+atten+"&date="+date+"&class="+mClass+"&section="+mSection;
+  static String attendanceDataSend(String id,String atten,String date,String mClass,String mSection){
+    return baseApi+"student-attendance-store-second?id="+id+"&attendance="+atten+"&date="+date+"&class="+mClass+"&section="+mSection;
   }
-  static String attendance_defalut_send(String date,String mClass,String mSection){
-    return base_api+"student-attendance-store-first?date="+date+"&class="+mClass+"&section="+mSection;
+  static String attendanceDefaultSent(String date,String mClass,String mSection){
+    return baseApi+"student-attendance-store-first?date="+date+"&class="+mClass+"&section="+mSection;
   }
-  static String attendance_check(String date,String mClass,String mSection){
-    return base_api+"student-attendance-check?date="+date+"&class="+mClass+"&section="+mSection;
+  static String attendanceCheck(String date,String mClass,String mSection){
+    return baseApi+"student-attendance-check?date="+date+"&class="+mClass+"&section="+mSection;
   }
   static String studentFeePayment(String stuId,int feesType,String amount,String paidBy,String paymentMethod){
-    return base_api+"student-fees-payment?student_id=$stuId&fees_type_id=$feesType&amount=$amount&paid_by=$paidBy&payment_mode=C";
+    return baseApi+"student-fees-payment?student_id=$stuId&fees_type_id=$feesType&amount=$amount&paid_by=$paidBy&payment_mode=C";
   }
-  static String ABOUT = base_api+"parent-about";
+  static String about = baseApi+"parent-about";
 
    static String getHomeWorkListUrl(int id){
-    return base_api+"homework-list/$id";
+    return baseApi+"homework-list/$id";
   }
   static String getLeaveList(int id){
-    return base_api+"staff-apply-list/$id";
+    return baseApi+"staff-apply-list/$id";
   }
   static String getParentChildList(String id){
-    return base_api+"child-list/$id";
+    return baseApi+"child-list/$id";
   }
   static String getStudentOnlineActiveExam(var id){
-    return base_api+"student-online-exam/$id";
+    return baseApi+"student-online-exam/$id";
   }
   static String getStudentOnlineActiveExamName(var id){
-    return base_api+"choose-exam/$id";
+    return baseApi+"choose-exam/$id";
   }
-  static String getStudentOnlineActiveExamResult(var id,var exam_id){
-    return base_api+"online-exam-result/$id/$exam_id";
-  }
-
-  static String fees_data_send(String name,String description){
-    return base_api+"fees-group-store?name="+name+"&description="+description;
-  }
-  static String fees_data_update(String name,String description,int id){
-    return base_api+"fees-group-update?name="+name+"&description="+description+"&id=$id";
+  static String getStudentOnlineActiveExamResult(var id,var examId){
+    return baseApi+"online-exam-result/$id/$examId";
   }
 
-  static String leaveType = base_api+"staff-leave-type";
-  static String applyLeave = base_api+"staff-apply-leave";
-  static String getEmail = base_api+"user-demo";
+  static String feesDataSend(String name,String description){
+    return baseApi+"fees-group-store?name="+name+"&description="+description;
+  }
+  static String feesDataUpdate(String name,String description,int id){
+    return baseApi+"fees-group-update?name="+name+"&description="+description+"&id=$id";
+  }
+
+  static String addBook(String title,String categoryId,String bookNo, String isbn,String publisherName,String authorName,String subjectId,String reckNo,String quantity,String price,String details,String date,String userId){
+    return baseApi+"save-book-data?book_title="+title+"&book_category_id="+categoryId+"&book_number="+bookNo+"&isbn_no="+isbn+"&publisher_name="+
+        publisherName+"&author_name="+authorName+"&subject_id="+subjectId+"&rack_number="+reckNo+"&quantity="+quantity+"&book_price="+price+"&details="+details+"&post_date="+date+"&user_id="+userId;
+
+  }
+
+  static String bookCategory = baseApi+"book-category";
+  static String subjectList = baseApi+"subject";
+  static String leaveType = baseApi+"staff-leave-type";
+  static String applyLeave = baseApi+"staff-apply-leave";
+  static String getEmail = baseApi+"user-demo";
 }

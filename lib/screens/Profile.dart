@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:infixedu/utils/Utils.dart';
-import 'package:infixedu/utils/widget/AppBarWidget.dart';
-import 'package:flutter/services.dart';
-import 'package:infixedu/utils/server/ProfileService.dart';
-import 'package:infixedu/utils/modal/InfixMap.dart';
-import 'package:infixedu/utils/widget/ProfileListRow.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:infixedu/utils/apis/Apis.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:infixedu/utils/modal/InfixMap.dart';
+import 'package:infixedu/utils/server/ProfileService.dart';
+import 'package:infixedu/utils/widget/AppBarWidget.dart';
+import 'package:infixedu/utils/widget/ProfileListRow.dart';
+// ignore: must_be_immutable
 class Profile extends StatefulWidget {
   String id;
   String image;
@@ -266,7 +267,7 @@ class _ProfileState extends State<Profile> {
                   return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Profile_row_list(
+                      return ProfileRowList(
                           snapshot.data[index].key, snapshot.data[index].value);
                     },
                   );

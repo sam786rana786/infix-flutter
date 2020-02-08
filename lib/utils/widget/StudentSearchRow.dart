@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/screens/Profile.dart';
 import 'package:infixedu/screens/StudentAttendance.dart';
-import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Student.dart';
 
 import 'ScaleRoute.dart';
 
+// ignore: must_be_immutable
 class StudentRow extends StatefulWidget {
 
   Student student;

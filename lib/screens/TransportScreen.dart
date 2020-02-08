@@ -1,12 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:infixedu/utils/Utils.dart';
+import 'package:http/http.dart' as http;
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Transport.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/TransportRow.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class TransportScreen extends StatefulWidget {
   @override
@@ -56,7 +56,7 @@ class _TransportState extends State<TransportScreen> {
 
   Future<TransportList> getAllTransport() async {
 
-    final response = await http.get(InfixApi.STUDENT_TRANSPORT_LIST);
+    final response = await http.get(InfixApi.studentTransportList);
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);

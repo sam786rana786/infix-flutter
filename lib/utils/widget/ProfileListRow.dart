@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Profile_row_list extends StatelessWidget {
+// ignore: must_be_immutable
+class ProfileRowList extends StatelessWidget {
 
   String _key;
   String _value;
 
-  Profile_row_list(this._key,this._value);
+  ProfileRowList(this._key,this._value);
 
   @override
   Widget build(BuildContext context) {

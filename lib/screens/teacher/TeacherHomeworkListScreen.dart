@@ -50,7 +50,7 @@ class _TeacherHomeworkState extends State<TeacherHomework> {
               return ListView.builder(
                 itemCount: snapshot.data.homeworks.length,
                 itemBuilder: (context , index){
-                  return Student_homework_row(snapshot.data.homeworks[index]);
+                  return StudentHomeworkRow(snapshot.data.homeworks[index]);
                 },
               );
             }else{

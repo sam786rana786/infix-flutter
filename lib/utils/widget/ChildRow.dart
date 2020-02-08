@@ -4,6 +4,7 @@ import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Child.dart';
 
+// ignore: must_be_immutable
 class ChildRow extends StatefulWidget {
 
   Child child;

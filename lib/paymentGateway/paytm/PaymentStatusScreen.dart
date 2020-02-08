@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/Fee.dart';
 import 'package:infixedu/utils/widget/fees_payment_row_widget.dart';
-
+// ignore: must_be_immutable
 class PaymentStatusScreen extends StatefulWidget {
 
   Fee fee;
@@ -52,7 +52,7 @@ class _PaymentStatusScreenState extends State<PaymentStatusScreen> with SingleTi
               child: Icon(Icons.done,color: Colors.white,size: 50.0,),
             ),
 
-            SafeArea(child: Fees_payment_row(widget.fee)),
+            SafeArea(child: FeePaymentRow(widget.fee)),
 
             SafeArea(child: Center(child: Text('Paid Amount : \$ ${widget.amount}'))),
 

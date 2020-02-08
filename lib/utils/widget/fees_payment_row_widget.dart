@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/Fee.dart';
 
-class Fees_payment_row extends StatelessWidget {
+// ignore: must_be_immutable
+class FeePaymentRow extends StatelessWidget {
 
   Fee fee;
-  Fees_payment_row(this.fee);
+  FeePaymentRow(this.fee);
 
   @override
   Widget build(BuildContext context) {

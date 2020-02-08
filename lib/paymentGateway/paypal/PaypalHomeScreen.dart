@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 import 'package:infixedu/utils/widget/fees_payment_row_widget.dart';
-
+// ignore: must_be_immutable
 class PayPalPayment extends StatefulWidget {
   Fee fee;
   String id;
@@ -106,7 +106,7 @@ class _PayPalPaymentState extends State<PayPalPayment> {
     return jsonData['success'];
   }
 }
-
+// ignore: must_be_immutable
 class AddPaypalAmount extends StatelessWidget {
   Fee fee;
   String id;
@@ -135,7 +135,7 @@ class AddPaypalAmount extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(2.0),
-                child: Fees_payment_row(fee),
+                child: FeePaymentRow(fee),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),

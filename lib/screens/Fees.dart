@@ -5,17 +5,17 @@ import 'package:infixedu/utils/modal/Fee.dart';
 import 'package:infixedu/utils/server/FeesService.dart';
 import 'package:infixedu/utils/widget/Fees_row_layout.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
-
-class Fees_screen extends StatefulWidget {
+// ignore: must_be_immutable
+class FeeScreen extends StatefulWidget {
   String id;
 
-  Fees_screen({this.id});
+  FeeScreen({this.id});
 
   @override
-  _Fees_screenState createState() => _Fees_screenState();
+  _FeeScreenState createState() => _FeeScreenState();
 }
 
-class _Fees_screenState extends State<Fees_screen> {
+class _FeeScreenState extends State<FeeScreen> {
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -59,9 +59,9 @@ class _Fees_screenState extends State<Fees_screen> {
                         child: FutureBuilder(
                           future: FeeService(int.parse(widget.id!= null ? widget.id : id.data)).fetchTotalFee(),
                           builder: (BuildContext context,
-                              AsyncSnapshot<List<String>> total_fees_snapshot){
+                              AsyncSnapshot<List<String>> totalSnapshot){
 
-                            if(total_fees_snapshot.hasData){
+                            if(totalSnapshot.hasData){
                               return Row(
                                 children: <Widget>[
                                   Expanded(
@@ -80,7 +80,7 @@ class _Fees_screenState extends State<Fees_screen> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          '\$'+ total_fees_snapshot.data[0],
+                                          '\$'+ totalSnapshot.data[0],
                                           maxLines: 1,
                                           style: Theme.of(context).textTheme.display1,
                                         ),
@@ -103,7 +103,7 @@ class _Fees_screenState extends State<Fees_screen> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          '\$'+total_fees_snapshot.data[1],
+                                          '\$'+totalSnapshot.data[1],
                                           maxLines: 1,
                                           style: Theme.of(context).textTheme.display1,
                                         ),
@@ -126,7 +126,7 @@ class _Fees_screenState extends State<Fees_screen> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          '\$'+total_fees_snapshot.data[2],
+                                          '\$'+totalSnapshot.data[2],
                                           maxLines: 1,
                                           style: Theme.of(context).textTheme.display1,
                                         ),
@@ -149,7 +149,7 @@ class _Fees_screenState extends State<Fees_screen> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          '\$'+total_fees_snapshot.data[3],
+                                          '\$'+totalSnapshot.data[3],
                                           maxLines: 1,
                                           style: Theme.of(context).textTheme.display1,
                                         ),
@@ -172,7 +172,7 @@ class _Fees_screenState extends State<Fees_screen> {
                                           height: 10.0,
                                         ),
                                         Text(
-                                          '\$'+total_fees_snapshot.data[4],
+                                          '\$'+totalSnapshot.data[4],
                                           textAlign: TextAlign.center,
                                           maxLines: 1,
                                           style: Theme.of(context).textTheme.display1,
@@ -211,19 +211,19 @@ class _Fees_screenState extends State<Fees_screen> {
                 height: MediaQuery.of(context).size.height,
                 child: FutureBuilder(
                   future: Utils.getStringValue('id'),
-                  builder: (context, snap_id) {
-                    if (snap_id.hasData) {
+                  builder: (context, snapId) {
+                    if (snapId.hasData) {
                       return Container(
                         child: FutureBuilder(
                           future:
-                              FeeService(int.parse(widget.id!= null ? widget.id : snap_id.data)).fetchFee(),
+                              FeeService(int.parse(widget.id!= null ? widget.id : snapId.data)).fetchFee(),
                           builder: (BuildContext context,
-                              AsyncSnapshot<List<Fee>> fees_snapshot) {
-                            if (fees_snapshot.hasData) {
+                              AsyncSnapshot<List<Fee>> feeSnapshot) {
+                            if (feeSnapshot.hasData) {
                               return ListView.builder(
-                                  itemCount: fees_snapshot.data.length,
+                                  itemCount: feeSnapshot.data.length,
                                   itemBuilder: (context, index) {
-                                    return Fees_row(fees_snapshot.data[index],widget.id!= null ? widget.id : snap_id.data);
+                                    return FeesRow(feeSnapshot.data[index],widget.id!= null ? widget.id : snapId.data);
                                   });
                             } else {
                               return Text(

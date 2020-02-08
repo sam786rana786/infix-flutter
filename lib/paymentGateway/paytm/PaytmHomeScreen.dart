@@ -2,18 +2,16 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Fee.dart';
 import 'PaymentStatusScreen.dart';
 import 'settings.dart';
-import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class PaytmPayment extends StatefulWidget {
-  Fee fee;
-  String amount;
+  final Fee fee;
+  final String amount;
 
   PaytmPayment(this.fee, this.amount);
 

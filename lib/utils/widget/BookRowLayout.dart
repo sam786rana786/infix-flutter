@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/Book.dart';
+// ignore: must_be_immutable
 class BookListRow extends StatefulWidget {
 
   Book book;

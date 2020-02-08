@@ -10,8 +10,8 @@ import 'RazorPay/RazorPayHome.dart';
 import 'package:infixedu/paymentGateway/paypal/PaypalHomeScreen.dart';
 
 class PaymentHome extends StatefulWidget {
-  Fee fee;
-  String id;
+  final Fee fee;
+  final String id;
   PaymentHome(this.fee,this.id);
 
   @override
@@ -155,9 +155,10 @@ class _PaymentHomeState extends State<PaymentHome> {
   }
 }
 
+// ignore: must_be_immutable
 class AddAmount extends StatelessWidget {
-  Fee fee;
-  String amount;
+  final Fee fee;
+  String amount ;
   TextEditingController amountController = TextEditingController();
 
   AddAmount(this.fee) {
@@ -182,7 +183,7 @@ class AddAmount extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(2.0),
-                child: Fees_payment_row(fee),
+                child: FeePaymentRow(fee),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),

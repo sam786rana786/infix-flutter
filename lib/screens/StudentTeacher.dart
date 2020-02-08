@@ -9,7 +9,7 @@ import 'dart:convert';
 
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/Student_teacher_row_layout.dart';
-
+// ignore: must_be_immutable
 class StudentTeacher extends StatefulWidget {
   String id;
 
@@ -102,7 +102,7 @@ class _StudentTeacherState extends State<StudentTeacher> with SingleTickerProvid
                 future: teachers,
                 builder: (context,snapshot){
                   if(snapshot.hasData){
-                    About.PhonePermission().then((val){
+                    About.phonePermission().then((val){
                       if(mounted){
                         setState(() {
                           perm = val;

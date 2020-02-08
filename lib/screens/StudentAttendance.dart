@@ -1,19 +1,21 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
-import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/StudentAttendance.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../utils/widget/AppBarWidget.dart';
 
+import '../utils/widget/AppBarWidget.dart';
+// ignore: must_be_immutable
 class StudentAttendanceScreen extends StatefulWidget {
   var id;
 
-  StudentAttendanceScreen({this.id = null});
+  StudentAttendanceScreen({this.id});
 
   @override
   _StudentAttendanceScreenState createState() => _StudentAttendanceScreenState(id: id);

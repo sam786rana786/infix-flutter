@@ -11,9 +11,9 @@ class Section {
 
 class SectionList {
 
-  List<Section> Sections = List<Section>();
+  List<Section> sections = List<Section>();
 
-  SectionList(this.Sections);
+  SectionList(this.sections);
 
   factory SectionList.fromJson(List<dynamic> json) {
     List<Section> sectionList;

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/TeacherSubject.dart';
+
+// ignore: must_be_immutable
 class TeacherSubjectRowLayout extends StatelessWidget {
 
-  teacherSubject subject;
+  TeacherSubject subject;
 
 
   TeacherSubjectRowLayout(this.subject);

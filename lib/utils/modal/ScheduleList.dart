@@ -1,5 +1,3 @@
-import 'package:infixedu/utils/Utils.dart';
-
 import 'Schedule.dart';
 
 class ScheduleList{

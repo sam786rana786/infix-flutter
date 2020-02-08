@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/Timeline.dart';
+// ignore: must_be_immutable
 class TimeLineView extends StatelessWidget {
 
   Timeline timeline;

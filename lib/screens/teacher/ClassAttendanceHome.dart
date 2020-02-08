@@ -43,8 +43,8 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
           classId = value.classes[0].id;
           sections = getAllSection(int.parse(_id), classId);
           sections.then((sectionValue) {
-            _selectedSection = sectionValue.Sections[0].name;
-            sectionId = sectionValue.Sections[0].id;
+            _selectedSection = sectionValue.sections[0].name;
+            sectionId = sectionValue.sections[0].id;
             url = InfixApi.getStudentByClassAndSection(
                 classId, sectionId);
           });
@@ -79,7 +79,7 @@ class _StudentAttendanceHomeState extends State<StudentAttendanceHome> {
                         future: sections,
                         builder: (context, secSnap) {
                           if (secSnap.hasData) {
-                            return getSectionDropdown(secSnap.data.Sections);
+                            return getSectionDropdown(secSnap.data.sections);
                           } else {
                             return Center(child: Text("loading..."));
                           }

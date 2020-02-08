@@ -7,7 +7,7 @@ import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/TimeLineView.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+// ignore: must_be_immutable
 class TimelineScreen extends StatefulWidget {
   String id;
 

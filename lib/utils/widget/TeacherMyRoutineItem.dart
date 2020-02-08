@@ -4,10 +4,10 @@ import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:infixedu/utils/modal/TeacherMyRoutine.dart';
-
 import '../Utils.dart';
 import 'RoutineRowWidget.dart';
 
+// ignore: must_be_immutable
 class TeacherRoutineRow extends StatefulWidget {
 
   String title;

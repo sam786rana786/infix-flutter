@@ -1,35 +1,34 @@
-import 'package:flutter/material.dart';
-
 import 'dart:io';
 import 'dart:math';
-import 'package:open_file/open_file.dart';
+
 import 'package:dio/dio.dart';
 import 'package:file_utils/file_utils.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:infixedu/utils/Utils.dart';
-import 'package:flutter/material.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Content.dart';
-import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:permissions_plugin/permissions_plugin.dart';
 
-class Content_row extends StatefulWidget {
+// ignore: must_be_immutable
+class ContentRow extends StatefulWidget {
   Content content;
   Animation animation;
   final VoidCallback onPressed;
 
-  Content_row(this.content, this.animation, {this.onPressed});
+  ContentRow(this.content, this.animation, {this.onPressed});
 
   @override
-  _Content_rowState createState() => _Content_rowState(content);
+  _ContentRowState createState() => _ContentRowState(content);
 }
 
-class _Content_rowState extends State<Content_row> {
+class _ContentRowState extends State<ContentRow> {
   Content content;
   var progress = "Download";
 
-  _Content_rowState(this.content);
+  _ContentRowState(this.content);
 
   Random random = Random();
 

@@ -1,19 +1,19 @@
 class StudentRoutineSearch{
 
   String period;
-  String start_time;
-  String end_time;
+  String startTime;
+  String endTime;
   String subject;
   String room;
 
-  StudentRoutineSearch({this.period, this.start_time, this.end_time,
+  StudentRoutineSearch({this.period, this.startTime, this.endTime,
       this.subject, this.room});
 
   factory StudentRoutineSearch.fromJson(Map<String,dynamic> json){
     return StudentRoutineSearch(
       period: json['period'],
-      start_time: json['start_time'],
-      end_time: json['end_time'],
+      startTime: json['start_time'],
+      endTime: json['end_time'],
       subject: json['subject_name'],
       room: json['room_no']
     );

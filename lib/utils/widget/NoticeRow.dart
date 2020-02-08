@@ -3,6 +3,7 @@ import 'package:infixedu/screens/NoticeDetails.dart';
 import 'package:infixedu/utils/modal/Notice.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 
+// ignore: must_be_immutable
 class NoticRowLayout extends StatefulWidget {
   Notice notice;
 

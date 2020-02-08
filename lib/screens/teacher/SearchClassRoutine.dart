@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -5,9 +7,6 @@ import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Classes.dart';
 import 'package:infixedu/utils/modal/Section.dart';
-import 'package:infixedu/utils/modal/StudentRoutineSearch.dart';
-import 'dart:convert';
-
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 
@@ -39,8 +38,8 @@ class _SearchRoutineScreenState extends State<SearchRoutineScreen> {
           classId = value.classes[0].id;
           sections = getAllSection(int.parse(_id), classId);
           sections.then((sectionValue) {
-            _selectedSection = sectionValue.Sections[0].name;
-            sectionId = sectionValue.Sections[0].id;
+            _selectedSection = sectionValue.sections[0].name;
+            sectionId = sectionValue.sections[0].id;
           });
         });
       });
@@ -75,7 +74,7 @@ class _SearchRoutineScreenState extends State<SearchRoutineScreen> {
                         future: sections,
                         builder: (context, secSnap) {
                           if (secSnap.hasData) {
-                            return getSectionDropdown(secSnap.data.Sections);
+                            return getSectionDropdown(secSnap.data.sections);
                           } else {
                             return Center(child: Text("loading..."));
                           }

@@ -7,7 +7,7 @@ import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/SubjectRowLayout.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+// ignore: must_be_immutable
 class SubjectScreen extends StatefulWidget {
   String id;
 

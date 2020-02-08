@@ -5,8 +5,8 @@ import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/buy_sheet.dart';
 
 class GooglePayScreen extends StatefulWidget {
-  Fee fee;
-  String id;
+  final Fee fee;
+  final String id;
 
   GooglePayScreen(this.fee, this.id);
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/Leave.dart';
 
+// ignore: must_be_immutable
 class LeaveRow extends StatelessWidget {
 
   Leave leave;
@@ -158,7 +159,7 @@ class LeaveRow extends StatelessWidget {
         ),
       );
     }
-    if (status == 'A') {
+    else if (status == 'A') {
       return Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(color: Colors.green.shade400),
@@ -176,7 +177,7 @@ class LeaveRow extends StatelessWidget {
         ),
       );
     }
-    if (status == 'R') {
+    else if (status == 'R') {
       return Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(color: Colors.red),
@@ -193,6 +194,8 @@ class LeaveRow extends StatelessWidget {
           ),
         ),
       );
+    }else{
+      return Container();
     }
   }
 }

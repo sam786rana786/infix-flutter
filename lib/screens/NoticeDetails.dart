@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infixedu/utils/modal/Notice.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
-import 'package:infixedu/utils/widget/ScaleRoute.dart';
 
+// ignore: must_be_immutable
 class NoticDetailsLayout extends StatefulWidget {
 
   Notice notice;

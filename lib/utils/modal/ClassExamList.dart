@@ -1,3 +1,4 @@
+// ignore: camel_case_types
 class classExam {
   String subjectName;
   String date;
@@ -18,6 +19,7 @@ class classExam {
   }
 }
 
+// ignore: camel_case_types
 class classExamScheduleList {
 
   List<classExam> exams;

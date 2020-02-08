@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/ClassExam.dart';
 
+// ignore: must_be_immutable
 class ClassExamResultRow extends StatefulWidget {
 
   ClassExamResult result;

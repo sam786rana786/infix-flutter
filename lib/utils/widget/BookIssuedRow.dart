@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/BookIssued.dart';
+// ignore: must_be_immutable
 class BookListRow extends StatefulWidget {
 
   BookIssued books;
@@ -212,7 +213,7 @@ class _BookListRowState extends State<BookListRow> with SingleTickerProviderStat
         ),
       );
     }
-    if (status == 'R') {
+    else if (status == 'R') {
       return Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(color: Colors.green.shade400),
@@ -229,6 +230,8 @@ class _BookListRowState extends State<BookListRow> with SingleTickerProviderStat
           ),
         ),
       );
+    }else{
+      return Container();
     }
   }
 

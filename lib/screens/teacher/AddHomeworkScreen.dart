@@ -38,8 +38,8 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
   Future<TeacherSubjectList> subjects;
   TeacherSubjectList subjectList;
   DateTime date;
-  String MAX_DATETIME = '2031-11-25';
-  String INIT_DATETIME = '2019-05-17';
+  String maxDateTime = '2031-11-25';
+  String initDateTime = '2019-05-17';
   String _format = 'yyyy-MMMM-dd';
   DateTime _dateTime;
   DateTimePickerLocale _locale = DateTimePickerLocale.en_us;
@@ -52,9 +52,9 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
   void initState() {
     super.initState();
     date = DateTime.now();
-    INIT_DATETIME =
+    initDateTime =
         '${date.year}-${getAbsoluteDate(date.month)}-${getAbsoluteDate(date.day)}';
-    _dateTime = DateTime.parse(INIT_DATETIME);
+    _dateTime = DateTime.parse(initDateTime);
   }
 
   @override
@@ -70,8 +70,8 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
           classId = value.classes[0].id;
           sections = getAllSection(int.parse(_id), classId);
           sections.then((sectionValue) {
-            _selectedSection = sectionValue.Sections[0].name;
-            sectionId = sectionValue.Sections[0].id;
+            _selectedSection = sectionValue.sections[0].name;
+            sectionId = sectionValue.sections[0].id;
             subjects = getAllSubject(int.parse(_id));
             subjects.then((subVal) {
               setState(() {
@@ -119,7 +119,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                       future: sections,
                       builder: (context, secSnap) {
                         if (secSnap.hasData) {
-                          return getSectionDropdown(secSnap.data.Sections);
+                          return getSectionDropdown(secSnap.data.sections);
                         } else {
                           return Center(child: Text("loading..."));
                         }
@@ -151,8 +151,8 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                             cancel: Text('cancel',
                                 style: TextStyle(color: Colors.cyan)),
                           ),
-                          minDateTime: DateTime.parse(INIT_DATETIME),
-                          maxDateTime: DateTime.parse(MAX_DATETIME),
+                          minDateTime: DateTime.parse(initDateTime),
+                          maxDateTime: DateTime.parse(maxDateTime),
                           initialDateTime: _dateTime,
                           dateFormat: _format,
                           locale: _locale,
@@ -226,8 +226,8 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
                             cancel: Text('cancel',
                                 style: TextStyle(color: Colors.cyan)),
                           ),
-                          minDateTime: DateTime.parse(INIT_DATETIME),
-                          maxDateTime: DateTime.parse(MAX_DATETIME),
+                          minDateTime: DateTime.parse(initDateTime),
+                          maxDateTime: DateTime.parse(maxDateTime),
                           initialDateTime: _dateTime,
                           dateFormat: _format,
                           locale: _locale,
@@ -474,7 +474,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
     );
   }
 
-  Widget getSubjectDropdown(List<teacherSubject> subjectList) {
+  Widget getSubjectDropdown(List<TeacherSubject> subjectList) {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -516,7 +516,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
       "marks": markController.text,
       "homework_file": await MultipartFile.fromFile(_file.path),
     });
-    response = await dio.post(InfixApi.UPLOAD_HOMEWORK, data: formData);
+    response = await dio.post(InfixApi.uploadHomework, data: formData);
 
     if(response.statusCode == 200){
       Utils.showToast('Upload successful');
@@ -571,7 +571,7 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
   int getSubjectId<T>(T t, String subject) {
     int code;
     for (var s in t) {
-      if (s.subjectName == subject) {
+      if (s.title == subject) {
         code = s.subjectId;
       }
     }

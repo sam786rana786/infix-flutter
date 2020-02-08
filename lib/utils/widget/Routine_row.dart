@@ -3,12 +3,11 @@ import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:infixedu/utils/modal/ScheduleList.dart';
-
 import '../Utils.dart';
 import 'RoutineRowWidget.dart';
 
+// ignore: must_be_immutable
 class RoutineRow extends StatefulWidget {
 
   String title;

@@ -53,7 +53,7 @@ class _DormitoryScreenState extends State<DormitoryScreen> {
   }
 
   Future<DormitoryList> getAllDormitory() async {
-    final response = await http.get(InfixApi.STUDENT_DORMITORY_LIST);
+    final response = await http.get(InfixApi.studentDormitoryList);
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);

@@ -1,29 +1,27 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:built_collection/built_collection.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/paymentGateway/transaction_service.dart';
+import 'package:infixedu/utils/apis/Config.dart';
 import 'package:infixedu/utils/modal/Fee.dart';
-import 'package:uuid/uuid.dart';
-import 'package:square_in_app_payments/models.dart';
-import 'package:square_in_app_payments/in_app_payments.dart';
 import 'package:square_in_app_payments/google_pay_constants.dart'
     as google_pay_constants;
-import 'package:infixedu/utils/apis/Config.dart';
-import 'package:infixedu/paymentGateway/transaction_service.dart';
+import 'package:square_in_app_payments/in_app_payments.dart';
+import 'package:square_in_app_payments/models.dart';
+import 'package:uuid/uuid.dart';
+
 import 'AppBarWidget.dart';
 import 'ScaleRoute.dart';
-import 'cookie_button.dart';
 import 'dialog_modal.dart';
-
-// We use a custom modal bottom sheet to override the default height (and remove it).
 import 'fees_payment_row_widget.dart';
 import 'modal_bottom_sheet.dart' as custom_modal_bottom_sheet;
 import 'order_sheet.dart';
 
 enum ApplePayStatus { success, fail, unknown }
 
+// ignore: must_be_immutable
 class BuySheet extends StatefulWidget {
   Fee fee;
   String id;
@@ -194,32 +192,32 @@ class BuySheetState extends State<BuySheet> {
         collectPostalCode: true);
   }
 
-  Future<void> _onStartCardEntryFlowWithBuyerVerification() async {
-    var money = Money((b) => b
-      ..amount = 100
-      ..currencyCode = 'USD');
-
-    var contact = Contact((b) => b
-      ..givenName = "John"
-      ..familyName = "Doe"
-      ..addressLines =
-          new BuiltList<String>(["London Eye", "Riverside Walk"]).toBuilder()
-      ..city = "London"
-      ..countryCode = "GB"
-      ..email = "johndoe@example.com"
-      ..phone = "8001234567"
-      ..postalCode = "SE1 7");
-
-    await InAppPayments.startCardEntryFlowWithBuyerVerification(
-        onBuyerVerificationSuccess: _onBuyerVerificationSuccess,
-        onBuyerVerificationFailure: _onBuyerVerificationFailure,
-        onCardEntryCancel: _onCancelCardEntryFlow,
-        buyerAction: "Charge",
-        money: money,
-        squareLocationId: squareLocationId,
-        contact: contact,
-        collectPostalCode: true);
-  }
+//  Future<void> _onStartCardEntryFlowWithBuyerVerification() async {
+//    var money = Money((b) => b
+//      ..amount = 100
+//      ..currencyCode = 'USD');
+//
+//    var contact = Contact((b) => b
+//      ..givenName = "John"
+//      ..familyName = "Doe"
+//      ..addressLines =
+//          new BuiltList<String>(["London Eye", "Riverside Walk"]).toBuilder()
+//      ..city = "London"
+//      ..countryCode = "GB"
+//      ..email = "johndoe@example.com"
+//      ..phone = "8001234567"
+//      ..postalCode = "SE1 7");
+//
+//    await InAppPayments.startCardEntryFlowWithBuyerVerification(
+//        onBuyerVerificationSuccess: _onBuyerVerificationSuccess,
+//        onBuyerVerificationFailure: _onBuyerVerificationFailure,
+//        onCardEntryCancel: _onCancelCardEntryFlow,
+//        buyerAction: "Charge",
+//        money: money,
+//        squareLocationId: squareLocationId,
+//        contact: contact,
+//        collectPostalCode: true);
+//  }
 
   void _onCancelCardEntryFlow() {
     _showOrderSheet();
@@ -335,7 +333,7 @@ class BuySheetState extends State<BuySheet> {
     }
   }
 
-  void _onBuyerVerificationSuccess(BuyerVerificationDetails result) async {
+  void onBuyerVerificationSuccess(BuyerVerificationDetails result) async {
     if (!_chargeServerHostReplaced) {
       _showUrlNotSetAndPrintCurlCommand(result.nonce,
           verificationToken: result.token);
@@ -352,7 +350,7 @@ class BuySheetState extends State<BuySheet> {
     }
   }
 
-  void _onBuyerVerificationFailure(ErrorInfo errorInfo) async {
+  void onBuyerVerificationFailure(ErrorInfo errorInfo) async {
     showAlertDialog(
         context: BuySheet.scaffoldKey.currentContext,
         title: "Error verifying buyer",
@@ -376,7 +374,7 @@ class BuySheetState extends State<BuySheet> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                child: Fees_payment_row(widget.fee),
+                child: FeePaymentRow(widget.fee),
               ),
               Container(
                 child: Image(image: AssetImage("images/about.png")),
@@ -424,6 +422,7 @@ class BuySheetState extends State<BuySheet> {
   }
 }
 
+// ignore: must_be_immutable
 class AddGpayAmount extends StatefulWidget {
   Fee fee;
   String id;
@@ -517,7 +516,7 @@ class _AddGpayAmountState extends State<AddGpayAmount> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(2.0),
-                child: Fees_payment_row(fee),
+                child: FeePaymentRow(fee),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),

@@ -11,10 +11,11 @@ import 'package:infixedu/utils/modal/StudentHomework.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permissions_plugin/permissions_plugin.dart';
 
-class Student_homework_row extends StatelessWidget {
+// ignore: must_be_immutable
+class StudentHomeworkRow extends StatelessWidget {
   Homework homework;
 
-  Student_homework_row(this.homework);
+  StudentHomeworkRow(this.homework);
 
   Random random = Random();
 
@@ -360,7 +361,7 @@ class Student_homework_row extends StatelessWidget {
         ),
       );
     }
-    if (status == 'C') {
+    else if (status == 'C') {
       return Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(color: Colors.greenAccent),
@@ -377,6 +378,8 @@ class Student_homework_row extends StatelessWidget {
           ),
         ),
       );
+    }else{
+      return Container();
     }
   }
 

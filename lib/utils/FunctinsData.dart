@@ -5,24 +5,31 @@ import 'package:infixedu/screens/BookListScreen.dart';
 import 'package:infixedu/screens/ClassExamResult.dart';
 import 'package:infixedu/screens/Dormitory.dart';
 import 'package:infixedu/screens/ExaminationScreen.dart';
+import 'package:infixedu/screens/Fees.dart';
+import 'package:infixedu/screens/Home.dart';
 import 'package:infixedu/screens/LibraryScreen.dart';
 import 'package:infixedu/screens/NoticeScreen.dart';
 import 'package:infixedu/screens/OnlineExamResultScreen.dart';
 import 'package:infixedu/screens/OnlineExamScreen.dart';
+import 'package:infixedu/screens/Profile.dart';
+import 'package:infixedu/screens/Routine.dart';
 import 'package:infixedu/screens/ScheduleScreen.dart';
 import 'package:infixedu/screens/SettingsScreen.dart';
+import 'package:infixedu/screens/StudentAttendance.dart';
+import 'package:infixedu/screens/StudentHomework.dart';
 import 'package:infixedu/screens/StudentTeacher.dart';
 import 'package:infixedu/screens/SubjectScreen.dart';
 import 'package:infixedu/screens/TimeLineScreen.dart';
 import 'package:infixedu/screens/TransportScreen.dart';
-import 'package:infixedu/screens/Home.dart';
-import 'package:infixedu/screens/Routine.dart';
-import 'package:infixedu/screens/StudentHomework.dart';
-import 'package:infixedu/screens/admin/AdminFeesHome.dart';
-import 'package:infixedu/screens/admin/AdminSettings.dart';
+import 'package:infixedu/screens/admin/AddFeeType.dart';
+import 'package:infixedu/screens/admin/AddLibraryBook.dart';
 import 'package:infixedu/screens/admin/AdminFeeList.dart';
+import 'package:infixedu/screens/admin/AdminFeesHome.dart';
+import 'package:infixedu/screens/admin/AdminLibraryScreen.dart';
+import 'package:infixedu/screens/admin/AdminSettings.dart';
 import 'package:infixedu/screens/parent/ChildListScreen.dart';
 import 'package:infixedu/screens/teacher/AboutScreen.dart';
+import 'package:infixedu/screens/teacher/AcademicsScreen.dart';
 import 'package:infixedu/screens/teacher/AddContentScreen.dart';
 import 'package:infixedu/screens/teacher/AddHomeworkScreen.dart';
 import 'package:infixedu/screens/teacher/ApplyLeaveScreen.dart';
@@ -39,12 +46,7 @@ import 'package:infixedu/screens/teacher/StudentSearch.dart';
 import 'package:infixedu/screens/teacher/TeacherHomeworkListScreen.dart';
 import 'package:infixedu/screens/teacher/TeacherMyAttendance.dart';
 import 'package:infixedu/screens/teacher/TeacherRoutineScreen.dart';
-import 'package:infixedu/screens/teacher/AcademicsScreen.dart';
-import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
-import 'package:infixedu/screens/Profile.dart';
-import 'package:infixedu/screens/Fees.dart';
-import 'package:infixedu/screens/StudentAttendance.dart';
 
 class AppFunction {
   static var students = [
@@ -204,6 +206,17 @@ class AppFunction {
     'images/addhw.png',
   ];
 
+  static var adminLibrary = [
+    'Add Book',
+    'Book List',
+    'Add Member',
+  ];
+  static var adminLibraryIcons = [
+    'images/addhw.png',
+    'images/hwlist.png',
+    'images/addhw.png',
+  ];
+
   static var academics = [
     'My Routine',
     'Class Routine',
@@ -266,7 +279,7 @@ class AppFunction {
             )));
         break;
       case 'Fees':
-        Navigator.push(context, ScaleRoute(page: Fees_screen(id: id)));
+        Navigator.push(context, ScaleRoute(page: FeeScreen(id: id)));
         break;
       case 'Routine':
         Navigator.push(context, ScaleRoute(page: Routine(id: id)));
@@ -350,6 +363,9 @@ class AppFunction {
       case 'Fees':
         Navigator.push(context, ScaleRoute(page: AdminFeesHome(adminFees,adminFeeIcons)));
         break;
+      case 'Library':
+        Navigator.push(context, ScaleRoute(page: AdminLibraryHome(adminLibrary,adminLibraryIcons)));
+        break;
       case 'Settings':
         Navigator.push(context, ScaleRoute(page: AdminSettings()));
         break;
@@ -359,10 +375,21 @@ class AppFunction {
   static void getAdminFeePage(BuildContext context,String title){
     switch(title){
       case 'Add Fee':
-        Navigator.push(context, ScaleRoute(page: StudentSearch()));
+        Navigator.push(context, ScaleRoute(page: AddFeeType()));
         break;
       case 'Fee List':
         Navigator.push(context, ScaleRoute(page: AdminFeeListView()));
+        break;
+    }
+  }
+
+  static void getAdminLibraryPage(BuildContext context,String title){
+    switch(title){
+      case 'Add Book':
+        Navigator.push(context, ScaleRoute(page: AddAdminBook()));
+        break;
+      case 'Book List':
+        Navigator.push(context, ScaleRoute(page: BookListScreen()));
         break;
     }
   }

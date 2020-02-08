@@ -1,3 +1,4 @@
+// ignore: deprecated_extends_function
 class GlobalDatae extends Function{
   static var absent = 0;
   add(){

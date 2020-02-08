@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
-import 'package:infixedu/utils/Utils.dart';
-import 'package:infixedu/utils/modal/InfixMap.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:infixedu/utils/modal/InfixMap.dart';
 
 class ProfileService {
   String email;

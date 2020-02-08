@@ -55,7 +55,7 @@ class _AdminFeeListViewState extends State<AdminFeeListView> {
   }
 
   Future<AdminFeesList> getAllFee() async {
-    final response = await http.get(InfixApi.ADMIN_FEE_LIST);
+    final response = await http.get(InfixApi.adminFeeList);
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);

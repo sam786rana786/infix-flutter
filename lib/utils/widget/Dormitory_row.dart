@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/Dormitory.dart';
 
+// ignore: must_be_immutable
 class DormitoryRow extends StatefulWidget {
 
   Dormitory dormitory;
@@ -27,7 +28,7 @@ class _DormitoryScreenState extends State<DormitoryRow> {
          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              dormitory.dormitory_name,
+              dormitory.dormitoryName,
               textAlign: TextAlign.start,
               style: Theme.of(context).textTheme.title.copyWith(fontSize: 15.0),
             ),
@@ -51,7 +52,7 @@ class _DormitoryScreenState extends State<DormitoryRow> {
                           height: 10.0,
                         ),
                         Text(
-                         dormitory.room_number.toString(),
+                         dormitory.roomNumber.toString(),
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),
@@ -74,7 +75,7 @@ class _DormitoryScreenState extends State<DormitoryRow> {
                           height: 10.0,
                         ),
                         Text(
-                          dormitory.number_of_bed.toString(),
+                          dormitory.numberOfBed.toString(),
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),
@@ -97,7 +98,7 @@ class _DormitoryScreenState extends State<DormitoryRow> {
                           height: 10.0,
                         ),
                         Text(
-                        dormitory.cost_per_bed.toString(),
+                        dormitory.costPerBed.toString(),
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display1,
                         ),
@@ -119,7 +120,7 @@ class _DormitoryScreenState extends State<DormitoryRow> {
                         SizedBox(
                           height: 10.0,
                         ),
-                        getStatus(context, dormitory.active_status),
+                        getStatus(context, dormitory.activeStatus),
                       ],
                     ),
                   ),
@@ -160,7 +161,7 @@ class _DormitoryScreenState extends State<DormitoryRow> {
         ),
       );
     }
-    if (status == 1) {
+    else if (status == 1) {
       return Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(color: Colors.green),
@@ -177,6 +178,8 @@ class _DormitoryScreenState extends State<DormitoryRow> {
           ),
         ),
       );
+    }else{
+      return Container();
     }
   }
 }

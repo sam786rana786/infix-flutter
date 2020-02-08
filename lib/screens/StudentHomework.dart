@@ -1,15 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/StudentHomework.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/Homework_row.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-import 'package:permissions_plugin/permissions_plugin.dart';
-
+// ignore: must_be_immutable
 class StudentHomework extends StatefulWidget {
   String id;
 
@@ -52,7 +51,7 @@ class _StudentHomeworkState extends State<StudentHomework> {
               return ListView.builder(
                 itemCount: snapshot.data.homeworks.length,
                 itemBuilder: (context, index) {
-                  return Student_homework_row(snapshot.data.homeworks[index]);
+                  return StudentHomeworkRow(snapshot.data.homeworks[index]);
                 },
               );
             } else {

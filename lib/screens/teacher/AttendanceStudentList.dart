@@ -1,14 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:infixedu/utils/Utils.dart';
+import 'package:http/http.dart' as http;
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/GlobalClass.dart';
 import 'package:infixedu/utils/modal/Student.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/StudentAttendanceRow.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
+// ignore: must_be_immutable
 class StudentListAttendance extends StatefulWidget {
   int classCode;
   int sectionCode;
@@ -226,7 +227,7 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
     );
   }
   void setDefaultAttendance() async {
-    final response = await http.get(InfixApi.attendance_defalut_send(date, '$classCode', '$sectionCode'));
+    final response = await http.get(InfixApi.attendanceDefaultSent(date, '$classCode', '$sectionCode'));
     if (response.statusCode == 200) {
       debugPrint('Attendance default successful');
     } else {

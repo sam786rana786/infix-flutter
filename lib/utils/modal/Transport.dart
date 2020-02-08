@@ -1,5 +1,3 @@
-import '../Utils.dart';
-
 class Transport {
   String route;
   String no;

@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-import './Login.dart';
-import './Home.dart';
+import 'package:flutter/material.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:infixedu/utils/Utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import './Login.dart';
 
 class Splash extends StatefulWidget {
   @override

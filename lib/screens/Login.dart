@@ -1,11 +1,11 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:infixedu/utils/apis/Apis.dart';
-import 'package:infixedu/utils/server/Login.dart';
-import 'package:infixedu/utils/Utils.dart';
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:infixedu/utils/server/Login.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -195,9 +195,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 isResponse = true;
                               });
                               Login(email, password).getData(context).then((result)=>{
-                                if(result){
-                                  debugPrint('success')
-                                }
+//                                if(result){
+//                                  debugPrint('success')
+//                                }
                               });
                             }else{
                               setState(() {

@@ -8,7 +8,7 @@ import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/ClassExamResultRow.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+// ignore: must_be_immutable
 class ClassExamResultScreen extends StatefulWidget {
   var id;
 

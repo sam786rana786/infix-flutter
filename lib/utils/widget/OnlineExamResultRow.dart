@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:infixedu/utils/modal/ClassExam.dart';
 import 'package:infixedu/utils/modal/ONlineExamResult.dart';
 
+// ignore: must_be_immutable
 class OnlineExamResultRow extends StatefulWidget {
 
   OnlineExamResult result;

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/ActiveOnlineExam.dart';
 
+// ignore: must_be_immutable
 class ActiveOnlineExamRow extends StatelessWidget {
   ActiveOnlineExam exam;
 
@@ -141,7 +142,7 @@ class ActiveOnlineExamRow extends StatelessWidget {
         ),
       );
     }
-    if (status == 0) {
+    else if (status == 0) {
       return Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(color: Colors.red.shade500),
@@ -158,6 +159,8 @@ class ActiveOnlineExamRow extends StatelessWidget {
           ),
         ),
       );
+    }else{
+      return Container();
     }
   }
 }

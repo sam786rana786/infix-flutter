@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
-import 'package:infixedu/utils/apis/Apis.dart';
-import 'package:infixedu/utils/modal/Schedule.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/Routine_row.dart';
 
+// ignore: must_be_immutable
 class StudentRoutine extends StatelessWidget {
 
   List<String> weeks = AppFunction.weeks;

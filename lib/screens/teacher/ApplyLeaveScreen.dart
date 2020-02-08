@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -5,13 +6,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:http/http.dart' as http;
 import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/LeaveType.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 import 'package:permissions_plugin/permissions_plugin.dart';
 
 class ApplyLeaveScreen extends StatefulWidget {
@@ -28,8 +27,8 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
   int leaveId;
   TextEditingController reasonController = TextEditingController();
   DateTime date;
-  String MAX_DATETIME = '2031-11-25';
-  String INIT_DATETIME = '2019-05-17';
+  String maxDateTime = '2031-11-25';
+  String initDateTime = '2019-05-17';
   String _format = 'yyyy-MMMM-dd';
   DateTime _dateTime;
   DateTimePickerLocale _locale = DateTimePickerLocale.en_us;
@@ -43,9 +42,9 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
   void initState() {
     super.initState();
     date = DateTime.now();
-    INIT_DATETIME =
+    initDateTime =
     '${date.year}-${getAbsoluteDate(date.month)}-${getAbsoluteDate(date.day)}';
-    _dateTime = DateTime.parse(INIT_DATETIME);
+    _dateTime = DateTime.parse(initDateTime);
     leaves = getAllLeaveType();
     leaves.then((value) {
       setState(() {
@@ -105,8 +104,8 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                             cancel: Text('cancel',
                                 style: TextStyle(color: Colors.cyan)),
                           ),
-                          minDateTime: DateTime.parse(INIT_DATETIME),
-                          maxDateTime: DateTime.parse(MAX_DATETIME),
+                          minDateTime: DateTime.parse(initDateTime),
+                          maxDateTime: DateTime.parse(maxDateTime),
                           initialDateTime: _dateTime,
                           dateFormat: _format,
                           locale: _locale,
@@ -180,8 +179,8 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                             cancel: Text('cancel',
                                 style: TextStyle(color: Colors.cyan)),
                           ),
-                          minDateTime: DateTime.parse(INIT_DATETIME),
-                          maxDateTime: DateTime.parse(MAX_DATETIME),
+                          minDateTime: DateTime.parse(initDateTime),
+                          maxDateTime: DateTime.parse(maxDateTime),
                           initialDateTime: _dateTime,
                           dateFormat: _format,
                           locale: _locale,
@@ -255,8 +254,8 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                             cancel: Text('cancel',
                                 style: TextStyle(color: Colors.cyan)),
                           ),
-                          minDateTime: DateTime.parse(INIT_DATETIME),
-                          maxDateTime: DateTime.parse(MAX_DATETIME),
+                          minDateTime: DateTime.parse(initDateTime),
+                          maxDateTime: DateTime.parse(maxDateTime),
                           initialDateTime: _dateTime,
                           dateFormat: _format,
                           locale: _locale,

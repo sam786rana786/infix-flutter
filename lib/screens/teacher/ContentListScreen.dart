@@ -1,14 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:infixedu/utils/Utils.dart';
+import 'package:http/http.dart' as http;
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Content.dart';
-import 'package:infixedu/utils/modal/StudentHomework.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/Content_row.dart';
-import 'package:infixedu/utils/widget/Homework_row.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class ContentListScreen extends StatefulWidget {
   @override
@@ -47,7 +45,7 @@ class _ContentListScreenState extends State<ContentListScreen> {
                 key: _listKey,
                 initialItemCount: snapshot.data.contents.length,
                 itemBuilder: (context , index,animation){
-                  return Content_row(snapshot.data.contents[index],animation,onPressed: (){
+                  return ContentRow(snapshot.data.contents[index],animation,onPressed: (){
 //                     snapshot.data.contents.removeAt(index);
 //                     Utils.showToast('$index');
                      _removeSingleItems(index, snapshot.data.contents);
@@ -65,14 +63,14 @@ class _ContentListScreenState extends State<ContentListScreen> {
 
 
   void _removeSingleItems(int index,List<Content> cList) {
-    Content removedItem = cList.removeAt(index);
-    // This builder is just so that the animation has something
-    // to work with before it disappears from view since the original
-    // has already been deleted.
-    AnimatedListRemovedItemBuilder builder = (context, animation) {
-      //return Content_row(removedItem,animation);
-    };
-    _listKey.currentState.removeItem(index, builder);
+//    Content removedItem = cList.removeAt(index);
+//    // This builder is just so that the animation has something
+//    // to work with before it disappears from view since the original
+//    // has already been deleted.
+//    AnimatedListRemovedItemBuilder builder = (context, animation) {
+//      return Content_row(removedItem,animation);
+//    };
+//    _listKey.currentState.removeItem(index, builder);
   }
 
 

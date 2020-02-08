@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:infixedu/utils/CardItem.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
+import 'package:flutter/services.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 
 // ignore: must_be_immutable
-class OnlineExaminationHome extends StatefulWidget {
+class AdminLibraryHome extends StatefulWidget {
   var _titles;
   var _images;
-  var id;
+  int id;
+  String profileImage;
 
-  OnlineExaminationHome(this._titles,this._images,{this.id});
+  AdminLibraryHome(this._titles, this._images);
 
   @override
-  _HomeState createState() => _HomeState(_titles,_images);
+  _AdminLibraryHomeState createState() => _AdminLibraryHomeState(_titles, _images);
 }
 
-class _HomeState extends State<OnlineExaminationHome> {
+class _AdminLibraryHomeState extends State<AdminLibraryHome> {
   bool isTapped;
   int currentSelectedIndex;
   var _titles;
   var _images;
 
-  _HomeState(this._titles,this._images);
+  _AdminLibraryHomeState(this._titles, this._images);
 
   @override
   void initState() {
@@ -41,8 +43,7 @@ class _HomeState extends State<OnlineExaminationHome> {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-        appBar: AppBarWidget.header(context,'Online Examination'),
-        backgroundColor: Colors.white,
+        appBar: AppBarWidget.header(context, 'Library'),
         body: GridView.builder(
           itemCount: _titles.length,
           gridDelegate:
@@ -54,7 +55,7 @@ class _HomeState extends State<OnlineExaminationHome> {
               onSelect: () {
                 setState(() {
                   currentSelectedIndex = index;
-                  AppFunction.getOnlineExaminationDashboardPage(context, _titles[index],id: widget.id);
+                  AppFunction.getAdminLibraryPage(context, _titles[index]);
                 });
               },
               headline: _titles[index],

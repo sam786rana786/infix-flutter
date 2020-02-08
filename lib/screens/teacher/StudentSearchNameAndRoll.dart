@@ -6,6 +6,7 @@ import 'package:infixedu/utils/widget/StudentSearchRow.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+// ignore: must_be_immutable
 class StudentSearchNameRoll extends StatefulWidget {
   String name;
   String roll;

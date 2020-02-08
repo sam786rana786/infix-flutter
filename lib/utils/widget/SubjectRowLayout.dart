@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/Subject.dart';
+
+// ignore: must_be_immutable
 class SubjectRowLayout extends StatelessWidget {
 
   Subject subject;

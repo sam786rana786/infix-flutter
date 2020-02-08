@@ -3,12 +3,13 @@ import 'package:infixedu/utils/modal/ClassExamList.dart';
 
 import '../FunctinsData.dart';
 
-class Student_Exam_row extends StatelessWidget {
+// ignore: must_be_immutable
+class StudentExamRow extends StatelessWidget {
 
   classExam exam;
 
 
-  Student_Exam_row(this.exam);
+  StudentExamRow(this.exam);
 
   @override
   Widget build(BuildContext context) {

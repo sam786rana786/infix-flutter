@@ -4,6 +4,7 @@ import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/TeacherMyRoutineItem.dart';
 
+// ignore: must_be_immutable
 class TeacherMyRoutineScreen extends StatelessWidget {
 
   List<String> weeks = AppFunction.weeks;

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:infixedu/utils/CardItem.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:flutter/services.dart';
-import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 
-
+// ignore: must_be_immutable
 class ExaminationHome extends StatefulWidget {
   var _titles;
   var _images;
@@ -20,7 +19,6 @@ class ExaminationHome extends StatefulWidget {
 class _HomeState extends State<ExaminationHome> {
   bool isTapped;
   int currentSelectedIndex;
-  String _id;
   var _titles;
   var _images;
   var sId;
@@ -31,11 +29,6 @@ class _HomeState extends State<ExaminationHome> {
   void initState() {
     super.initState();
     isTapped = false;
-
-
-    Utils.getStringValue('id').then((value) {
-      _id = value;
-    });
   }
 
   @override

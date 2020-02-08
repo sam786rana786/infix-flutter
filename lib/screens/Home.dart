@@ -8,11 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
-
 import '../main.dart';
-import 'Login.dart';
 import 'Profile.dart';
-
+// ignore: must_be_immutable
 class Home extends StatefulWidget {
   var _titles;
   var _images;
@@ -27,7 +25,6 @@ class _HomeState extends State<Home> {
   bool isTapped;
   int currentSelectedIndex;
   int rtlValue;
-  String _id;
   String _email;
   String _password;
   String _rule;
@@ -45,9 +42,6 @@ class _HomeState extends State<Home> {
     });
     Utils.getStringValue('password').then((value) {
       _password = value;
-    });
-    Utils.getStringValue('id').then((value) {
-      _id = value;
     });
     Utils.getStringValue('rule').then((value){
       _rule = value;

@@ -1,9 +1,9 @@
-import 'package:infixedu/utils/Utils.dart';
-import 'package:infixedu/utils/apis/Apis.dart';
-import 'package:infixedu/utils/modal/InfixMap.dart';
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:infixedu/utils/modal/InfixMap.dart';
 
 class About {
   List<InfixMap> infixMap = List();
@@ -11,7 +11,7 @@ class About {
   Future<List<InfixMap>> fetchAboutServices() async {
     infixMap.clear();
 
-    final response = await http.get(InfixApi.ABOUT);
+    final response = await http.get(InfixApi.about);
 
     var jsonData = json.decode(response.body);
 
@@ -27,8 +27,8 @@ class About {
     return infixMap;
   }
 
-  static Future<int> PhonePermission() async{
-    final response = await http.get(InfixApi.CURRENT_PERMISSION);
+  static Future<int> phonePermission() async{
+    final response = await http.get(InfixApi.currentPermission);
     var jsonData = json.decode(response.body);
     int no = jsonData['data']['phone_number_privacy'];
     return no;

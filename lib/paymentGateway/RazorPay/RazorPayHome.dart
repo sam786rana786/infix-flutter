@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infixedu/paymentGateway/paytm/PaymentStatusScreen.dart';
-import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Fee.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
@@ -13,6 +12,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+// ignore: must_be_immutable
 class RazorPayment extends StatefulWidget {
   Fee fee;
   String id;
@@ -43,7 +43,7 @@ class _RazorPaymentState extends State<RazorPayment> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              child: Fees_payment_row(widget.fee),
+              child: FeePaymentRow(widget.fee),
             ),
             Container(
               child: Image(image: AssetImage("images/about.png")),
@@ -90,7 +90,7 @@ class _RazorPaymentState extends State<RazorPayment> {
     );
   }
 }
-
+// ignore: must_be_immutable
 class AddRazorAmount extends StatefulWidget {
   Fee fee;
   String id;
@@ -130,7 +130,7 @@ class _AddRazorAmountState extends State<AddRazorAmount> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(2.0),
-                child: Fees_payment_row(fee),
+                child: FeePaymentRow(fee),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),

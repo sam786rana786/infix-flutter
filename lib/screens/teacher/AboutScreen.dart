@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/modal/InfixMap.dart';
 import 'package:infixedu/utils/server/About.dart';
-import 'package:infixedu/utils/server/ProfileService.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/ProfileListRow.dart';
+
+// ignore: must_be_immutable
 class AboutScreen extends StatelessWidget {
   About about = About();
   @override
@@ -43,7 +43,7 @@ class AboutScreen extends StatelessWidget {
                    child: ListView.builder(
                      itemCount: snapshot.data.length-1,
                      itemBuilder: (context,index){
-                       return Profile_row_list(
+                       return ProfileRowList(
                            snapshot.data[index+1].key, snapshot.data[index+1].value);
                      },
                    ),

@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/AdminFees.dart';
 
 import 'Line.dart';
 
+// ignore: must_be_immutable
 class AdminFeesListRow extends StatefulWidget {
   AdminFees adminFees;
   AdminFeesListRow(this.adminFees);
@@ -126,10 +126,12 @@ class _AdminFeesListRowState extends State<AdminFeesListRow> {
   }
 
   Future<bool> updateFeeData(String title, String des, int id,BuildContext context) async {
-    response = await dio.get(InfixApi.fees_data_update(title, des, id));
+    response = await dio.get(InfixApi.feesDataUpdate(title, des, id));
     if (response.statusCode == 200) {
       Navigator.of(context).pop();
       return true;
+    }else{
+      return false;
     }
   }
 }

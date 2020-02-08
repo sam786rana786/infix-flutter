@@ -4,10 +4,11 @@ import 'package:infixedu/utils/modal/Fee.dart';
 
 import 'ScaleRoute.dart';
 
-class Fees_row extends StatelessWidget {
+// ignore: must_be_immutable
+class FeesRow extends StatelessWidget {
   Fee fee;
   String id;
-  Fees_row(this.fee,this.id);
+  FeesRow(this.fee,this.id);
 
   @override
   Widget build(BuildContext context) {
@@ -383,7 +384,7 @@ class Fees_row extends StatelessWidget {
         ),
       );
     }
-    if (int.parse(fee.paid) > 0) {
+    else if (int.parse(fee.paid) > 0) {
       return Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(color: Colors.amberAccent),
@@ -402,7 +403,7 @@ class Fees_row extends StatelessWidget {
       );
     }
 
-    if (int.parse(fee.balance) == int.parse(fee.amount) || int.parse(fee.balance) < 0) {
+    else if (int.parse(fee.balance) == int.parse(fee.amount) || int.parse(fee.balance) < 0) {
       return Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(color: Colors.redAccent),
@@ -419,6 +420,8 @@ class Fees_row extends StatelessWidget {
           ),
         ),
       );
+    }else{
+      return Container();
     }
   }
 }

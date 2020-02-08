@@ -1,15 +1,10 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
+import 'package:flutter/services.dart';
 import 'package:infixedu/utils/CardItem.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/services.dart';
-import 'package:infixedu/utils/Utils.dart';
-import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 
-
+// ignore: must_be_immutable
 class LeaveHomeScreen extends StatefulWidget {
   var _titles;
   var _images;
@@ -23,7 +18,6 @@ class LeaveHomeScreen extends StatefulWidget {
 class _HomeState extends State<LeaveHomeScreen> {
   bool isTapped;
   int currentSelectedIndex;
-  String _id;
   var _titles;
   var _images;
 
@@ -33,11 +27,6 @@ class _HomeState extends State<LeaveHomeScreen> {
   void initState() {
     super.initState();
     isTapped = false;
-
-
-    Utils.getStringValue('id').then((value) {
-      _id = value;
-    });
   }
 
   @override

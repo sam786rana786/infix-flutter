@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/modal/Transport.dart';
 
+// ignore: must_be_immutable
 class TransportRow extends StatelessWidget {
   Transport transport;
 

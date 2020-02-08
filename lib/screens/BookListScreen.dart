@@ -56,7 +56,7 @@ class _BookListState extends State<BookListScreen> {
   }
 
   Future<BookList> getAllBooks() async {
-    final response = await http.get(InfixApi.BOOK_LIST);
+    final response = await http.get(InfixApi.bookList);
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);

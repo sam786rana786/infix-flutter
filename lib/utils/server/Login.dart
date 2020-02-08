@@ -1,11 +1,10 @@
-import 'package:http/http.dart';
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:infixedu/screens/Home.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:http/http.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
-import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login {
   final String email;
