@@ -5,7 +5,7 @@ class BottomLine extends StatelessWidget {
     return Container(
       child: Container(
         height: 0.5,
-        margin: EdgeInsets.only(top: 10.0),
+        margin: EdgeInsets.only(top: 1.0),
         decoration: BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.centerRight,

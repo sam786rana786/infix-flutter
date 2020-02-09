@@ -155,7 +155,7 @@ class InfixApi {
 
   static String addBook(String title,String categoryId,String bookNo, String isbn,String publisherName,String authorName,String subjectId,String reckNo,String quantity,String price,String details,String date,String userId){
     return baseApi+"save-book-data?book_title="+title+"&book_category_id="+categoryId+"&book_number="+bookNo+"&isbn_no="+isbn+"&publisher_name="+
-        publisherName+"&author_name="+authorName+"&subject_id="+subjectId+"&rack_number="+reckNo+"&quantity="+quantity+"&book_price="+price+"&details="+details+"&post_date="+date+"&user_id="+userId;
+        publisherName+"&author_name="+authorName+"&subject_id="+subjectId+"&rack_number="+reckNo+"&quantity="+quantity+"&book_price="+price+"&details="+details+"&post_date="+date+"&user_id=$userId";
 
   }
 
@@ -164,4 +164,5 @@ class InfixApi {
   static String leaveType = baseApi+"staff-leave-type";
   static String applyLeave = baseApi+"staff-apply-leave";
   static String getEmail = baseApi+"user-demo";
+  static String getLibraryMemberCategory = baseApi+"library-member-role";
 }

@@ -23,6 +23,7 @@ import 'package:infixedu/screens/TimeLineScreen.dart';
 import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/admin/AddFeeType.dart';
 import 'package:infixedu/screens/admin/AddLibraryBook.dart';
+import 'package:infixedu/screens/admin/AdminAddMember.dart';
 import 'package:infixedu/screens/admin/AdminFeeList.dart';
 import 'package:infixedu/screens/admin/AdminFeesHome.dart';
 import 'package:infixedu/screens/admin/AdminLibraryScreen.dart';
@@ -387,6 +388,9 @@ class AppFunction {
     switch(title){
       case 'Add Book':
         Navigator.push(context, ScaleRoute(page: AddAdminBook()));
+        break;
+      case 'Add Member':
+        Navigator.push(context, ScaleRoute(page: AddMember()));
         break;
       case 'Book List':
         Navigator.push(context, ScaleRoute(page: BookListScreen()));
