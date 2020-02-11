@@ -89,6 +89,9 @@ class InfixApi {
   static String getStudentByClassAndSection(int mClass,int mSection){
     return baseApi+"search-student?section=$mSection&class=$mClass";
   }
+  static String getAllStaff(int id){
+    return baseApi+"staff-list/$id";
+  }
   static String getSectionById(int id,int classId){
     return baseApi+"teacher-section-list?id=$id&class=$classId";
   }
@@ -156,7 +159,18 @@ class InfixApi {
   static String addBook(String title,String categoryId,String bookNo, String isbn,String publisherName,String authorName,String subjectId,String reckNo,String quantity,String price,String details,String date,String userId){
     return baseApi+"save-book-data?book_title="+title+"&book_category_id="+categoryId+"&book_number="+bookNo+"&isbn_no="+isbn+"&publisher_name="+
         publisherName+"&author_name="+authorName+"&subject_id="+subjectId+"&rack_number="+reckNo+"&quantity="+quantity+"&book_price="+price+"&details="+details+"&post_date="+date+"&user_id=$userId";
+  }
 
+  static String addLibraryMember(String memberType,String memberUdId,String clsId,String secId,String studentId,String stuffId,String createdBy){
+    return baseApi+"add-library-member?member_type="+memberType+"&member_ud_id="+memberUdId+"&class="+clsId+"&section="+secId+"&student="+studentId+"&staff="+stuffId+"&created_by=$createdBy";
+  }
+
+  static String addRoute(String title,String fare){
+    return baseApi+"transport-route?title="+title+"&far="+fare;
+  }
+
+  static String addVehicle(String vehicleNo,String model,String driverId, String note,String year){
+    return baseApi+"vehicle?vehicle_number="+vehicleNo+"&vehicle_model="+model+"&driver_id="+driverId+"&note="+note+"&year_made=$year";
   }
 
   static String bookCategory = baseApi+"book-category";
@@ -165,4 +179,5 @@ class InfixApi {
   static String applyLeave = baseApi+"staff-apply-leave";
   static String getEmail = baseApi+"user-demo";
   static String getLibraryMemberCategory = baseApi+"library-member-role";
+  static String DRIVER_LIST = baseApi+"driver-list";
 }

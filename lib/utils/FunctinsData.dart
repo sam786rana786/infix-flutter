@@ -23,11 +23,14 @@ import 'package:infixedu/screens/TimeLineScreen.dart';
 import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/admin/AddFeeType.dart';
 import 'package:infixedu/screens/admin/AddLibraryBook.dart';
+import 'package:infixedu/screens/admin/AddRouteScreen.dart';
 import 'package:infixedu/screens/admin/AdminAddMember.dart';
+import 'package:infixedu/screens/admin/AdminAddVehicle.dart';
 import 'package:infixedu/screens/admin/AdminFeeList.dart';
 import 'package:infixedu/screens/admin/AdminFeesHome.dart';
 import 'package:infixedu/screens/admin/AdminLibraryScreen.dart';
 import 'package:infixedu/screens/admin/AdminSettings.dart';
+import 'package:infixedu/screens/admin/AdminTransportScreen.dart';
 import 'package:infixedu/screens/parent/ChildListScreen.dart';
 import 'package:infixedu/screens/teacher/AboutScreen.dart';
 import 'package:infixedu/screens/teacher/AcademicsScreen.dart';
@@ -143,6 +146,17 @@ class AppFunction {
     'images/mychild.png',
     'images/fees_icon.png',
     'images/addhw.png',
+  ];
+
+  static var adminTransport = [
+    'Add Route',
+    'Add Vehicle',
+    'Transport',
+  ];
+  static var adminTransportIcons = [
+    'images/addhw.png',
+    'images/addhw.png',
+    'images/transport.png',
   ];
 
   static var librarys = [
@@ -367,6 +381,15 @@ class AppFunction {
       case 'Library':
         Navigator.push(context, ScaleRoute(page: AdminLibraryHome(adminLibrary,adminLibraryIcons)));
         break;
+      case 'Attendance':
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: AttendanceHomeScreen(attendance, attendanceIcons)));
+        break;
+      case 'Transport':
+        Navigator.push(context, ScaleRoute(page: AdminTransportHome(adminTransport,adminTransportIcons)));
+        break;
       case 'Settings':
         Navigator.push(context, ScaleRoute(page: AdminSettings()));
         break;
@@ -394,6 +417,20 @@ class AppFunction {
         break;
       case 'Book List':
         Navigator.push(context, ScaleRoute(page: BookListScreen()));
+        break;
+    }
+  }
+
+  static void getAdminTransportPage(BuildContext context,String title){
+    switch(title){
+      case 'Add Route':
+        Navigator.push(context, ScaleRoute(page: AddRoute()));
+        break;
+      case 'Add Vehicle':
+        Navigator.push(context, ScaleRoute(page: AddVehicle()));
+        break;
+      case 'Transport':
+        Navigator.push(context, ScaleRoute(page: TransportScreen()));
         break;
     }
   }

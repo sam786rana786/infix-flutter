@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infixedu/utils/Utils.dart';
@@ -5,9 +6,9 @@ import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Classes.dart';
 import 'package:infixedu/utils/modal/LibraryCategoryMember.dart';
 import 'package:infixedu/utils/modal/Section.dart';
+import 'package:infixedu/utils/modal/Staff.dart';
 import 'package:infixedu/utils/modal/Student.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
-import 'package:infixedu/utils/widget/Line.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -17,13 +18,13 @@ class AddMember extends StatefulWidget {
 }
 
 class _AddMemberState extends State<AddMember> {
-
   final idController = TextEditingController();
   String selectedCategory;
   Future<LibraryMemberList> categoryList;
   Future<ClassList> classes;
   Future<SectionList> sections;
   Future<StudentList> students;
+  Future<StaffList> staffs;
   int selectedCategoryId;
   bool isStudentCategory = false;
   String selectedClass;
@@ -32,8 +33,9 @@ class _AddMemberState extends State<AddMember> {
   int selectedSectionId;
   String selectedStudent;
   int selectedStudentId;
+  String selectedStaff;
+  int selectedStaffId;
   String _id;
-
 
   @override
   void initState() {
@@ -42,8 +44,17 @@ class _AddMemberState extends State<AddMember> {
     categoryList = getAllCategory();
 
     categoryList.then((value) {
-      selectedCategory = value.members[0].name;
-      selectedCategoryId = value.members[0].id;
+      setState(() {
+        selectedCategory = value.members[0].name;
+        selectedCategoryId = value.members[0].id;
+        staffs = getAllStaff(selectedCategoryId);
+        staffs.then((staffVal) {
+          setState(() {
+            selectedStaff = staffVal.staffs[0].name;
+            selectedStaffId = staffVal.staffs[0].id;
+          });
+        });
+      });
     });
     Utils.getStringValue('id').then((value) {
       setState(() {
@@ -60,19 +71,19 @@ class _AddMemberState extends State<AddMember> {
             students.then((value) {
               selectedStudent = value.students[0].name;
               selectedStudentId = value.students[0].id;
-
             });
           });
         });
       });
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final double statusBarHeight = MediaQuery.of(context).padding.top;
+    final double statusBarHeight = MediaQuery
+        .of(context)
+        .padding
+        .top;
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: Colors.indigo, //or set color with: Color(0xFF0000FF)
@@ -91,18 +102,22 @@ class _AddMemberState extends State<AddMember> {
                 padding: EdgeInsets.only(left: 10.0),
                 child: TextField(
                   controller: idController,
-                  style: Theme.of(context).textTheme.display1,
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .display1,
                   autofocus: false,
                   decoration: InputDecoration(
-                      hintText: 'Enter ID Here',border: InputBorder.none,),
+                    hintText: 'Enter ID Here',
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
               FutureBuilder<LibraryMemberList>(
                 future: categoryList,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return getCategoryDropdown(
-                        snapshot.data.members);
+                    return getCategoryDropdown(snapshot.data.members);
                   } else {
                     return Container();
                   }
@@ -112,8 +127,9 @@ class _AddMemberState extends State<AddMember> {
                 future: classes,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return isStudentCategory ? getClassDropdown(
-                        snapshot.data.classes):Container();
+                    return isStudentCategory
+                        ? getClassDropdown(snapshot.data.classes)
+                        : Container();
                   } else {
                     return Container();
                   }
@@ -123,12 +139,84 @@ class _AddMemberState extends State<AddMember> {
                 future: sections,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return isStudentCategory ? getSectionDropdown(
-                        snapshot.data.sections):Container();
+                    return isStudentCategory
+                        ? getSectionDropdown(snapshot.data.sections)
+                        : Container();
                   } else {
                     return Container();
                   }
                 },
+              ),
+              FutureBuilder<StaffList>(
+                future: staffs,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return !isStudentCategory
+                        ? getSatffDropdown(snapshot.data.staffs)
+                        : Container();
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+              FutureBuilder<StudentList>(
+                future: students,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return isStudentCategory
+                        ? getStudentDropdown(snapshot.data.students)
+                        : Container();
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+              Container(
+                padding: const EdgeInsets.only(bottom: 16.0, top: 100.0),
+                width: double.infinity,
+                child: RaisedButton(
+                  padding: const EdgeInsets.all(8.0),
+                  textColor: Colors.white,
+                  color: Colors.deepPurpleAccent,
+                  onPressed: () {
+                    if(selectedCategoryId ==2){
+                      if (idController.text.isNotEmpty) {
+                        addMemberData(
+                            '$selectedCategoryId',
+                            idController.text,
+                            '$selectedClassId',
+                            '$selectedSectionId',
+                            '$selectedStudentId',
+                            '0',
+                            _id).then((val){
+                          if(val){
+                            idController.text = '';
+                          }
+                        });
+                      }else{
+                        Utils.showToast('Enter unique id');
+                      }
+                    }else{
+                      if (idController.text.isNotEmpty) {
+                        addMemberData(
+                            '$selectedCategoryId',
+                            idController.text,
+                            '$selectedClassId',
+                            '$selectedSectionId',
+                            '0',
+                            '$selectedStaffId',
+                            _id).then((val){
+                          if(val){
+                            idController.text = '';
+                          }
+                        });
+                      }else{
+                        Utils.showToast('Enter unique id');
+                      }
+                    }
+                  },
+                  child: new Text("Save"),
+                ),
               ),
             ],
           ),
@@ -136,90 +224,13 @@ class _AddMemberState extends State<AddMember> {
       ),
     );
   }
-//
-//  Widget getClassDropdown(List<String> classes) {
-//    return Container(
-//      width: MediaQuery.of(context).size.width,
-//      child: DropdownButton(
-//        elevation: 0,
-//        isExpanded: true,
-//        items: classes.map((item) {
-//          return DropdownMenuItem<String>(
-//            value: item,
-//            child: Padding(
-//              padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
-//              child: Text(item),
-//            ),
-//          );
-//        }).toList(),
-//        style: Theme.of(context).textTheme.display1.copyWith(fontSize: 13.0),
-//        onChanged: (value) {
-////          setState(() {
-////            selectedCategory = value;
-////            selectedCategoryId = getCode(categories, value);
-////            switch(selectedCategoryId){
-////              case 2:
-////                setState(() {
-////                  isStudentCategory = true;
-////                });
-////                break;
-////              default :
-////                setState(() {
-////                  isStudentCategory = false;
-////                });
-////                break;
-////            }
-////            debugPrint('User select $selectedCategoryId');
-////          });
-//        },
-//        value: selectedClass,
-//      ),
-//    );
-//  }
-//
-//  Widget getSectionDropdown(List<String> sections) {
-//    return Container(
-//      width: MediaQuery.of(context).size.width,
-//      child: DropdownButton(
-//        elevation: 0,
-//        isExpanded: true,
-//        items: sections.map((item) {
-//          return DropdownMenuItem<String>(
-//            value: item,
-//            child: Padding(
-//              padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
-//              child: Text(item),
-//            ),
-//          );
-//        }).toList(),
-//        style: Theme.of(context).textTheme.display1.copyWith(fontSize: 13.0),
-//        onChanged: (value) {
-////          setState(() {
-////            selectedCategory = value;
-////            selectedCategoryId = getCode(categories, value);
-////            switch(selectedCategoryId){
-////              case 2:
-////                setState(() {
-////                  isStudentCategory = true;
-////                });
-////                break;
-////              default :
-////                setState(() {
-////                  isStudentCategory = false;
-////                });
-////                break;
-////            }
-////            debugPrint('User select $selectedCategoryId');
-////          });
-//        },
-//        value: selectedSection,
-//      ),
-//    );
-//  }
 
   Widget getCategoryDropdown(List<LibraryMember> categories) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       child: DropdownButton(
         elevation: 0,
         isExpanded: true,
@@ -232,20 +243,31 @@ class _AddMemberState extends State<AddMember> {
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.display1.copyWith(fontSize: 13.0),
+        style: Theme
+            .of(context)
+            .textTheme
+            .display1
+            .copyWith(fontSize: 13.0),
         onChanged: (value) {
           setState(() {
             selectedCategory = value;
             selectedCategoryId = getCode(categories, value);
-            switch(selectedCategoryId){
+            switch (selectedCategoryId) {
               case 2:
                 setState(() {
                   isStudentCategory = true;
                 });
                 break;
-              default :
+              default:
                 setState(() {
                   isStudentCategory = false;
+                  staffs = getAllStaff(selectedCategoryId);
+                  staffs.then((staffVal) {
+                    setState(() {
+                      selectedStaff = staffVal.staffs[0].name;
+                      selectedStaffId = staffVal.staffs[0].id;
+                    });
+                  });
                 });
                 break;
             }
@@ -259,7 +281,10 @@ class _AddMemberState extends State<AddMember> {
 
   Widget getClassDropdown(List<Classes> classes) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       child: DropdownButton(
         elevation: 0,
         isExpanded: true,
@@ -272,12 +297,21 @@ class _AddMemberState extends State<AddMember> {
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.display1.copyWith(fontSize: 13.0),
+        style: Theme
+            .of(context)
+            .textTheme
+            .display1
+            .copyWith(fontSize: 13.0),
         onChanged: (value) {
           setState(() {
             selectedClass = value;
             selectedClassId = getCode(classes, value);
             debugPrint('User select $selectedClassId');
+            students = getAllStudent();
+            students.then((value) {
+              selectedStudent = value.students[0].name;
+              selectedStudentId = value.students[0].id;
+            });
           });
         },
         value: selectedClass,
@@ -287,7 +321,10 @@ class _AddMemberState extends State<AddMember> {
 
   Widget getSectionDropdown(List<Section> sections) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       child: DropdownButton(
         elevation: 0,
         isExpanded: true,
@@ -300,16 +337,104 @@ class _AddMemberState extends State<AddMember> {
             ),
           );
         }).toList(),
-        style: Theme.of(context).textTheme.display1.copyWith(fontSize: 13.0),
+        style: Theme
+            .of(context)
+            .textTheme
+            .display1
+            .copyWith(fontSize: 13.0),
         onChanged: (value) {
           setState(() {
             selectedSection = value;
             selectedSectionId = getCode(sections, value);
             students = getAllStudent();
             debugPrint('User select $selectedSectionId');
+            students = getAllStudent();
+            students.then((value) {
+              selectedStudent = value.students[0].name;
+              selectedStudentId = value.students[0].id;
+            });
           });
         },
         value: selectedSection,
+      ),
+    );
+  }
+
+  Widget getSatffDropdown(List<Staff> staff) {
+    return Container(
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
+      child: DropdownButton(
+        elevation: 0,
+        isExpanded: true,
+        items: staff.map((item) {
+          return DropdownMenuItem<String>(
+            value: item.name,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
+              child: Text(item.name),
+            ),
+          );
+        }).toList(),
+        style: Theme
+            .of(context)
+            .textTheme
+            .display1
+            .copyWith(fontSize: 13.0),
+        onChanged: (value) {
+          setState(() {
+            selectedStaff = value;
+            selectedStaffId = getCode(staff, value);
+            staffs = getAllStaff(selectedStaffId);
+            debugPrint('User select $selectedStaffId');
+            staffs = getAllStaff(selectedCategoryId);
+            staffs.then((staffVal) {
+              setState(() {
+                selectedStaff = staffVal.staffs[0].name;
+                selectedStaffId = staffVal.staffs[0].id;
+              });
+            });
+          });
+        },
+        value: selectedStaff,
+      ),
+    );
+  }
+
+  Widget getStudentDropdown(List<Student> student) {
+    return Container(
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
+      child: DropdownButton(
+        elevation: 0,
+        isExpanded: true,
+        items: student.map((item) {
+          return DropdownMenuItem<String>(
+            value: item.name,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
+              child: Text(item.name),
+            ),
+          );
+        }).toList(),
+        style: Theme
+            .of(context)
+            .textTheme
+            .display1
+            .copyWith(fontSize: 13.0),
+        onChanged: (value) {
+          setState(() {
+            selectedStudent = value;
+            selectedStudentId = getCode(student, value);
+            students = getAllStudent();
+            debugPrint('User select $selectedStudentId');
+          });
+        },
+        value: selectedStudent,
       ),
     );
   }
@@ -372,4 +497,36 @@ class _AddMemberState extends State<AddMember> {
     }
   }
 
+  Future<StaffList> getAllStaff(int staffId) async {
+    final response = await http.get(InfixApi.getAllStaff(staffId));
+
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      return StaffList.fromJson(jsonData['data']);
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<bool> addMemberData(String categoryId, String uID, String classId,
+      String sectionId, String studentId, String stuffId,
+      String createdBy) async {
+    Response response;
+    Dio dio = Dio();
+
+    response = await dio.get(InfixApi.addLibraryMember(
+        categoryId,
+        uID,
+        classId,
+        sectionId,
+        studentId,
+        stuffId,
+        createdBy));
+    if (response.statusCode == 200) {
+      Utils.showToast('Member Added');
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
