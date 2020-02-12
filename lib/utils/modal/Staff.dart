@@ -9,6 +9,7 @@ class Staff {
   String maritalStatus;
   String dateOfJoining;
   String phone;
+  String photo;
 
   Staff(
       {this.id,
@@ -18,7 +19,9 @@ class Staff {
       this.title,
       this.maritalStatus,
       this.dateOfJoining,
-      this.phone});
+      this.phone,
+      this.photo
+      });
 
   factory Staff.fromJson(Map<String, dynamic> json) {
     return Staff(
@@ -30,6 +33,7 @@ class Staff {
       maritalStatus: json['marital_status'],
       dateOfJoining: json['date_of_joining'],
       phone: json['mobile'],
+      photo: json['staff_photo'],
     );
   }
 }

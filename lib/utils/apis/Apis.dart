@@ -179,5 +179,6 @@ class InfixApi {
   static String applyLeave = baseApi+"staff-apply-leave";
   static String getEmail = baseApi+"user-demo";
   static String getLibraryMemberCategory = baseApi+"library-member-role";
+  static String getStuffCategory = baseApi+"staff-roles";
   static String DRIVER_LIST = baseApi+"driver-list";
 }

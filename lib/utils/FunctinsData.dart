@@ -30,6 +30,7 @@ import 'package:infixedu/screens/admin/AdminFeeList.dart';
 import 'package:infixedu/screens/admin/AdminFeesHome.dart';
 import 'package:infixedu/screens/admin/AdminLibraryScreen.dart';
 import 'package:infixedu/screens/admin/AdminSettings.dart';
+import 'package:infixedu/screens/admin/AdminStuffList.dart';
 import 'package:infixedu/screens/admin/AdminTransportScreen.dart';
 import 'package:infixedu/screens/parent/ChildListScreen.dart';
 import 'package:infixedu/screens/teacher/AboutScreen.dart';
@@ -117,7 +118,7 @@ class AppFunction {
   static var admins = [
     'Students',
     'Leave',
-    'Staff',
+    'Stuff',
     'Dormitory',
     'Attendance',
     'Fees',
@@ -389,6 +390,9 @@ class AppFunction {
         break;
       case 'Transport':
         Navigator.push(context, ScaleRoute(page: AdminTransportHome(adminTransport,adminTransportIcons)));
+        break;
+      case 'Stuff':
+        Navigator.push(context, ScaleRoute(page: AdminStuffList()));
         break;
       case 'Settings':
         Navigator.push(context, ScaleRoute(page: AdminSettings()));
