@@ -172,6 +172,9 @@ class InfixApi {
   static String addVehicle(String vehicleNo,String model,String driverId, String note,String year){
     return baseApi+"vehicle?vehicle_number="+vehicleNo+"&vehicle_model="+model+"&driver_id="+driverId+"&note="+note+"&year_made=$year";
   }
+  static String addDormitory(String name,String type,String intake, String address,String description){
+    return baseApi+"add-dormitory?dormitory_name="+name+"&type="+type+"&intake="+intake+"&address="+address+"&description="+description;
+  }
 
   static String bookCategory = baseApi+"book-category";
   static String subjectList = baseApi+"subject";
@@ -180,5 +183,11 @@ class InfixApi {
   static String getEmail = baseApi+"user-demo";
   static String getLibraryMemberCategory = baseApi+"library-member-role";
   static String getStuffCategory = baseApi+"staff-roles";
-  static String DRIVER_LIST = baseApi+"driver-list";
+ // static String DRIVER_LIST = baseApi+"driver-list";
+  static String dormitoryRoomList = baseApi+"room-list";
+  static String dormitoryList = baseApi+"dormitory-list";
+  static String roomTypeList = baseApi+"room-type-list";
+  static String pendingLeave = baseApi+"pending-leave";
+  static String approvedLeave = baseApi+"approved-leave";
+  static String rejectedLeave = baseApi+"reject-leave";
 }

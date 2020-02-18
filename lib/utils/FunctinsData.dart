@@ -24,10 +24,14 @@ import 'package:infixedu/screens/TransportScreen.dart';
 import 'package:infixedu/screens/admin/AddFeeType.dart';
 import 'package:infixedu/screens/admin/AddLibraryBook.dart';
 import 'package:infixedu/screens/admin/AddRouteScreen.dart';
+import 'package:infixedu/screens/admin/AdminAddDormitory.dart';
 import 'package:infixedu/screens/admin/AdminAddMember.dart';
+import 'package:infixedu/screens/admin/AdminAddRoom.dart';
 import 'package:infixedu/screens/admin/AdminAddVehicle.dart';
+import 'package:infixedu/screens/admin/AdminDormitoryScreen.dart';
 import 'package:infixedu/screens/admin/AdminFeeList.dart';
 import 'package:infixedu/screens/admin/AdminFeesHome.dart';
+import 'package:infixedu/screens/admin/AdminLeaveHomeScreen.dart';
 import 'package:infixedu/screens/admin/AdminLibraryScreen.dart';
 import 'package:infixedu/screens/admin/AdminSettings.dart';
 import 'package:infixedu/screens/admin/AdminStuffList.dart';
@@ -158,6 +162,17 @@ class AppFunction {
     'images/addhw.png',
     'images/addhw.png',
     'images/transport.png',
+  ];
+
+  static var adminDormitory = [
+    'Add Room',
+    'Add Dormitory',
+    'Room List',
+  ];
+  static var adminDormitoryIcons = [
+    'images/addhw.png',
+    'images/addhw.png',
+    'images/dormitory.png',
   ];
 
   static var librarys = [
@@ -371,16 +386,20 @@ class AppFunction {
     }
   }
 
-  static void getAdminDashboardPage(BuildContext context,String title){
-    switch(title){
+  static void getAdminDashboardPage(BuildContext context, String title) {
+    switch (title) {
       case 'Students':
         Navigator.push(context, ScaleRoute(page: StudentSearch()));
         break;
       case 'Fees':
-        Navigator.push(context, ScaleRoute(page: AdminFeesHome(adminFees,adminFeeIcons)));
+        Navigator.push(
+            context, ScaleRoute(page: AdminFeesHome(adminFees, adminFeeIcons)));
         break;
       case 'Library':
-        Navigator.push(context, ScaleRoute(page: AdminLibraryHome(adminLibrary,adminLibraryIcons)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: AdminLibraryHome(adminLibrary, adminLibraryIcons)));
         break;
       case 'Attendance':
         Navigator.push(
@@ -389,10 +408,22 @@ class AppFunction {
                 page: AttendanceHomeScreen(attendance, attendanceIcons)));
         break;
       case 'Transport':
-        Navigator.push(context, ScaleRoute(page: AdminTransportHome(adminTransport,adminTransportIcons)));
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: AdminTransportHome(adminTransport, adminTransportIcons)));
         break;
       case 'Stuff':
         Navigator.push(context, ScaleRoute(page: AdminStuffList()));
+        break;
+      case 'Dormitory':
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: AdminDormitoryHome(adminDormitory, adminDormitoryIcons)));
+        break;
+      case 'Leave':
+        Navigator.push(context, ScaleRoute(page: LeaveAdminHomeScreen()));
         break;
       case 'Settings':
         Navigator.push(context, ScaleRoute(page: AdminSettings()));
@@ -400,8 +431,8 @@ class AppFunction {
     }
   }
 
-  static void getAdminFeePage(BuildContext context,String title){
-    switch(title){
+  static void getAdminFeePage(BuildContext context, String title) {
+    switch (title) {
       case 'Add Fee':
         Navigator.push(context, ScaleRoute(page: AddFeeType()));
         break;
@@ -411,8 +442,8 @@ class AppFunction {
     }
   }
 
-  static void getAdminLibraryPage(BuildContext context,String title){
-    switch(title){
+  static void getAdminLibraryPage(BuildContext context, String title) {
+    switch (title) {
       case 'Add Book':
         Navigator.push(context, ScaleRoute(page: AddAdminBook()));
         break;
@@ -425,8 +456,22 @@ class AppFunction {
     }
   }
 
-  static void getAdminTransportPage(BuildContext context,String title){
-    switch(title){
+  static void getAdminDormitoryPage(BuildContext context, String title) {
+    switch (title) {
+      case 'Room List':
+        Navigator.push(context, ScaleRoute(page: DormitoryScreen()));
+        break;
+      case 'Add Room':
+        Navigator.push(context, ScaleRoute(page: AddRoom()));
+        break;
+      case 'Add Dormitory':
+        Navigator.push(context, ScaleRoute(page: AddDormitory()));
+        break;
+    }
+  }
+
+  static void getAdminTransportPage(BuildContext context, String title) {
+    switch (title) {
       case 'Add Route':
         Navigator.push(context, ScaleRoute(page: AddRoute()));
         break;

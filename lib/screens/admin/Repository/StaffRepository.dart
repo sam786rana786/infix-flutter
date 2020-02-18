@@ -1,4 +1,5 @@
 import 'package:infixedu/screens/admin/ApiProvider/StaffApiProvider.dart';
+import 'package:infixedu/utils/modal/LeaveAdmin.dart';
 import 'package:infixedu/utils/modal/LibraryCategoryMember.dart';
 import 'package:infixedu/utils/modal/Staff.dart';
 
@@ -13,6 +14,10 @@ class StaffRepository{
 
   Future<StaffList> getStaffList(int id){
     return _provider.getAllStaff(id);
+  }
+
+  Future<LeaveAdminList> getStaffLeave(String url , String endPoint){
+    return _provider.getAllLeave(url,endPoint);
   }
 
 }

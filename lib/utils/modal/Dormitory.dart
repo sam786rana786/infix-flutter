@@ -4,13 +4,15 @@ class Dormitory {
   int numberOfBed;
   int costPerBed;
   int activeStatus;
+  int id;
 
   Dormitory(
       {this.dormitoryName,
       this.roomNumber,
       this.numberOfBed,
       this.costPerBed,
-      this.activeStatus});
+      this.activeStatus,
+      this.id});
 
   factory Dormitory.fromJson(Map<String, dynamic> json) {
     return Dormitory(
@@ -18,25 +20,22 @@ class Dormitory {
       roomNumber: json['room_number'],
       numberOfBed: json['number_of_bed'],
       costPerBed: json['cost_per_bed'],
-      activeStatus: json['active_status']
+      activeStatus: json['active_status'],
+      id: json['id'],
     );
   }
 }
-class DormitoryList{
 
+class DormitoryList {
   List<Dormitory> dormitories;
 
   DormitoryList(this.dormitories);
 
-  factory DormitoryList.fromJson(List<dynamic> jsonArr){
-
+  factory DormitoryList.fromJson(List<dynamic> jsonArr) {
     List<Dormitory> dormitorylist = List<Dormitory>();
 
-    dormitorylist = jsonArr.map((i)=> Dormitory.fromJson(i)).toList();
+    dormitorylist = jsonArr.map((i) => Dormitory.fromJson(i)).toList();
 
     return DormitoryList(dormitorylist);
-
   }
-
-
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infixedu/paymentGateway/PaymentHome.dart';
 import 'package:infixedu/utils/modal/Fee.dart';
-
 import 'ScaleRoute.dart';
 
 // ignore: must_be_immutable

@@ -1,4 +1,5 @@
 import 'package:infixedu/utils/apis/Apis.dart';
+import 'package:infixedu/utils/modal/LeaveAdmin.dart';
 import 'package:infixedu/utils/modal/LibraryCategoryMember.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -23,6 +24,16 @@ class StaffApiProvider{
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
       return StaffList.fromJson(jsonData['data']);
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<LeaveAdminList> getAllLeave(String url , String endPoint) async {
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      return LeaveAdminList.fromJson(jsonData['data'][endPoint]);
     } else {
       throw Exception('Failed to load');
     }

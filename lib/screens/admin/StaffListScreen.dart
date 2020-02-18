@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infixedu/screens/admin/Bloc/StuffListBloc.dart';
+import 'package:infixedu/utils/Utils.dart';
 import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/Staff.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
+import 'package:infixedu/utils/widget/ScaleRoute.dart';
+
+import 'AdminStaffDetails.dart';
 // ignore: must_be_immutable
 class StaffListScreen extends StatefulWidget {
 
@@ -81,14 +85,19 @@ class _StaffListScreenState extends State<StaffListScreen> {
       itemBuilder: (context, index) {
         return Column(
           children: <Widget>[
-            ListTile(
-              leading: CircleAvatar(
-                radius: 25.0,
-                backgroundImage: NetworkImage(InfixApi.root+data.staffs[index].photo),
-                backgroundColor: Colors.transparent,
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, ScaleRoute(page: StaffDetailsScreen(data.staffs[index])));
+              },
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 25.0,
+                  backgroundImage: NetworkImage(InfixApi.root+data.staffs[index].photo),
+                  backgroundColor: Colors.transparent,
+                ),
+                title: Text(data.staffs[index].name,style: Theme.of(context).textTheme.title,),
+                subtitle: Text('Phone : ${data.staffs[index].phone} | Address : ${data.staffs[index].currentAddress}',style: Theme.of(context).textTheme.display1),
               ),
-              title: Text(data.staffs[index].name,style: Theme.of(context).textTheme.title,),
-              subtitle: Text('Phone : ${data.staffs[index].phone} | Address : ${data.staffs[index].currentAddress}',style: Theme.of(context).textTheme.display1),
             ),
             Container(
               height: 0.5,
