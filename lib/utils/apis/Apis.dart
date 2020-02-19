@@ -176,6 +176,19 @@ class InfixApi {
     return baseApi+"add-dormitory?dormitory_name="+name+"&type="+type+"&intake="+intake+"&address="+address+"&description="+description;
   }
 
+  static String setToken(String id,String token){
+    return baseApi+"set-token?id=$id&token=$token";
+  }
+  static String sentNotificationForAll(int role,String title,String body){
+    return baseApi+"flutter-group-token?id=$role&body=$body&title=$title";
+  }
+  static String sentNotificationByToken(String title,String body,String id){
+    return baseApi+"flutter-notification-api?id=$id&body=$body&title=$title";
+  }
+  static String sentNotificationToSection(String title,String body,String classId,String sectionId){
+    return baseApi+"homework-notification-api?body=$body&title=$title&class_id=$classId&section_id=$sectionId";
+  }
+
   static String bookCategory = baseApi+"book-category";
   static String subjectList = baseApi+"subject";
   static String leaveType = baseApi+"staff-leave-type";

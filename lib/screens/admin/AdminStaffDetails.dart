@@ -180,12 +180,12 @@ class ShapesPainter extends CustomPainter {
     path3.close();
     canvas.drawPath(path3, paint);
 
-    // set the color property of the paint
-    paint.color = Colors.grey;
-    // center of the canvas is (x,y) => (width/2, height/2)
-    var center = Offset(size.width / 3, size.height / 1.5);
-    // draw the circle with center having radius 75.0
-    canvas.drawCircle(center, 75.0, paint);
+//    // set the color property of the paint
+//    paint.color = Colors.grey;
+//    // center of the canvas is (x,y) => (width/2, height/2)
+//    var center = Offset(size.width / 3, size.height / 1.5);
+//    // draw the circle with center having radius 75.0
+//    canvas.drawCircle(center, 75.0, paint);
   }
 
   @override
