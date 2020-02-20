@@ -57,8 +57,6 @@ import 'package:infixedu/screens/teacher/TeacherMyAttendance.dart';
 import 'package:infixedu/screens/teacher/TeacherRoutineScreen.dart';
 import 'package:infixedu/utils/widget/ScaleRoute.dart';
 
-import '../messaging_widget.dart';
-
 class AppFunction {
   static var students = [
     'Profile',
@@ -131,7 +129,6 @@ class AppFunction {
     'Library',
     'Transport',
     'Settings',
-    'message',
   ];
   static var adminIcons = [
     'images/students.png',
@@ -142,7 +139,6 @@ class AppFunction {
     'images/fees_icon.png',
     'images/library.png',
     'images/transport.png',
-    'images/addhw.png',
     'images/addhw.png',
   ];
 
@@ -431,9 +427,6 @@ class AppFunction {
         break;
       case 'Settings':
         Navigator.push(context, ScaleRoute(page: AdminSettings()));
-        break;
-        case 'message':
-        Navigator.push(context, ScaleRoute(page: MessagingWidget()));
         break;
     }
   }

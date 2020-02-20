@@ -1,13 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:infixedu/utils/Utils.dart';
+import 'package:infixedu/utils/apis/Apis.dart';
 import 'package:infixedu/utils/modal/LeaveAdmin.dart';
 import 'package:infixedu/utils/widget/Line.dart';
-
-import 'RadioButton.dart';
 
 // ignore: must_be_immutable
 class LeaveRowLayout extends StatelessWidget {
   LeaveAdmin leave;
+  Response response;
+  Dio dio = Dio();
 
   String radioStr = 'Pending';
 
@@ -377,7 +379,7 @@ class LeaveRowLayout extends StatelessWidget {
                                 ),
                               ),
                               onTap: () {
-
+                                Utils.showToast('${leave.id}  ${radioStr.substring(0,1)}');
                               },
                             ),
                           ],
@@ -392,6 +394,16 @@ class LeaveRowLayout extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<bool> addUpdateData(int id,String status) async {
+    response = await dio.get(InfixApi.setLeaveStatus(id, status));
+    if (response.statusCode == 200) {
+      Utils.showToast('Vehicle Added');
+      return true;
+    }else{
+      return false;
+    }
   }
 
   Widget getStatus(BuildContext context) {

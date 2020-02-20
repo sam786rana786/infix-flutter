@@ -388,6 +388,7 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
   }
 
   void uploadContent() async{
+
     FormData formData = FormData.fromMap({
       "class": '$classId',
       "section": '$sectionId',
@@ -404,6 +405,15 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
 
     if(response.statusCode == 200){
       Utils.showToast('Upload successful');
+      if(radioStr == 'admin'){
+        sentNotificationTo(1);
+      }else{
+        if(allClasses == 1){
+          sentNotificationTo(2);
+        }else{
+          sentNotificationToSection(classId, sectionId);
+        }
+      }
       Navigator.pop(context);
     }
   }
@@ -603,6 +613,18 @@ class _AddContentScreeenState extends State<AddContentScreeen> {
     setState(() {
       _file = file;
     });
+  }
+
+  void sentNotificationToSection(int classCode,int sectionCode) async{
+    final response = await http.get(InfixApi.sentNotificationToSection( 'Content', 'New content request has come','$classCode','$sectionCode'));
+    if(response.statusCode == 200){
+    }
+  }
+
+  void sentNotificationTo(int role) async{
+    final response = await http.get(InfixApi.sentNotificationForAll(role, 'Content', 'New content request has come'));
+    if(response.statusCode == 200){
+    }
   }
 
   Future<void> checkPermissions(BuildContext context) async {

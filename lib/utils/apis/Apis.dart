@@ -1,5 +1,5 @@
 class InfixApi {
-  static String root = 'https://infixedu.com/android/';
+  static String root = 'http://infixedu.com/android/';
   static String baseApi = root + 'api/';
 
   static String uploadHomework = baseApi+"add-homework";
@@ -187,6 +187,10 @@ class InfixApi {
   }
   static String sentNotificationToSection(String title,String body,String classId,String sectionId){
     return baseApi+"homework-notification-api?body=$body&title=$title&class_id=$classId&section_id=$sectionId";
+  }
+
+  static String setLeaveStatus(int id,String status){
+    return baseApi+"update-leave?id=$id&status=$status";
   }
 
   static String bookCategory = baseApi+"book-category";

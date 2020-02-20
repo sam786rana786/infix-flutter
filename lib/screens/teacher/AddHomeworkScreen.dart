@@ -517,9 +517,9 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
       "homework_file": await MultipartFile.fromFile(_file.path),
     });
     response = await dio.post(InfixApi.uploadHomework, data: formData);
-
     if(response.statusCode == 200){
       Utils.showToast('Upload successful');
+      sentNotificationToSection(classId, sectionId);
       Navigator.pop(context);
     }
   }
@@ -622,7 +622,11 @@ class _AddHomeworkScrrenState extends State<AddHomeworkScrren> {
       print("permission ok");
     }
   }
-
+  void sentNotificationToSection(int classCode,int sectionCode) async{
+    final response = await http.get(InfixApi.sentNotificationToSection( 'Homework', 'New homework has been uploaded','$classCode','$sectionCode'));
+    if(response.statusCode == 200){
+    }
+  }
   void permissionsDenied(BuildContext context) {
     showDialog(
         context: context,

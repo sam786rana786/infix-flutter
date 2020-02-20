@@ -473,6 +473,11 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
     }
   }
 
+  void sentNotificationTo() async{
+    final response = await http.get(InfixApi.sentNotificationForAll(1, 'Leave', 'New leave request has come'));
+    if(response.statusCode == 200){
+    }
+  }
 
   void uploadLeave() async{
 
@@ -489,6 +494,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
 
     if(response.statusCode == 200){
       Utils.showToast('Upload successful');
+      sentNotificationTo();
       Navigator.pop(context);
     }
   }

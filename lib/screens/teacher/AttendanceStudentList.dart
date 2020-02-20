@@ -114,6 +114,12 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
     );
   }
 
+  void sentNotificationToSection() async{
+    final response = await http.get(InfixApi.sentNotificationToSection('Leave', 'New leave request has come','$classCode','$sectionCode'));
+    if(response.statusCode == 200){
+    }
+  }
+
   Future<StudentList> getAllStudent() async {
     final response = await http.get(url);
 
@@ -211,6 +217,7 @@ class _StudentListAttendanceState extends State<StudentListAttendance> {
                             ),
                           ),
                           onTap: () {
+                            sentNotificationToSection();
                             Navigator.pop(context);
                             Navigator.pop(context);
                           },
