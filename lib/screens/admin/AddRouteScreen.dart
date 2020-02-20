@@ -38,7 +38,6 @@ class AddRoute extends StatelessWidget {
                 decoration:
                 InputDecoration(hintText: 'Route title here'),
               ),
-              //push
               TextField(
                 controller: fareController,
                 style: Theme.of(context).textTheme.display1,
