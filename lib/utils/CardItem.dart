@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'Utils.dart';
 
 class CustomWidget extends StatefulWidget {
   final int index;
@@ -25,21 +26,40 @@ class CustomWidget extends StatefulWidget {
 }
 
 class _CustomWidgetState extends State<CustomWidget> {
+  String title;
+
   @override
   Widget build(BuildContext context) {
+    Utils.getStringValue('lang').then((value) {
+      if (value == null) {
+        Utils.getTranslatedLanguage('bn', widget.headline).then((val) {
+          print(val);
+          title = val;
+        });
+      } else {
+        Utils.getTranslatedLanguage(value, widget.headline).then((val) {
+          print(val);
+          setState(() {
+            title = val;
+          });
+        });
+      }
+    });
     return GestureDetector(
       onTap: widget.onSelect,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
           height: 100.0,
-          decoration: BoxDecoration(boxShadow: [
-             BoxShadow(
-              color: widget.isSelected ? Color(0xffe1bee7) : Color(0xfff3e5f5),
-              blurRadius: 20.0,
-            ),
-
-          ],),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color:
+                    widget.isSelected ? Color(0xffe1bee7) : Color(0xfff3e5f5),
+                blurRadius: 20.0,
+              ),
+            ],
+          ),
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5.0),
@@ -47,11 +67,12 @@ class _CustomWidgetState extends State<CustomWidget> {
             elevation: 0,
             child: Container(
               decoration: BoxDecoration(
-                gradient: widget.isSelected ? LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.purpleAccent, Colors.deepPurpleAccent])  : LinearGradient(
-                    colors: [Colors.white, Colors.white]),
+                gradient: widget.isSelected
+                    ? LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.purpleAccent, Colors.deepPurpleAccent])
+                    : LinearGradient(colors: [Colors.white, Colors.white]),
                 borderRadius: BorderRadius.circular(5.0),
               ),
               child: Padding(
@@ -60,7 +81,9 @@ class _CustomWidgetState extends State<CustomWidget> {
                   children: <Widget>[
                     Image.asset(
                       widget.icon.toString(),
-                      color: widget.isSelected ? Colors.white : Colors.purpleAccent,
+                      color: widget.isSelected
+                          ? Colors.white
+                          : Colors.purpleAccent,
                       width: 30.0,
                       height: 30.0,
                     ),
@@ -68,7 +91,7 @@ class _CustomWidgetState extends State<CustomWidget> {
                       height: 5.0,
                     ),
                     Text(
-                      widget.headline,
+                      title != null ? title : '...',
                       style: TextStyle(
                         color: widget.isSelected ? Colors.white : Colors.grey,
                         fontSize: 10.0,

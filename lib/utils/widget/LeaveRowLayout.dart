@@ -10,7 +10,7 @@ class LeaveRowLayout extends StatelessWidget {
   LeaveAdmin leave;
   Response response;
   Dio dio = Dio();
-
+  final _globalKey = GlobalKey();
   String radioStr = 'Pending';
 
   LeaveRowLayout(this.leave);
@@ -168,6 +168,7 @@ class LeaveRowLayout extends StatelessWidget {
 
             return Material(
               color: Colors.transparent,
+              key: _globalKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -380,6 +381,11 @@ class LeaveRowLayout extends StatelessWidget {
                               ),
                               onTap: () {
                                 Utils.showToast('${leave.id}  ${radioStr.substring(0,1)}');
+                                addUpdateData(leave.id, radioStr.substring(0,1)).then((value){
+                                  if(value){
+                                    Navigator.pop(_globalKey.currentContext);
+                                  }
+                                });
                               },
                             ),
                           ],
@@ -399,7 +405,7 @@ class LeaveRowLayout extends StatelessWidget {
   Future<bool> addUpdateData(int id,String status) async {
     response = await dio.get(InfixApi.setLeaveStatus(id, status));
     if (response.statusCode == 200) {
-      Utils.showToast('Vehicle Added');
+      Utils.showToast('Leave Updated');
       return true;
     }else{
       return false;
