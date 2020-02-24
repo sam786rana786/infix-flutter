@@ -41,7 +41,7 @@ class _HomeState extends State<OnlineExaminationHome> {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-        appBar: AppBarWidget.header(context,'Online Examination'),
+        appBar: AppBarWidget.header(context,'Online Exam'),
         backgroundColor: Colors.white,
         body: GridView.builder(
           itemCount: _titles.length,

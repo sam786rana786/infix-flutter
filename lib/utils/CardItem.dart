@@ -32,13 +32,13 @@ class _CustomWidgetState extends State<CustomWidget> {
   Widget build(BuildContext context) {
     Utils.getStringValue('lang').then((value) {
       if (value == null) {
-        Utils.getTranslatedLanguage('bn', widget.headline).then((val) {
+        Utils.getTranslatedLanguage('en', widget.headline).then((val) {
           print(val);
           title = val;
         });
       } else {
         Utils.getTranslatedLanguage(value, widget.headline).then((val) {
-          print(val);
+          //print(val);
           setState(() {
             title = val;
           });

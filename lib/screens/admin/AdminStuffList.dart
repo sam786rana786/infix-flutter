@@ -34,7 +34,7 @@ class _AdminStuffListState extends State<AdminStuffList> {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-        appBar: AppBarWidget.header(context, 'Stuff Category'),
+        appBar: AppBarWidget.header(context, 'Staff Category'),
         body: StreamBuilder<LibraryMemberList>(
           stream: bloc.subject.stream,
           builder: (context, catSnap) {

@@ -7,7 +7,6 @@ import 'package:infixedu/utils/server/About.dart';
 import 'package:infixedu/utils/widget/AppBarWidget.dart';
 import 'package:infixedu/utils/widget/Line.dart';
 import 'package:infixedu/localization/application.dart';
-
 import '../../main.dart';
 
 class AdminSettings extends StatefulWidget {
@@ -157,6 +156,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                           GestureDetector(
                             onTap: (){
                               Utils.saveStringValue('lang', languagesMap[languagesList[index]]);
+                              application.onLocaleChanged(Locale(languagesMap[languagesList[index]]));
                               rebuildAllChildren(context);
                             },
                             child: Text(

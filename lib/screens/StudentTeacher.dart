@@ -62,7 +62,7 @@ class _StudentTeacherState extends State<StudentTeacher> with SingleTickerProvid
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-        appBar: AppBarWidget.header(context, 'Teachers'),
+        appBar: AppBarWidget.header(context, 'Teacher'),
         backgroundColor: Colors.white,
         body: Container(
           margin: EdgeInsets.all(15.0),

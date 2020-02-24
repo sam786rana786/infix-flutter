@@ -95,7 +95,7 @@ class AppFunction {
 
   static var teachers = [
     'Students',
-    'Academics',
+    'Academic',
     'Attendance',
     'Leave',
     'Contents',
@@ -489,7 +489,7 @@ class AppFunction {
       case 'Students':
         Navigator.push(context, ScaleRoute(page: StudentSearch()));
         break;
-      case 'Academics':
+      case 'Academic':
         Navigator.push(context,
             ScaleRoute(page: AcademicHomeScreen(academics, academicsIcons)));
         break;

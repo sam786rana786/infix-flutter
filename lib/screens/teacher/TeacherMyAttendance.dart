@@ -46,7 +46,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBarWidget.header(context, 'My Attendance'),
+        appBar: AppBarWidget.header(context, 'My Atten'),
         backgroundColor: Colors.white,
         body: Column(
           children: <Widget>[

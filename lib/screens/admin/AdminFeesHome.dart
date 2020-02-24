@@ -43,7 +43,7 @@ class _AdminFeesHomeState extends State<AdminFeesHome> {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-        appBar: AppBarWidget.header(context, 'Admin Dashboard'),
+        appBar: AppBarWidget.header(context, 'Fees'),
         body: GridView.builder(
           itemCount: _titles.length,
           gridDelegate:

@@ -40,7 +40,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-        appBar: AppBarWidget.header(context, 'Subject'),
+        appBar: AppBarWidget.header(context, 'Subjects'),
         backgroundColor: Colors.white,
         body: Container(
           margin: EdgeInsets.all(15.0),

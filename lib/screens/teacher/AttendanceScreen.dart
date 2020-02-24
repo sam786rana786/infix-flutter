@@ -40,7 +40,7 @@ class _HomeState extends State<AttendanceHomeScreen> {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-        appBar: AppBarWidget.header(context,'Academic'),
+        appBar: AppBarWidget.header(context,'Attendance'),
         backgroundColor: Colors.white,
         body: GridView.builder(
           itemCount: _titles.length,

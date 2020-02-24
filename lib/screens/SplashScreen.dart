@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:infixedu/localization/app_translations.dart';
+import 'package:infixedu/localization/app_translations_delegate.dart';
+import 'package:infixedu/localization/application.dart';
 import 'package:infixedu/utils/FunctinsData.dart';
 import 'package:infixedu/utils/Utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,18 +13,35 @@ class Splash extends StatefulWidget {
   _SplashState createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
-
+class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
+  AppTranslationsDelegate _newLocaleDelegate;
+  AppTranslations appTranslations;
   Animation animation;
   AnimationController controller;
 
   @override
   void initState() {
     super.initState();
-    Route route;
+    _newLocaleDelegate = AppTranslationsDelegate(newLocale: null);
+    application.onLocaleChanged = onLocaleChange;
 
-    controller = AnimationController(duration: Duration(seconds: 3),vsync: this);
-    animation = Tween(begin: 30.0,end:90.0).animate(controller);
+    //getting language code from memory and using this code we fetch translated data from asset/locale
+    Utils.getStringValue('lang').then((value) {
+      if (value != null) {
+        _newLocaleDelegate = AppTranslationsDelegate(newLocale: Locale(value));
+        _newLocaleDelegate.load(Locale(value)).then((val) {
+          if (!mounted) return;
+          setState(() {
+            appTranslations = val;
+          });
+        });
+      }
+    });
+
+    Route route;
+    controller =
+        AnimationController(duration: Duration(seconds: 3), vsync: this);
+    animation = Tween(begin: 30.0, end: 90.0).animate(controller);
     controller.forward();
 
     Future.delayed(Duration(seconds: 3), () {
@@ -29,9 +49,9 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
         if (value) {
 //        route = MaterialPageRoute(builder: (context) => Home());
           Utils.getStringValue('rule').then((rule) {
-            AppFunction.getFunctions(context , rule);
+            AppFunction.getFunctions(context, rule);
           });
-        }else {
+        } else {
           route = MaterialPageRoute(builder: (context) => LoginScreen());
           Navigator.pushReplacement(context, route);
         }
@@ -80,7 +100,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
                           child: Text(
-                            'Welcome to',
+                            appTranslations != null ? appTranslations.text('Welcome to') : 'Welcome to',
                             style: TextStyle(
                               color: Color(0xFF727FC8),
                               fontSize: 20.0,
@@ -91,13 +111,14 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
                         ),
                         AnimatedBuilder(
                           animation: animation,
-                          builder: (context,child){
+                          builder: (context, child) {
                             return Container(
                               height: animation.value,
                               width: animation.value,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: ExactAssetImage('images/splash_logo.png'),
+                                  image:
+                                      ExactAssetImage('images/splash_logo.png'),
                                 ),
                               ),
                             );
@@ -106,7 +127,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
                         Padding(
                           padding: const EdgeInsets.only(bottom: 60.0),
                           child: Text(
-                            'UNLIMITED EDUCATION ERP',
+                            appTranslations != null ? appTranslations.text('UNLIMITED EDUCATION ERP') : 'UNLIMITED EDUCATION ERP',
                             style: TextStyle(
                                 color: Color(0xFF727FC8),
                                 fontSize: 10.0,
@@ -141,5 +162,9 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
   Future<bool> getBooleanValue(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool(key) ?? false;
+  }
+
+  void onLocaleChange(Locale locale) {
+    _newLocaleDelegate = AppTranslationsDelegate(newLocale: locale);
   }
 }

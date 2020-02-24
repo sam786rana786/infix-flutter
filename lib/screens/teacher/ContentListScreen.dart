@@ -35,7 +35,7 @@ class _ContentListScreenState extends State<ContentListScreen> {
     return Padding(
       padding: EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-        appBar: AppBarWidget.header(context, 'Content'),
+        appBar: AppBarWidget.header(context, 'Contents'),
         backgroundColor: Colors.white,
         body: FutureBuilder<ContentList>(
           future: contents,
